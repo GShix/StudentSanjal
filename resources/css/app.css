@@ -39,6 +39,6 @@
     scale: 1.03;
     /* color: #c7ae6a; */
 }
-.row2{
-    grid-template-columns: .95fr 2fr 1.2fr;
+.lastRow{
+    grid-template-columns: .9fr 1.8fr 1.2fr;
 }

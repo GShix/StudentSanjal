@@ -34,12 +34,12 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = $request->user();
-
+        // dd($user);
         if ($user->user_role === 'user') {
-            return redirect()->route('/'); // Assuming 'user' is the route name for User.tsx
+            return redirect()->route('/',compact('user')); // Assuming 'user' is the route name for User.tsx
         }
         // dd($request->user()->toArray());
-        // return redirect()->intended(route('dashboard', absolute: false));
+        return redirect()->intended(route('dashboard',compact('user')));
     }
 
     /**
