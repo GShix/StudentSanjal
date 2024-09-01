@@ -18,14 +18,14 @@ class ProfileUpdateRequest extends FormRequest
         return [
             'profile_picture'=>['nullable','string'],
             'first_name' => ['required', 'string', 'max:255'],
-            'surname'=>['required','string'],
+            'surname'=>['nullable','string'],
             'username'=>['required','string'],
             'headline'=>['nullable','string'],
             'dob'=>['nullable','string'],
             'gender'=>['required','string'],
-            'email' => ['required', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
+            'email' => ['nullable', 'string', 'lowercase', 'email', 'max:255', Rule::unique(User::class)->ignore($this->user()->id)],
             'password'=>['nullable','string'],
-            'confirm_password'=>['nullable','string','same:password'],
+            'password_confirmation'=>['nullable','string','same:password'],
             'active_status'=>['nullable','boolean'],
         ];
     }

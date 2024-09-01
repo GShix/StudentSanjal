@@ -14,19 +14,18 @@ return new class extends Migration
         Schema::create('users', function (Blueprint $table) {
             $table->id();
             $table->string('profile_picture')->nullable();
-            $table->string('first_name')->nullable();
+            $table->string('first_name');
             $table->string('surname')->nullable();
-            $table->string('username')->nullable();
+            $table->string('username');
             $table->string('headline')->nullable();
             $table->string('dob')->nullable();
             $table->string('gender')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
-            $table->string('confirm_password');
-            $table->enum('user_role',['user,admin'])->default("user");
-            $table->boolean('active_status')->nullable()->default(false);
-            $table->enum('account_status', ['pending', 'verified', 'blueTick', 'GoldTick'])->default('pending');
+            $table->enum('user_role',['user','admin'])->default('user');
+            $table->boolean('active_status')->default(false);
+            $table->enum('account_status', ['pending', 'verified', 'blueTick', 'goldTick'])->default('pending');
             $table->rememberToken();
             $table->timestamps();
         });

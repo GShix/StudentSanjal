@@ -35,6 +35,8 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
 
+        unset($validated['password_confirmation']);
+
         $request->user()->save();
 
         return Redirect::route('profile.edit');
