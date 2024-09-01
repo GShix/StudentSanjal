@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,10 +13,20 @@ return new class extends Migration
     {
         Schema::create('users', function (Blueprint $table) {
             $table->id();
-            $table->string('name');
+            $table->string('profile_picture')->nullable();
+            $table->string('first_name')->nullable();
+            $table->string('surname')->nullable();
+            $table->string('username')->nullable();
+            $table->string('headline')->nullable();
+            $table->string('dob')->nullable();
+            $table->string('gender')->nullable();
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->string('confirm_password');
+            $table->enum('user_role',['user,admin'])->default("user");
+            $table->boolean('active_status')->nullable()->default(false);
+            $table->enum('account_status', ['pending', 'verified', 'blueTick', 'GoldTick'])->default('pending');
             $table->rememberToken();
             $table->timestamps();
         });
