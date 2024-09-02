@@ -46,20 +46,20 @@ const Home = () => {
     ]
   return (
     <div className="home bg-gray-300/80 h-[2000px] w-full">
-        <div className="fistRow bg-black flex items-center justify-between max-sm:py-1 px-4 sm:px-8"style={{boxShadow:"0px 0px 10px 4px #c7ae6a"}}>
-            <div className="col1 flex max-sm:gap-10 gap-12">
+        <div className="fistRow bg-black flex items-center justify-between max-sm:py-2 px-4 sm:px-8"style={{boxShadow:"0px 0px 10px 4px #c7ae6a"}}>
+            <div className="col1 flex max-sm:gap-1 max-md:gap-5 gap-12">
                 <div className="col1">
                     <img className="w-56 sm:w-58 sm:h-16" src="/img/Home_logo.png" alt="" srcSet="" />
                 </div>
-                <div className="search-btn relative flex items-center">
+                <div className="search-btn relative flex items-center max-w-[60%]">
                     {searchInput &&
                     (
-                    <div className="smallSearch md:hidden relative flex items-center">
-                        <input type="text" name="search" id="" className="rounded-full py-2.5 pl-11 text-gray-600 text-sm placeholder:text-gray-700/50" placeholder="Search StudentSanjal"/>
-                        <i className="ri-close-fill absolute text-[#b99a45] font-semibold text-2xl right-3 cursor-pointer hover:text-gray-600" onClick={()=>setSearchInput(!searchInput)}></i>
+                    <div className="smallSearch md:hidden relative flex items-center max-sm:w-[97%]">
+                        <input type="text" name="search" id="" className="rounded-full max-sm:py-[6px] py-2 pl-10 text-gray-600 text-[12.5px] placeholder:text-gray-700/50 w-full" placeholder="Search StudentSanjal"/>
+                        <i className="ri-close-fill absolute text-[#b99a45] font-semibold text-2xl right-2 cursor-pointer hover:text-gray-600" onClick={()=>setSearchInput(!searchInput)}></i>
                     </div>
                     )}
-                    <i className="ri-search-line absolute left-2 text-lg rounded-full max-md:text-gray-200 max-md:px-[6px] py-[1px] max-md:cursor-pointer max-md:bg-[#b99a45] md:hidden" onClick={()=>setSearchInput(!searchInput)}></i>
+                    <i className="ri-search-line absolute left-2  max-sm:text-base text-lg rounded-full max-md:text-gray-200 px-[5px] sm:px-[6px] py-[1px] max-md:cursor-pointer max-md:bg-[#b99a45] md:hidden" onClick={()=>setSearchInput(!searchInput)}></i>
                     <div className="bigSearch max-md:hidden flex items-center">
                         <input type="text" name="search" id="" className="w-96 rounded-full py-2 pl-9 text-gray-600 text-sm placeholder:text-gray-700/50" placeholder="Search StudentSanjal"/>
                         <i className="ri-search-line text-gray-700/60 absolute left-3 text-lg rounded-full"></i>
@@ -70,19 +70,19 @@ const Home = () => {
             <div className="col2 flex-center w-[35%] max-md:w-10 max-sm:hidden">
 
             </div> */}
-            <div className="col2 max-sm:ml-5 max-sm:w-60 flex items-center justify-end gap-4">
+            <div className="col2 flex items-center justify-end gap-4">
                 {
                     !searchInput && (
                         <>
-                        <div className="message-btn">
+                        <div className="chat-btn">
                             <button className="text-gray-800 bg-gray-700 max-sm:p-1 p-[5.6px] rounded-full" type="submit" >
-                                {/* <img className="h-7 w-7 mr-2" src="/img/message.png" alt="" /> */}
+                                {/* <img className="h-7 w-7 mr-2" src="/img/chat.png" alt="" /> */}
                                 <img className="h-8 w-8" src="/img/chat.png" alt="" />
                             </button>
                         </div>
                         <div className="notification-btn">
                             <button className="text-gray-800 bg-gray-700 max-sm:p-1 p-[5.6px] rounded-full" type="submit" >
-                                {/* <img className="h-7 w-7 mr-2" src="/img/message.png" alt="" /> */}
+                                {/* <img className="h-7 w-7 mr-2" src="/img/chat.png" alt="" /> */}
                                 <img className="h-8 w-8" src="/img/notification.png" alt="" />
                             </button>
                         </div>
@@ -90,12 +90,18 @@ const Home = () => {
                     )
                 }
 
-                <div className="menu text-white text-[34px] max-sm:text-3xl">
+                <div className="menu&profile text-white text-[34px] max-sm:text-3xl">
                     <i className="ri-menu-fill md:hidden cursor-pointer"></i>
-                    <div className="user-icon p-1 bg-gray-600 rounded-full max-md:hidden">
+                    <div className="user-icon p-1 bg-gray-600 rounded-full max-md:hidden  hover:bg-gray-500">
                     <Dropdown>
                         <Dropdown.Trigger>
-                            <img className="object-cover object-center rounded-full w-10 h-10 cursor-pointer" src={"/img/lady1.jpg"} alt="" />
+                        <div className="chat-icon w-10 h-10 p-[3px] bg-[#c7ae6a] rounded-full relative">
+                            <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
+                                <div className="active-status h-2 w-2 bg-green-500  rounded-full"></div>
+                            </div>
+                            <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src="/img/lady1.jpg" alt="" />
+                        </div>
+                            {/* <img className="object-cover object-center rounded-full w-10 h-10 cursor-pointer" src={"/img/lady1.jpg"} alt="" /> */}
                         </Dropdown.Trigger>
 
                         <Dropdown.Content>
@@ -112,7 +118,10 @@ const Home = () => {
         <div className="lastRow grid grid-cols-3 gap-8 mx-8 mt-6 mb-5">
             <div className="firstColumn max-sm:hidden rounded-lg">
                 <div className="user-profile px-2.5 py-2 bg-gray-100 hover:bg-[#c7ae6a] rounded-xl flex gap-3 leading-tight items-center">
-                    <div className="user-icon w-12 h-12 p-[3px] bg-[#c7ae6a] rounded-full max-md:hidden">
+                    <div className="chat-icon w-12 h-12 p-[3px] bg-[#c7ae6a] rounded-full relative">
+                        <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
+                            <div className="active-status h-2 w-2 bg-green-500  rounded-full"></div>
+                        </div>
                         <img className="object-cover object-center rounded-full w-full h-full" src="/img/lady1.jpg" alt="" />
                     </div>
                     <div className="user-details">
@@ -125,7 +134,7 @@ const Home = () => {
                     <ul className="flex flex-col">
                         <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/feed.png" alt="" srcSet="" />Feed</a></li>
                         <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/mynetwork.png" alt="" />My Network</a></li>
-                        <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/message.png" alt="" />Message</a></li>
+                        <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/chat.png" alt="" />Chat</a></li>
                         <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/groups.png" alt="" />Groups</a></li>
                         <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/video.png" alt="" />Video</a></li>
                         <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/events.png" alt="" />Events</a></li>
@@ -139,7 +148,7 @@ const Home = () => {
                             <ul className="flex flex-col">
                                 <li><a className="flex items-center font-medium px-2 py-2 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-1" src="/img/feed.png" alt="" srcSet="" />Feed</a></li>
                                 <li><a className="flex items-center font-medium px-2 py-2 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-1" src="/img/mynetwork.png" alt="" />My Network</a></li>
-                                <li><a className="flex items-center font-medium px-2 py-2 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-1" src="/img/message.jpg" alt="" />Message</a></li>
+                                <li><a className="flex items-center font-medium px-2 py-2 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-1" src="/img/chat.jpg" alt="" />Chat</a></li>
                             </ul>
                         </div>
                     </div>
@@ -177,8 +186,11 @@ const Home = () => {
 
                 </div>
                 <div className="what-in-your-min mt-5 bg-gray-100 rounded-xl flex justify-between gap-2.5 px-2.5 py-4">
-                    <div className="user-photo ">
-                        <img className="w-12 h-12 object-cover object-center rounded-full p-[3px] bg-[#c7ae6a]" src="img/lady1.jpg" alt="Your Photo" srcSet="" />
+                    <div className="chat-icon w-12 h-12 p-[3px] bg-[#c7ae6a] rounded-full relative">
+                        <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
+                            <div className="active-status h-2 w-2 bg-green-500  rounded-full"></div>
+                        </div>
+                        <img className="object-cover object-center rounded-full w-full h-full" src="/img/lady1.jpg" alt="" />
                     </div>
                     <div className="post-container w-[87%]">
                         <div className="textarea mr-1">
@@ -227,7 +239,7 @@ const Home = () => {
                                     </div>
                                     <div className="comment-count">
                                         <span className="cursor-pointer hover:underline text-sm">3</span>
-                                        <i className="ri-message-2-line text-gray-800 ml-2 p-[2px] cursor-pointer"></i>
+                                        <i className="ri-chat-2-line text-gray-800 ml-2 p-[2px] cursor-pointer"></i>
                                     </div>
                                 </div>
                                 <div className="interaction-btn flex justify-between mt-[2px] py-1 border-b-[1.6px] border-t-[1.6px]">
@@ -235,7 +247,7 @@ const Home = () => {
                                         <i className="ri-thumb-up-line text-lg hover:ri-thumb-up-fill"></i>
                                     </div>
                                     <div className="comment w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
-                                        <i className="ri-message-2-line text-lg"></i>
+                                        <i className="ri-chat-2-line text-lg"></i>
                                     </div>
                                     <div className="share w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
                                         <i className="ri-share-forward-line text-lg"></i>
@@ -249,57 +261,57 @@ const Home = () => {
                 </div>
             </div>
             <div className="lastColumn rounded-lg max-md:hidden">
-                <div className="message- bg-gray-100 rounded-xl px-3 py-2">
+                <div className="chat- bg-gray-100 rounded-xl px-3 py-2">
                     <div className="title flex items-center justify-between">
-                        <h2 className="font-semibold">Message</h2>
+                        <h2 className="font-semibold">Chat</h2>
                         <i className="ri-edit-box-fill text-xl cursor-pointer"></i>
                     </div>
                     <div className="search px-2 py-2 relative flex items-center">
-                        <input type="text" name="search" id="" className="rounded-full py-2 pl-9 text-gray-600 text-sm placeholder:text-gray-700/50 relative" placeholder="Search message"/>
+                        <input type="text" name="search" id="" className="rounded-full py-2 pl-9 text-gray-600 text-sm placeholder:text-gray-700/50 relative" placeholder="Search chat"/>
                         <i className="ri-search-line text-gray-700/60 absolute left-5 text-lg"></i>
                     </div>
-                    <div className="message-tab pb-1">
+                    <div className="chat-tab pb-1">
                         <div className="order flex gap-5 px-2 py-2 border-b-4 mb-2">
                             <h1 className="bg-gray-200/90 cursor-pointer hover:bg-gray-300/80 px-3 py-1 rounded-full">Inbox</h1>
                             <h1 className="bg-gray-200/90 cursor-pointer hover:bg-gray-300/80 px-3 py-1 rounded-full">Communities</h1>
                         </div>
-                        <div className="message-item">
-                            <div className="message-profile cursor-pointer px-2 py-2 bg-gray-100 hover:bg-[#c7ae6a] rounded-xl flex gap-3 leading-tight items-center">
-                                <div className="message-icon w-12 h-12 p-[3px] bg-[#c7ae6a] rounded-full relative">
+                        <div className="chat-item">
+                            <div className="chat-profile cursor-pointer px-2 py-2 bg-gray-100 hover:bg-[#c7ae6a] rounded-xl flex gap-3 leading-tight items-center">
+                                <div className="chat-icon w-12 h-12 p-[3px] bg-[#c7ae6a] rounded-full relative">
                                     <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
                                         <div className="active-status h-2 w-2 bg-green-500  rounded-full"></div>
                                     </div>
                                     <img className="object-cover object-center rounded-full w-full h-full" src="/img/lady1.jpg" alt="" />
                                 </div>
-                                <div className="message-details">
+                                <div className="chat-details">
                                     <strong className="text-sm font-semibold">Lady Don</strong>
                                     <p className="text-xs">Good Morning! Sir</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="message-item">
-                            <div className="message-profile cursor-pointer px-2 py-2 bg-gray-100 hover:bg-[#c7ae6a] rounded-xl  flex gap-3 leading-tight items-center">
-                                <div className="message-icon w-12 h-12 p-[3px] bg-[#c7ae6a] rounded-full relative">
+                        <div className="chat-item">
+                            <div className="chat-profile cursor-pointer px-2 py-2 bg-gray-100 hover:bg-[#c7ae6a] rounded-xl  flex gap-3 leading-tight items-center">
+                                <div className="chat-icon w-12 h-12 p-[3px] bg-[#c7ae6a] rounded-full relative">
                                     <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
                                         <div className="active-status h-2 w-2 bg-green-500  rounded-full"></div>
                                     </div>
                                     <img className="object-cover object-center rounded-full w-full h-full" src="/img/lady1.jpg" alt="" />
                                 </div>
-                                <div className="message-details">
+                                <div className="chat-details">
                                     <strong className="text-sm font-semibold">Lady Don</strong>
                                     <p className="text-xs">aaja college janxau</p>
                                 </div>
                             </div>
                         </div>
-                        <div className="message-item">
-                            <div className="message-profile cursor-pointer px-2 py-2 bg-gray-100 hover:bg-[#c7ae6a] rounded-xl flex gap-3 leading-tight items-center">
-                                <div className="message-icon w-12 h-12 p-[3px] bg-[#c7ae6a] rounded-full relative">
+                        <div className="chat-item">
+                            <div className="chat-profile cursor-pointer px-2 py-2 bg-gray-100 hover:bg-[#c7ae6a] rounded-xl flex gap-3 leading-tight items-center">
+                                <div className="chat-icon w-12 h-12 p-[3px] bg-[#c7ae6a] rounded-full relative">
                                     <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
                                         <div className="active-status h-2 w-2 bg-green-500  rounded-full"></div>
                                     </div>
                                     <img className="object-cover object-center rounded-full w-full h-full" src="/img/lady1.jpg" alt="" />
                                 </div>
-                                <div className="message-details">
+                                <div className="chat-details">
                                     <strong className="text-sm font-semibold">Lady Don</strong>
                                     <p className="text-xs">kx khana khaeu ta</p>
                                 </div>
