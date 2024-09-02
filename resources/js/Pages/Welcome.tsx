@@ -1,4 +1,4 @@
-import { Link, Head } from '@inertiajs/react';
+import { Link, Head, usePage } from '@inertiajs/react';
 import { PageProps } from '@/types';
 import LocomotiveScroll from 'locomotive-scroll';
 import Hero from '@/Components/Hero';
@@ -14,9 +14,8 @@ import Home from './Home';
 
 const  Welcome = ({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersion: string, phpVersion: string }>)=> {
     const [clickMenu, setClickMenu] = useState(false);
-    const handleImageError = () => {
-        const scroll = new LocomotiveScroll();
-    };
+
+    const scroll = new LocomotiveScroll();
 
     const navLinks = [
         {

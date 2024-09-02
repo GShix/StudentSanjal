@@ -7,7 +7,13 @@ use App\Http\Controllers\ProfileController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
-});
+})->name('home');
+
+// Route::middleware('web')->group(function () {
+//     Route::get('/', function () {
+//         return Inertia::render('Welcome');
+//     })->name('home');
+// });
 
 Route::get('/dashboard', function () {
     return Inertia::render('Dashboard');

@@ -14,7 +14,9 @@ class UserFactory extends Factory
     /**
      * The current password being used by the factory.
      */
-    protected static ?string $password, $headline,$username;
+    protected static ?string $password;
+    protected static $headline = 'Default Headline';
+    protected static $username = 'Default Username';
 
     /**
      * Define the model's default state.

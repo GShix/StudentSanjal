@@ -1,8 +1,13 @@
 import Dropdown from "@/Components/Dropdown"
+import { usePage } from "@inertiajs/react";
 import { useState } from "react"
 
-const Home = ({user}) => {
+const Home = () => {
+
     const [searchInput, setSearchInput] = useState(false);
+
+    const { user } = usePage().props.auth;
+    console.log(user)
     const stories = [
         {
             profilImage:"/img/nabin_gm.jpg",
@@ -25,7 +30,6 @@ const Home = ({user}) => {
             connectionName:"Dambar Gharti"
         },
     ]
-    console.log(user)
     const posts =[
         {
             name:"Nabin Gharti",
@@ -91,7 +95,7 @@ const Home = ({user}) => {
                     <div className="user-icon p-1 bg-gray-600 rounded-full max-md:hidden">
                     <Dropdown>
                         <Dropdown.Trigger>
-                            <img className="object-cover object-center rounded-full w-10 h-10 cursor-pointer" src="/img/lady1.jpg" alt="" />
+                            <img className="object-cover object-center rounded-full w-10 h-10 cursor-pointer" src={"/img/lady1.jpg"} alt="" />
                         </Dropdown.Trigger>
 
                         <Dropdown.Content>
@@ -112,8 +116,9 @@ const Home = ({user}) => {
                         <img className="object-cover object-center rounded-full w-full h-full" src="/img/lady1.jpg" alt="" />
                     </div>
                     <div className="user-details">
-                        <strong className="text-sm font-semibold">Lady Don</strong>
-                        <p className="text-xs">@ladydon123</p>
+                        <strong className="text-sm font-semibold">{user.first_name}</strong>
+                        <p className="text-xs">{user.username}</p>
+                        <p className="text-xs">{user.headline}</p>
                     </div>
                 </div>
                 <div className="siderbar bg-gray-100 px-2.5 py-2 rounded-xl mt-3">
