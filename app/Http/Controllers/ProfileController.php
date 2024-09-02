@@ -35,11 +35,12 @@ class ProfileController extends Controller
             $request->user()->email_verified_at = null;
         }
 
-        unset($validated['password_confirmation']);
-
+        unset($request['password_confirmation']);
+        // user()->profile_image = $request->file('profile_image');
+        // dd($request);
         $request->user()->save();
 
-        return Redirect::route('profile.edit');
+        return to_route('profile.edit');
     }
 
     /**
@@ -60,6 +61,6 @@ class ProfileController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return Redirect::to('/');
+        return to_route('home');
     }
 }

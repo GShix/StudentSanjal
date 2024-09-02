@@ -20,9 +20,9 @@ const Home = () => {
             connectionName:"Dambar Sing Gharti"
         },
         {
-            profilImage:"/img/boy2.jpg",
-            storyImage:"/img/event4.jpg",
-            connectionName:"Dambar Gharti"
+            profilImage:"/img/manish_grg.jpg",
+            storyImage:"/img/manish_grg.jpg",
+            connectionName:"Manish Gurung"
         },
         {
             profilImage:"/img/boy2.jpg",
@@ -40,12 +40,16 @@ const Home = () => {
             content:"/img/amar_kk.jpg"
         },
         {
+            name:"Manish Gurung",
+            content:"/img/manish_grg.jpg"
+        },
+        {
             name:"Dambar Sing Gharti",
             content:"/img/dambar_gm.jpg"
         },
     ]
   return (
-    <div className="home bg-gray-300/80 h-[2000px] w-full">
+    <div className="home bg-gray-300/80 w-full">
         <div className="fistRow bg-black flex items-center justify-between max-sm:py-2 px-4 sm:px-8"style={{boxShadow:"0px 0px 10px 4px #c7ae6a"}}>
             <div className="col1 flex max-sm:gap-1 max-md:gap-5 gap-12">
                 <div className="col1">
@@ -55,13 +59,14 @@ const Home = () => {
                     {searchInput &&
                     (
                     <div className="smallSearch md:hidden relative flex items-center max-sm:w-[97%]">
-                        <input type="text" name="search" id="" className="rounded-full max-sm:py-[6px] py-2 pl-10 text-gray-600 text-[12.5px] placeholder:text-gray-700/50 w-full" placeholder="Search StudentSanjal"/>
+                        <input type="text" name="search" id="" className="rounded-md max-sm:py-[6px] py-2 pl-10 text-gray-600 text-[12.5px] placeholder:text-gray-700/50 w-full" placeholder="Search StudentSanjal"/>
                         <i className="ri-close-fill absolute text-[#b99a45] font-semibold text-2xl right-2 cursor-pointer hover:text-gray-600" onClick={()=>setSearchInput(!searchInput)}></i>
                     </div>
                     )}
                     <i className="ri-search-line absolute left-2  max-sm:text-base text-lg rounded-full max-md:text-gray-200 px-[5px] sm:px-[6px] py-[1px] max-md:cursor-pointer max-md:bg-[#b99a45] md:hidden" onClick={()=>setSearchInput(!searchInput)}></i>
+
                     <div className="bigSearch max-md:hidden flex items-center">
-                        <input type="text" name="search" id="" className="w-96 rounded-full py-2 pl-9 text-gray-600 text-sm placeholder:text-gray-700/50" placeholder="Search StudentSanjal"/>
+                        <input type="text" name="search" id="" className="rounded-md border-transparent py-2 pl-9 text-gray-600 text-sm placeholder:text-gray-700/50" placeholder="Search StudentSanjal"/>
                         <i className="ri-search-line text-gray-700/60 absolute left-3 text-lg rounded-full"></i>
                     </div>
                 </div>
@@ -70,23 +75,55 @@ const Home = () => {
             <div className="col2 flex-center w-[35%] max-md:w-10 max-sm:hidden">
 
             </div> */}
-            <div className="col2 flex items-center justify-end gap-4">
+            <div className="col2 flex items-center justify-end gap-5 lg:gap-12">
+                <div className="main-navbar flex gap-9 max-md:hidden">
+                    <div className="Home-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
+                        <a href="/" className="flex flex-col items-center">
+                            <i className="ri-home-7-fill text-base"></i>
+                            <span className="block text-xs leading-none">Home</span>
+                        </a>
+                    </div>
+                    <div className="Mynetwork-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
+                        <a href="/" className="flex flex-col items-center">
+                            <i className="ri-group-3-fill text-base"></i>
+                            <span className="block text-xs leading-none">My Network</span>
+                        </a>
+                    </div>
+                    <div className="Job-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
+                        <a href="/" className="flex flex-col items-center">
+                            <i className="ri-group-line text-base"></i>
+                            <span className="block text-xs leading-none">Jobs</span>
+                        </a>
+                    </div>
+                    <div className="Mynetwork-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
+                        <a href="/" className="flex flex-col items-center">
+                            <i className="ri-message-3-fill text-base"></i>
+                            <span className="block text-xs leading-none">Chat</span>
+                        </a>
+                    </div>
+                    <div className="Notification-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
+                        <a href="/" className="flex flex-col items-center">
+                            <i className="ri-notification-3-fill text-base"></i>
+                            <span className="block text-xs leading-none">Notifications</span>
+                        </a>
+                    </div>
+                </div>
                 {
                     !searchInput && (
-                        <>
-                        <div className="chat-btn">
-                            <button className="text-gray-800 bg-gray-700 max-sm:p-1 p-[5.6px] rounded-full" type="submit" >
-                                {/* <img className="h-7 w-7 mr-2" src="/img/chat.png" alt="" /> */}
-                                <img className="h-8 w-8" src="/img/chat.png" alt="" />
-                            </button>
+                        <div className="mobile-navbar md:hidden flex gap-5">
+                        <div className="Home-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
+                            <a href="/" className="flex flex-col items-center">
+                                <i className="ri-message-3-fill text-base max-sm:text-2xl"></i>
+                                <span className="block text-sm leading-none max-sm:hidden">Chat</span>
+                            </a>
                         </div>
-                        <div className="notification-btn">
-                            <button className="text-gray-800 bg-gray-700 max-sm:p-1 p-[5.6px] rounded-full" type="submit" >
-                                {/* <img className="h-7 w-7 mr-2" src="/img/chat.png" alt="" /> */}
-                                <img className="h-8 w-8" src="/img/notification.png" alt="" />
-                            </button>
+                        <div className="Notification-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
+                            <a href="/" className="flex flex-col items-center">
+                                <i className="ri-notification-3-fill max-sm:text-2xl"></i>
+                                <span className="block text-sm leading-none max-sm:hidden">Notifications</span>
+                            </a>
                         </div>
-                        </>
+                        </div>
                     )
                 }
 
@@ -117,22 +154,35 @@ const Home = () => {
         </div>
         <div className="lastRow grid grid-cols-3 gap-8 mx-8 mt-6 mb-5">
             <div className="firstColumn max-sm:hidden rounded-lg">
-                <div className="user-profile px-2.5 py-2 bg-gray-100 hover:bg-[#c7ae6a] rounded-xl flex gap-3 leading-tight items-center">
-                    <div className="chat-icon w-12 h-12 p-[3px] bg-[#c7ae6a] rounded-full relative">
-                        <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
-                            <div className="active-status h-2 w-2 bg-green-500  rounded-full"></div>
+                <div className="user-profile bg-gray-100 hover:bg-gray-100/80 rounded-xl  justify-center flex-col gap-3 leading-tight items-center pb-5">
+                    <div className="banner-image h-16 w-full relative flex flex-col justify-center items-center border-b border-gray-400/20">
+                        <img className="h-full w-full object-cover object-center rounded-t-xl" src="/img/banner.jpg" alt="" srcSet="" />
+                    <div className="profile-banner-image absolute top-[50%]">
+                        <div className="chat-icon w-[70px] h-[70px] p-[2px] bg-white rounded-full relative">
+                            <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-[5px] right-2">
+                                <div className="active-status h-2 w-2 bg-green-500  rounded-full"></div>
+                            </div>
+                            <img className="object-cover object-center rounded-full w-full h-full cursor-pointer ab" src="/img/lady1.jpg" alt="" />
                         </div>
-                        <img className="object-cover object-center rounded-full w-full h-full" src="/img/lady1.jpg" alt="" />
                     </div>
-                    <div className="user-details">
-                        <strong className="text-sm font-semibold">{user.first_name}</strong>
-                        <p className="text-xs">{user.username}</p>
-                        <p className="text-xs">{user.headline}</p>
+                    </div>
+                    <div className="user-details textce flex flex-col flex-wrap mt-14 items-center">
+                        <a href="/" className="text-base font-semibold  hover:underline">{user.first_name}{" "}{user.username}</a>
+                        <p className="text-xs mt-1 text-gray-800/70">{user.headline}</p>
+                    </div>
+                    <div className="user-details textce flex flex-col flex-wrap pt-5 px-5 gap-y-2">
+                        <a href="/" className="text-xs font-medium flex justify-between">
+                            <span className="text-gray-800/70">Profile viewers</span>
+                            <span className="text-[#ae8c2d]">79</span>
+                        </a>
+                        <a href="/" className="text-xs font-medium flex justify-between">
+                            <span className="text-gray-800/70">Profile viewers</span>
+                            <span className="text-[#ae8c2d]">10</span>
+                        </a>
                     </div>
                 </div>
                 <div className="siderbar bg-gray-100 px-2.5 py-2 rounded-xl mt-3">
                     <ul className="flex flex-col">
-                        <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/feed.png" alt="" srcSet="" />Feed</a></li>
                         <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/mynetwork.png" alt="" />My Network</a></li>
                         <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/chat.png" alt="" />Chat</a></li>
                         <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/groups.png" alt="" />Groups</a></li>
@@ -148,7 +198,7 @@ const Home = () => {
                             <ul className="flex flex-col">
                                 <li><a className="flex items-center font-medium px-2 py-2 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-1" src="/img/feed.png" alt="" srcSet="" />Feed</a></li>
                                 <li><a className="flex items-center font-medium px-2 py-2 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-1" src="/img/mynetwork.png" alt="" />My Network</a></li>
-                                <li><a className="flex items-center font-medium px-2 py-2 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-1" src="/img/chat.jpg" alt="" />Chat</a></li>
+                                <li><a className="flex items-center font-medium px-2 py-2 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-1" src="/img/chat.png" alt="" />Chat</a></li>
                             </ul>
                         </div>
                     </div>
@@ -196,10 +246,10 @@ const Home = () => {
                         <div className="textarea mr-1">
                             <textarea className="w-full rounded-xl p-2 text-gray-600 text-sm border-none h-12 lg:h-16 placeholder:text-gray-700/60" typeof="text" name="What's on your mind?" id="" placeholder="What's on your mind?"></textarea>
                         </div>
-                        <div className="post-type h-4 mt-3 flex gap-4 items-center">
-                            <div className="photo flex items-center gap-2 "><img className="h-4" src="/img/post-photo.png" alt="" srcSet="" /><span className="text-sm font-medium text-gray-700/60">Photo</span></div>
-                            <div className="video flex items-center gap-2 "><img className="h-4" src="/img/post-video.png" alt="" srcSet="" /><span className="text-sm font-medium text-gray-700/60">Video</span></div>
-                            <div className="poll flex items-center gap-2 "><img className="h-5" src="/img/post-poll.png" alt="" srcSet="" /><span className="text-sm font-medium text-gray-700/60">Poll</span></div>
+                        <div className="post-type h-4 mt-3 flex lg:gap-16 md:gap-12 gap-6 items-center">
+                            <div className="photo flex items-center gap-1 md:gap-2"><img className="h-4" src="/img/post-photo.png" alt="" srcSet="" /><span className="max-sm:text-xs text-sm font-medium text-gray-700/60">Media</span></div>
+                            <div className="video flex items-center gap-1 md:gap-2"><img className="h-5" src="/img/events.png" alt="" srcSet="" /><span className="max-sm:text-xs text-sm font-medium text-gray-700/60">Event</span></div>
+                            <div className="poll flex items-center gap-1 md:gap-2"><img className="h-4" src="/img/write_article.png" alt="" srcSet="" /><span className="max-sm:text-xs text-sm font-medium text-gray-700/60">Write article</span></div>
                         </div>
                     </div>
                 </div>
