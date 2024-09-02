@@ -23,13 +23,20 @@ class RegisterRequest extends FormRequest
     public function rules(): array
     {
         return [
+            'profile_image'=>['nullable','mimes:jpeg,png,jpg,gif,svg'],
+            'banner_image'=>['nullable','mimes:jpeg,png,jpg,gif,svg'],
             'first_name' => ['required', 'string', 'max:255'],
-            'surname' => ['required', 'string', 'max:255'],
-            'dob' => ['nullable', 'date'],
-            'gender' => ['required', 'string', 'in:M,F,Other'],
-            'email' => ['required', 'string', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'password_confirmation' => ['required', 'string', 'same:password'],
+            'surname'=>['required','string'],
+            'username'=>['nullable','string'],
+            'headline'=>['nullable','string'],
+            'dob'=>['required','string'],
+            'gender'=>['required','string'],
+            'email' => ['required', 'email', 'unique'],
+            'password'=>['required','string'],
+            'password_confirmation'=>['reauired','string','same:password'],
+            'user_role'=>['nullable'],
+            'active_status'=>['nullable','boolean'],
+            'account_status'=>['nullable'],
         ];
     }
 }

@@ -6,8 +6,8 @@ use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Redirect;
 use App\Http\Requests\ProfileUpdateRequest;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 
@@ -28,20 +28,38 @@ class ProfileController extends Controller
      * Update the user's profile information.
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
-    {
-        $request->user()->fill($request->validated());
+{
+    $user = $request->user();
 
-        if ($request->user()->isDirty('email')) {
-            $request->user()->email_verified_at = null;
-        }
+    // Update user profile data with validated input
+    $user->fill($request->validated());
 
-        unset($request['password_confirmation']);
-        // user()->profile_image = $request->file('profile_image');
-        // dd($request);
-        $request->user()->save();
-
-        return to_route('profile.edit');
+    // Check if the email was changed, reset email verification if so
+    if ($user->isDirty('email')) {
+        $user->email_verified_at = null;
     }
+
+    // Handle profile image upload if present
+    if ($request->hasFile('profile_image')) {
+        $user->profile_image = $request->file('profile_image');
+    }
+
+    // Handle banner image upload if present
+    if ($request->hasFile('banner_image')) {
+        $user->banner_image = $request->file('banner_image');
+    }
+
+    // Hash and update the password if provided
+    if ($request->filled('password')) {
+        $user->password = Hash::make($request->password);
+    }
+    dd($user);
+
+    $user->save();
+
+    return to_route('profile.edit');
+}
+
 
     /**
      * Delete the user's account.

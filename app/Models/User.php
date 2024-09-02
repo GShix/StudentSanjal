@@ -57,22 +57,43 @@ class User extends Authenticatable
 
     public function getProfileImageAttribute($value): string
     {
-        return $this->attributes['profile_image'] ? asset('storage/' . $this->attributes['profile_image']) : asset('assets/img/default_user.png');
+        return $this->attributes['profile_image']
+            ? asset('storage/' . $this->attributes['profile_image'])
+            : asset('assets/img/default_user.png');
     }
 
     public function setProfileImageAttribute($value): void
     {
-        $this->attributes['profile_image'] = $value->store('users/profileImage', 'public');
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            $this->attributes['profile_image'] = $value->store('users/profileImage', 'public');
+        } elseif (is_string($value)) {
+            $this->attributes['profile_image'] = $value;
+        } else {
+            // Handle the case where $value is neither a file nor a string
+            $this->attributes['profile_image'] = null;
+        }
     }
 
     //Banner Image
-    public function getBannerImageAttribute($value): string
+    public function getBannerImageAttribute(): string
     {
-        return $this->attributes['banner_image'] ? asset('storage/' . $this->attributes['banner_image']) : asset('assets/img/default_banner.png');
+        return $this->attributes['banner_image']
+            ? asset('storage/' . $this->attributes['banner_image'])
+            : asset('assets/img/default_banner.png');
     }
 
     public function setBannerImageAttribute($value): void
     {
-        $this->attributes['banner_image'] = $value->store('users/bannerImage', 'public');
+        // Check if $value is an instance of UploadedFile
+        if ($value instanceof \Illuminate\Http\UploadedFile) {
+            $this->attributes['banner_image'] = $value->store('users/bannerImage', 'public');
+        } elseif (is_string($value)) {
+            // If $value is a string, assume it's a path or URL to an existing banner image
+            $this->attributes['banner_image'] = $value;
+        } else {
+            // Handle the case where $value is neither a file nor a string
+            $this->attributes['banner_image'] = null;
+        }
     }
+
 }

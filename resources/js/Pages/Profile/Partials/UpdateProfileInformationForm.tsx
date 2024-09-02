@@ -12,16 +12,26 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     const user = usePage<PageProps>().props.auth.user;
 
     const { data, setData, patch, errors, processing, recentlySuccessful } = useForm({
-        profile_image:"",
-        banner_image:"",
-        first_name:"",
-        surname:"",
-        username:"",
-        headline:"",
-        dob:"",
-        gender:"",
-        email:"",
-        active_status:"",
+        // profile_image:"",
+        // banner_image:"",
+        // first_name:"",
+        // surname:"",
+        // username:"",
+        // headline:"",
+        // dob:"",
+        // gender:"",
+        // email:"",
+        // active_status:"",
+        profile_image: user?.profile_image || null,
+        banner_image: user?.banner_image || null,
+        first_name: user?.first_name || "",
+        surname: user?.surname || "",
+        username: user?.username || "",
+        headline: user?.headline || "",
+        dob: user?.dob || "",
+        gender: user?.gender || "",
+        email: user?.email || "",
+        active_status: user?.active_status || "",
     });
 
     const submit: FormEventHandler = (e) => {

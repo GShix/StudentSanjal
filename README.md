@@ -11,3 +11,4 @@
 > ShareInertiaData => const { user } = usePage().props.auth;
 > name, headline, active_status
 > UpdateProfile page
+> Mobile-down-navbar
