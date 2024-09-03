@@ -25,7 +25,7 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
         ]);
         User::factory()->create([
-            'first_name' => 'Dambar',
+            'first_name' => 'Dambar Sing',
             'headline' => 'Laravel Developer | Reactjs',
             'username' => '@dambarsing',
             'active_status' => true,

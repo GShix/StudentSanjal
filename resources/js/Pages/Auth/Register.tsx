@@ -158,14 +158,14 @@ export default function Register() {
                                         id='middle_name'
                                         type="text" name="middle_name" value={data.middle_name}
                                         className="border-0 px-3 py-2.5 placeholder-gray-600 text-gray-800 bg-gray-100 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                        placeholder="Middle Name" autoComplete="middle_name"
+                                        placeholder="Middle Name (Optional)" autoComplete="middle_name"
                                         onChange={(e) => setData('middle_name', e.target.value)}/>
 
                                 </div>
                             <InputError message={errors.middle_name} className="mt-2" />
                             </div>
                             </div>
-                            <div className="dob flex items-center gap:4">
+                            <div className="dob flex items-center gap-5">
                                 <div className="relative w-full">
                                     <div className="last_name">
                                         <label
@@ -182,9 +182,9 @@ export default function Register() {
                                     </div>
                                 <InputError message={errors.last_name} className="mt-2" />
                                 </div>
-                                <div className="relative w-full mt-2">
+                                <div className="relative w-full">
                                     <label
-                                        className="block uppercase text-gray-300 text-xs font-bold"
+                                        className="block uppercase text-gray-300 text-xs font-bold mb-2"
                                         htmlFor="dob">DOB
                                     </label>
                                     <input

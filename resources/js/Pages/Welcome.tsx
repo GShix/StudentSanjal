@@ -51,7 +51,7 @@ const  Welcome = ({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersi
                     <nav className="navbar bg-black text-white flex justify-center items-center w-full gap-5 max-sm:text-3xl mx-auto px-5">
 
                         {/* Small Nav */}
-                        <div className="nav-menu text-4xl sm:hidden relative text-[#c7ae6a] w-1/3" ><i className={`${ clickMenu?"ri-close-line":"ri-menu-fill"} transition-transform ease-in-out cursor-pointer`}onClick={() => setClickMenu(!clickMenu)}></i></div>
+                        <div className="nav-menu text-4xl sm:hidden relative text-[#c7ae6a] w-1/4" ><i className={`${ clickMenu?"ri-close-line":"ri-menu-fill"} transition-transform ease-in-out cursor-pointer`}onClick={() => setClickMenu(!clickMenu)}></i></div>
                         {clickMenu ? (
                         <div className="small-nav-link  w-full flex flex-col gap-4 absolute top-20 z-50 text-base bg-[#1a1a1a]  sm:hidden pl-5 py-2">
                             <ul>
@@ -74,7 +74,7 @@ const  Welcome = ({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersi
 
                         {/* Large Nav Link */}
                         <div className="large-nav-logo w-full"><img className="h-20" src="/img/logo3.png" alt="" srcSet="" /></div>
-                            <div className="large-nav-link max-sm:hidden w-full flex justify-around font-normal border-r border-r-1 pr-1">
+                        <div className="large-nav-link max-sm:hidden w-full flex justify-around font-normal border-r border-r-1 pr-1">
                             <ul className="flex items-center gap-20">
                             {navLinks.map((link,index)=>(
                                 <li key={index}>

@@ -18,7 +18,7 @@ class ProfileController extends Controller
      */
     public function edit(Request $request): Response
     {
-        return Inertia::render('Profile/Edit', [
+        return Inertia::render('Profile', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
             'status' => session('status'),
         ]);
@@ -30,7 +30,7 @@ class ProfileController extends Controller
     public function update(ProfileUpdateRequest $request): RedirectResponse
 {
     $user = $request->user();
-
+    dd($request->toArray());
     // Update user profile data with validated input
     $user->fill($request->validated());
 
@@ -53,7 +53,6 @@ class ProfileController extends Controller
     if ($request->filled('password')) {
         $user->password = Hash::make($request->password);
     }
-    dd($user);
 
     $user->save();
 
