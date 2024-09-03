@@ -2,8 +2,9 @@
 
 namespace App\Models;
 
-// use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -44,38 +45,47 @@ class User extends Authenticatable
     ];
 
     /**
-     * Get the attributes that should be cast.
+     * The attributes that should be cast.
      *
      * @return array<string, string>
      */
-    protected function casts(): array
-    {
-        return [
-            'email_verified_at' => 'datetime',
-            'password' => 'hashed'
-        ];
-    }
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'password' => 'hashed',
+    ];
 
-    public function getProfileImageAttribute($value): string
+    /**
+     * Get the full URL for the profile image.
+     *
+     * @return string
+     */
+    public function getProfileImageAttribute(): string
     {
         return $this->attributes['profile_image']
             ? asset('storage/' . $this->attributes['profile_image'])
             : asset('assets/img/default_user.png');
     }
 
+    /**
+     * Set the profile image attribute.
+     *
+     * @param  mixed  $value
+     * @return void
+     */
     public function setProfileImageAttribute($value): void
     {
-        if ($value instanceof \Illuminate\Http\UploadedFile) {
+        if ($value instanceof UploadedFile) {
             $this->attributes['profile_image'] = $value->store('users/profileImage', 'public');
         } elseif (is_string($value)) {
             $this->attributes['profile_image'] = $value;
-        } else {
-            // Handle the case where $value is neither a file nor a string
-            $this->attributes['profile_image'] = null;
         }
     }
 
-    //Banner Image
+    /**
+     * Get the full URL for the banner image.
+     *
+     * @return string
+     */
     public function getBannerImageAttribute(): string
     {
         return $this->attributes['banner_image']
@@ -83,18 +93,18 @@ class User extends Authenticatable
             : asset('assets/img/default_banner.png');
     }
 
+    /**
+     * Set the banner image attribute.
+     *
+     * @param  mixed  $value
+     * @return void
+     */
     public function setBannerImageAttribute($value): void
     {
-        // Check if $value is an instance of UploadedFile
-        if ($value instanceof \Illuminate\Http\UploadedFile) {
+        if ($value instanceof UploadedFile) {
             $this->attributes['banner_image'] = $value->store('users/bannerImage', 'public');
         } elseif (is_string($value)) {
-            // If $value is a string, assume it's a path or URL to an existing banner image
             $this->attributes['banner_image'] = $value;
-        } else {
-            // Handle the case where $value is neither a file nor a string
-            $this->attributes['banner_image'] = null;
         }
     }
-
 }

@@ -8,12 +8,17 @@ import Feature from '@/Components/Feature';
 import FAQ from '@/Components/FAQ';
 import OurTeam from '@/Components/OurTeam';
 import CTA from '@/Components/CTA';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Dashboard from './Dashboard';
 import Home from './Home';
+import { toast, ToastContainer } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 const  Welcome = ({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersion: string, phpVersion: string }>)=> {
     const [clickMenu, setClickMenu] = useState(false);
+
+    const { recentlySuccessful } = usePage().props;
 
     const scroll = new LocomotiveScroll();
 
@@ -40,9 +45,16 @@ const  Welcome = ({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersi
         },
 
     ]
+
+    useEffect(() => {
+        if (recentlySuccessful) {
+          toast.success('Logged in successfully!');
+        }
+      }, [recentlySuccessful]);
     return (
         <>
             <Head title="Welcome"/>
+            <ToastContainer/>
             {auth.user ? (
                 <Home/>
             ) : (

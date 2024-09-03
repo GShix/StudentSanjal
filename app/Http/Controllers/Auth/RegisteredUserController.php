@@ -32,7 +32,7 @@ class RegisteredUserController extends Controller
     public function store(RegisterRequest $request): RedirectResponse
     {
         $validated = $request->validated();
-        dd($validated);
+        // dd($request);
 
         $validated['password'] = Hash::make($validated['password']);
 

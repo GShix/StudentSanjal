@@ -17,6 +17,7 @@ class DatabaseSeeder extends Seeder
 
         User::factory()->create([
             'first_name' => 'Admin',
+            'last_name' => 'Admin',
             'headline' => 'Admin | StudentSanjal',
             'username' => '@adminstudentsanjal',
             'active_status' => true,
@@ -25,7 +26,9 @@ class DatabaseSeeder extends Seeder
             'email' => 'admin@admin.com',
         ]);
         User::factory()->create([
-            'first_name' => 'Dambar Sing',
+            'first_name' => 'Dambar',
+            'middle_name' => 'Sing',
+            'last_name' => 'Gharti',
             'headline' => 'Laravel Developer | Reactjs',
             'username' => '@dambarsing',
             'active_status' => true,
@@ -35,6 +38,7 @@ class DatabaseSeeder extends Seeder
         ]);
         User::factory()->create([
             'first_name' => 'Amar',
+            'last_name' => 'Khadka',
             'headline' => 'Python Developer | HTML, CSS',
             'username' => '@amarkk',
             'active_status' => true,

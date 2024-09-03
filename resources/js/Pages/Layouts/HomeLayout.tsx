@@ -26,9 +26,9 @@ const HomeLayout = ({
     <div className="home bg-gray-400/45">
         <div className="fistRow bg-black flex items-center justify-between max-sm:py-2 px-4 sm:px-8"style={{boxShadow:"0px 0px 10px 4px #c7ae6a"}}>
             <div className="col1 flex max-sm:gap-1 max-md:gap-5 gap-12">
-                <div className="logo">
+                <a className="logo" href={route('home')}>
                     <img className="w-56 sm:w-58 sm:h-16" src="/img/Home_logo.png" alt="" srcSet="" />
-                </div>
+                </a>
                 <div className="search-btn relative flex items-center max-w-[60%]">
                     {searchInput &&
                     (
@@ -101,7 +101,7 @@ const HomeLayout = ({
                             <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
                                 <div className="active-status h-2 w-2 bg-green-500  rounded-full"></div>
                             </div>
-                            <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src="/img/lady1.jpg" alt="" />
+                            <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" />
                         </div>
                             {/* <img className="object-cover object-center rounded-full w-10 h-10 cursor-pointer" src={"/img/lady1.jpg"} alt="" /> */}
                         </Dropdown.Trigger>
@@ -121,18 +121,15 @@ const HomeLayout = ({
             <div className="firstColumn max-sm:hidden rounded-lg">
                 <div className="user-profile bg-gray-100 hover:bg-gray-100/80 rounded-xl  justify-center flex-col gap-3 leading-tight items-center pb-5 border border-gray-400/50">
                     <div className="banner-image h-16 w-full relative flex flex-col justify-center items-center border-b border-gray-400/20">
-                        <img className="h-full w-full object-cover object-center rounded-t-xl" src="/img/banner.jpg" alt="" srcSet="" />
+                        <img className="h-full w-full object-cover object-center rounded-t-xl" src={user.banner_image} alt="" srcSet="" />
                     <div className="profile-banner-image absolute top-[50%]">
-                        <div className="chat-icon w-[70px] h-[70px] p-[2px] bg-white rounded-full relative">
-                            <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-[5px] right-2">
-                                <div className="active-status h-2 w-2 bg-green-500  rounded-full"></div>
-                            </div>
-                            <img className="object-cover object-center rounded-full w-full h-full cursor-pointer ab" src="/img/lady1.jpg" alt="" />
+                        <div className="chat-icon w-[70px] h-[70px] p-[2px] bg-[#c7ae6a] rounded-full">
+                            <img className="object-cover object-center rounded-full w-full h-full cursor-pointer ab" src={user.profile_image} alt="" />
                         </div>
                     </div>
                     </div>
-                    <div className="user-details textce flex flex-col flex-wrap mt-14 items-center">
-                        <a href="/" className="text-base font-semibold  hover:underline">{user.first_name}{" "}{user.username}</a>
+                    <div className="user-details textce flex flex-col flex-wrap mt-14 items-center px-2 justify-center text-center">
+                        <a href="/" className="text-base font-semibold  hover:underline">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</a>
                         <p className="text-xs mt-1 text-gray-800/70">{user.headline}</p>
                     </div>
                     <div className="user-details textce flex flex-col flex-wrap pt-5 px-5 gap-y-2">

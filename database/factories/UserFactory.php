@@ -27,6 +27,7 @@ class UserFactory extends Factory
     {
         return [
             'first_name' => fake()->name(),
+            'last_name' => fake()->name(),
             'headline'=>static::$headline,
             'username'=>static::$username,
             'active_status' => fake()->boolean(),

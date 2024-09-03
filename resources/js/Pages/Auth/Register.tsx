@@ -1,4 +1,4 @@
-import { FormEventHandler, useState } from 'react';
+import { FormEventHandler, useEffect, useState } from 'react';
 import GuestLayout from '@/Layouts/GuestLayout';
 import InputError from '@/Components/InputError';
 import InputLabel from '@/Components/InputLabel';
@@ -6,8 +6,10 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
 
+const MIN_AGE = 14;
+
 export default function Register() {
-    const { data, setData, post, processing, errors, reset } = useForm({
+    const { data, setData, post, processing, errors, reset,setError } = useForm({
         first_name:"",
         middle_name:"",
         last_name:"",
@@ -20,13 +22,41 @@ export default function Register() {
     const [eye1,setEye1] = useState(false);
     const [eye2,setEye2] = useState(false);
 
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
+    useEffect(() => {
+        if (data.dob) {
+            validateAge(data.dob);
+        }
+    }, [data.dob]); // Validate DOB on change
 
+    const validateAge = (dob: string) => {
+        const dobDate = new Date(dob);
+        const today = new Date();
+        const age = today.getFullYear() - dobDate.getFullYear();
+        const monthDifference = today.getMonth() - dobDate.getMonth();
+        const dayDifference = today.getDate() - dobDate.getDate();
+
+        if (
+            age < MIN_AGE ||
+            (age === MIN_AGE && (monthDifference < 0 || (monthDifference === 0 && dayDifference < 0)))
+        ) {
+            setError('dob', 'Your age must be at least 14 years old.');
+        } else {
+            setError('dob', '');
+        }
+    };
+
+  const submit: FormEventHandler = (e) => {
+    e.preventDefault();
+
+    if (!errors.dob) {
         post(route('register'), {
             onFinish: () => reset('password', 'password_confirmation'),
         });
-    };
+    }
+  };
+
+  const today = new Date();
+  const maxDate = today.toISOString().split('T')[0];
 
     return (
         // <GuestLayout>
@@ -188,7 +218,7 @@ export default function Register() {
                                         htmlFor="dob">DOB
                                     </label>
                                     <input
-                                        id='dob' type="date" name="dob"
+                                        id='dob' type="date" name="dob" max={maxDate}
                                         className="border-0 px-3 py-2.5 text-gray-800 bg-gray-100 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150" value={data.dob}
                                         placeholder="DOB" autoComplete="dob"
                                         onChange={(e) => setData('dob', e.target.value)} required/>

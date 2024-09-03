@@ -40,7 +40,7 @@ class AuthenticatedSessionController extends Controller
             return redirect()->route('home',['user'=>$user]); // Assuming 'user' is the route name for User.tsx
         }
         // dd($request->user()->toArray());
-        return redirect()->intended(route('dashboard',['user'=>$user]));
+        // return redirect()->intended(route('dashboard',['user'=>$user]));
     }
 
     /**

@@ -16,3 +16,7 @@
 
 ## Day3
 > Not ShareInertiaData [already in HandleInertiaRequest]
+> update_profile fixed
+> ![alt text](image-1.png)
+> npm install react-toastify
+> 
