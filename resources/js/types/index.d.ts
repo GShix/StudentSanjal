@@ -3,7 +3,8 @@ export interface User {
     profile_image: File | string;
     banner_image: File | string;
     first_name: string;
-    surname: string;
+    middle_name: string;
+    last_name: string;
     username: string;
     headline: string;
     dob: string;

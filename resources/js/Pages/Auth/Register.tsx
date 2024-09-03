@@ -9,7 +9,8 @@ import { Head, Link, useForm } from '@inertiajs/react';
 export default function Register() {
     const { data, setData, post, processing, errors, reset } = useForm({
         first_name:"",
-        surname:"",
+        middle_name:"",
+        last_name:"",
         dob:"",
         gender:"",
         email :"",
@@ -148,26 +149,42 @@ export default function Register() {
                             <InputError message={errors.first_name} className="mt-2" />
                             </div>
                             <div className="relative w-full">
-                                <div className="surname">
+                                <div className="middle_name">
                                     <label
                                         className="block uppercase text-gray-300 text-xs font-bold mb-2"
-                                        htmlFor="surname">Surname
+                                        htmlFor="middle_name">Middle Name
                                     </label>
                                     <input
-                                        id='surname'
-                                        type="text" name="surname" value={data.surname}
+                                        id='middle_name'
+                                        type="text" name="middle_name" value={data.middle_name}
                                         className="border-0 px-3 py-2.5 placeholder-gray-600 text-gray-800 bg-gray-100 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
-                                        placeholder="Surname" autoComplete="username"
-                                        onChange={(e) => setData('surname', e.target.value)}/>
+                                        placeholder="Middle Name" autoComplete="middle_name"
+                                        onChange={(e) => setData('middle_name', e.target.value)}/>
 
                                 </div>
-                            <InputError message={errors.surname} className="mt-2" />
+                            <InputError message={errors.middle_name} className="mt-2" />
                             </div>
                             </div>
-                            <div className="dob md:flex items-center md:gap-5">
-                                <div className="relative w-full mb-4">
+                            <div className="dob flex items-center gap:4">
+                                <div className="relative w-full">
+                                    <div className="last_name">
+                                        <label
+                                            className="block uppercase text-gray-300 text-xs font-bold mb-2"
+                                            htmlFor="last_name">Last name
+                                        </label>
+                                        <input
+                                            id='last_name'
+                                            type="text" name="last_name" value={data.last_name}
+                                            className="border-0 px-3 py-2.5 placeholder-gray-600 text-gray-800 bg-gray-100 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                            placeholder="Last Name" autoComplete="last_name"
+                                            onChange={(e) => setData('last_name', e.target.value)}/>
+
+                                    </div>
+                                <InputError message={errors.last_name} className="mt-2" />
+                                </div>
+                                <div className="relative w-full mt-2">
                                     <label
-                                        className="block uppercase text-gray-300 text-xs font-bold mb-2"
+                                        className="block uppercase text-gray-300 text-xs font-bold"
                                         htmlFor="dob">DOB
                                     </label>
                                     <input
@@ -177,7 +194,8 @@ export default function Register() {
                                         onChange={(e) => setData('dob', e.target.value)} required/>
                                     <InputError message={errors.dob} className="mt-2" />
                                 </div>
-                                <div className="relative w-full mb-4">
+                            </div>
+                            <div className="relative w-full mb-4 mt-2">
                                     <div className="gender">
                                         <label
                                             className="block uppercase text-gray-300 text-xs font-bold mb-2"
@@ -212,7 +230,6 @@ export default function Register() {
                                         <InputError message={errors.gender} className="mt-2" />
                                     </div>
                                 </div>
-                            </div>
                             <div className="relative w-full mb-4">
                                 <div className="email">
                                     <label

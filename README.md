@@ -12,3 +12,7 @@
 > name, headline, active_status
 > UpdateProfile page
 > Mobile-down-navbar
+
+
+## Day3
+> Not ShareInertiaData [already in HandleInertiaRequest]

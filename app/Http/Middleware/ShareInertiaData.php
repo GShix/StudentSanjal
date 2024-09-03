@@ -19,7 +19,7 @@ class ShareInertiaData extends Middleware
     {
         Inertia::share('auth.user', function () use ($request) {
             return $request->user()
-                ? $request->user()->toArray() // This converts the user object to an array, sharing all attributes
+                ? $request->user()->toArray()
                 : null;
         });
 

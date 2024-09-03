@@ -15,17 +15,19 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         // profile_image:"",
         // banner_image:"",
         // first_name:"",
-        // surname:"",
+        // middle_name:"",
+        // last_name:"",
         // username:"",
         // headline:"",
         // dob:"",
         // gender:"",
         // email:"",
         // active_status:"",
-        profile_image: user?.profile_image || null,
-        banner_image: user?.banner_image || null,
+        profile_image:  null,
+        banner_image: null,
         first_name: user?.first_name || "",
-        surname: user?.surname || "",
+        middle_name: user?.middle_name || "",
+        last_name: user?.last_name || "",
         username: user?.username || "",
         headline: user?.headline || "",
         dob: user?.dob || "",
@@ -187,21 +189,36 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         </div>
                         <InputError className="mt-2" message={errors.first_name} />
                     </div>
+                    <div className="sm:col-span-3">
+                        <label htmlFor="middle_name" className="block text-sm font-medium leading-6 text-gray-900">
+                        Middle name
+                        </label>
+                        <div className="mt-2">
+                            <span>{user.middle_name}</span>
+                        <input
+                            id="middle_name"
+                            name="middle_name"
+                            type="text" value={data.middle_name} onChange={(e)=>setData('middle_name',e.target.value)}
+                            autoComplete="middle_name"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6" placeholder='Set new first name'/>
+                        </div>
+                        <InputError className="mt-2" message={errors.middle_name} />
+                    </div>
 
                     <div className="sm:col-span-3">
-                        <label htmlFor="surname" className="block text-sm font-medium leading-6 text-gray-900">
+                        <label htmlFor="last_name" className="block text-sm font-medium leading-6 text-gray-900">
                         Surname
                         </label>
                         <div className="mt-2">
-                            <span>{user.surname}</span>
+                            <span>{user.last_name}</span>
                         <input
-                            id="surname"
-                            name="surname"
-                            type="text" value={data.surname} onChange={(e)=>setData('surname',e.target.value)}
-                            autoComplete="surname"
+                            id="last_name"
+                            name="last_name"
+                            type="text" value={data.last_name} onChange={(e)=>setData('last_name',e.target.value)}
+                            autoComplete="last_name"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"/>
                         </div>
-                        <InputError className="mt-2" message={errors.surname} />
+                        <InputError className="mt-2" message={errors.last_name} />
                     </div>
                     <div className="sm:col-span-3">
                         <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
