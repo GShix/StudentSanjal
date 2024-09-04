@@ -1,5 +1,5 @@
 import { PageProps } from "@/types";
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 
 const WhatOnYourMind = () => {
     const user = usePage<PageProps>().props.auth.user;
@@ -17,9 +17,18 @@ const WhatOnYourMind = () => {
                 <textarea className="w-full rounded-lg p-2 text-gray-600 bg-gray-300/50 text-sm border-none h-12 lg:h-16 placeholder:text-gray-700/60" typeof="text" name="What's on your mind?" id="" placeholder="What's on your mind?"></textarea>
             </div>
             <div className="post-type h-4 mt-3 flex lg:gap-16 md:gap-12 gap-6 items-center">
-                <div className="photo flex items-center gap-1 md:gap-2"><img className="h-4" src="/img/post-photo.png" alt="" srcSet="" /><span className="max-sm:text-xs text-sm font-medium text-gray-700/60">Media</span></div>
-                <div className="video flex items-center gap-1 md:gap-2"><img className="h-5" src="/img/events.png" alt="" srcSet="" /><span className="max-sm:text-xs text-sm font-medium text-gray-700/60">Event</span></div>
-                <div className="poll flex items-center gap-1 md:gap-2"><img className="h-4" src="/img/write_article.png" alt="" srcSet="" /><span className="max-sm:text-xs text-sm font-medium text-gray-700/60">Write article</span></div>
+                <Link href={route('post.index')} className="flex items-center gap-1 md:gap-2 hover:bg-gray-200 rounded-md px-1 sm:px-2 py-1">
+                    <img className="h-4" src="/img/post-photo.png" alt="" srcSet="" />
+                    <span className="max-sm:text-xs text-sm font-medium text-gray-700/60">Media</span>
+                </Link>
+                <Link href="" className="flex items-center gap-1 md:gap-2 hover:bg-gray-200 rounded-md px-1 sm:px-2 py-1">
+                    <img className="h-5" src="/img/events.png" alt="" srcSet="" />
+                    <span className="max-sm:text-xs text-sm font-medium text-gray-700/60">Event</span>
+                </Link>
+                <Link href="" className="flex items-center gap-1 md:gap-2 hover:bg-gray-200 rounded-md px-1 sm:px-2 py-1">
+                    <img className="h-4" src="/img/write_article.png" alt="" srcSet="" />
+                    <span className="max-sm:text-xs text-sm font-medium text-gray-700/60">Write article</span>
+                </Link>
             </div>
         </div>
     </div>

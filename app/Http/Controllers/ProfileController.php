@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
@@ -16,7 +17,7 @@ class ProfileController extends Controller
     /**
      * Display the user's profile form.
      */
-    public function edit(Request $request): Response
+    public function edit(Request $request,User $user): Response
     {
         return Inertia::render('Profile', [
             'mustVerifyEmail' => $request->user() instanceof MustVerifyEmail,
@@ -52,7 +53,7 @@ class ProfileController extends Controller
 
         $user->save();
 
-        return to_route('profile.edit')->with('success','Your Profile is updated successfully');
+        return to_route('profile.edit')->with('success','Profile is updated successfully');
     }
 
 

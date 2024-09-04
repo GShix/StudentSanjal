@@ -4,8 +4,6 @@ import { FormEventHandler, useEffect, useState } from 'react';
 import { PageProps } from '@/types';
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import HomeLayout from './Layouts/HomeLayout';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 
 interface FormData {
@@ -64,13 +62,6 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
             setError('dob', '');
         }
     };
-
-
-    useEffect(() => {
-        if (recentlySuccessful) {
-          toast.success('Profile updated successfully!');
-        }
-      }, [recentlySuccessful]);
 
   const submit: FormEventHandler = (e) => {
     e.preventDefault();
@@ -354,7 +345,6 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
             </button>
           </div>
         </form>
-        <ToastContainer />
       </section>
     </HomeLayout>
   );

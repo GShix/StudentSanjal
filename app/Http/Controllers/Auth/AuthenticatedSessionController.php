@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Models\Post;
 use Inertia\Inertia;
 use Inertia\Response;
 use Illuminate\Http\Request;
@@ -34,7 +35,6 @@ class AuthenticatedSessionController extends Controller
         $request->session()->regenerate();
 
         $user = $request->user();
-
         // dd($user);
         if ($user->user_role === 'user') {
             return redirect()->route('home',['user'=>$user]); // Assuming 'user' is the route name for User.tsx

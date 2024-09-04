@@ -20,3 +20,8 @@
 > ![alt text](image-1.png)
 > npm install react-toastify
 > 
+
+## Day 4
+> Post Media
+> Post remove and undo mechansim
+> Post user_id details

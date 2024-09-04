@@ -11,8 +11,6 @@ import CTA from '@/Components/CTA';
 import { useEffect, useState } from 'react';
 import Dashboard from './Dashboard';
 import Home from './Home';
-import { toast, ToastContainer } from 'react-toastify';
-import 'react-toastify/dist/ReactToastify.css';
 
 
 const  Welcome = ({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersion: string, phpVersion: string }>)=> {
@@ -46,15 +44,9 @@ const  Welcome = ({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersi
 
     ]
 
-    useEffect(() => {
-        if (recentlySuccessful) {
-          toast.success('Logged in successfully!');
-        }
-      }, [recentlySuccessful]);
     return (
         <>
             <Head title="Welcome"/>
-            <ToastContainer/>
             {auth.user ? (
                 <Home/>
             ) : (
@@ -99,7 +91,7 @@ const  Welcome = ({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersi
                             </ul>
                         </div>
 
-                        <div className="nav-cta w-1/2 h-full hidden sm:flex gap-5 items-center ml-4 text-sm">
+                        <div className="nav-cta w-1/2 h-full hidden sm:flex gap-8 items-center ml-4 text-sm">
                             <a href={route('register')} className="py-2.5 px-5 bg-[#1a1a1a] rounded-md hover:bg-[#000000] hover:border hover:border-[#c7ae6a]">Join now</a>
                             <a href={route('login')} className="py-2.5 px-5 bg-[#c7ae6a] rounded-md hover:bg-[#000000] hover:border hover:border-[#c7ae6a]">Login</a>
                         </div>

@@ -1,7 +1,9 @@
 import Dropdown from "@/Components/Dropdown"
 import { PageProps } from "@/types";
 import { usePage } from "@inertiajs/react";
-import { PropsWithChildren, ReactNode, useState } from "react"
+import { PropsWithChildren, ReactNode, useEffect, useState } from "react"
+import { toast, ToastContainer } from "react-toastify";
+import 'react-toastify/dist/ReactToastify.css';
 
 const HomeLayout = ({
     story,
@@ -21,10 +23,32 @@ const HomeLayout = ({
     const [searchInput, setSearchInput] = useState(false);
 
     const user = usePage<PageProps>().props.auth.user;
+    const { flash } = usePage().props;
+
+    useEffect(() => {
+        if (flash.success) {
+            toast.success(flash.success,{
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                progressStyle:{
+                    backgroundColor:"#c7ae6a"
+                }
+            });
+        }
+    }, [flash.success]);
 
   return (
+    // <h1 className="bg-black h-100px">ljkfsflsj</h1>
     <div className="home bg-gray-400/45">
-        <div className="fistRow bg-black flex items-center justify-between max-sm:py-2 px-4 sm:px-8"style={{boxShadow:"0px 0px 10px 4px #c7ae6a"}}>
+        <ToastContainer/>
+        <div className="fistRow bg-black flex items-center justify-between max-sm:py-2 px-4 sm:px-8"style={{boxShadow:"0px 0px 10px 4px #c7ae6a",position: "sticky",
+            top: 0,
+            zIndex: 1000}}>
             <div className="col1 flex max-sm:gap-1 max-md:gap-5 gap-12">
                 <a className="logo" href={route('home')}>
                     <img className="w-56 sm:w-58 sm:h-16" src="/img/Home_logo.png" alt="" srcSet="" />
@@ -117,7 +141,7 @@ const HomeLayout = ({
                 </div>
             </div>
         </div>
-        <div className="lastRow grid grid-cols-3 gap-8 mx-8 mt-6 mb-5">
+        <div className="lastRow grid grid-cols-3 gap-8 mx-8 mt-6 mb-5 relative">
             <div className="firstColumn max-sm:hidden rounded-lg">
                 <div className="user-profile bg-gray-100 hover:bg-gray-100/80 rounded-xl  justify-center flex-col gap-3 leading-tight items-center pb-5 border border-gray-400/50">
                     <div className="banner-image h-16 w-full relative flex flex-col justify-center items-center border-b border-gray-400/20">
@@ -169,25 +193,21 @@ const HomeLayout = ({
                     <div className="Home-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
                         <a href="/" className="flex flex-col items-center">
                             <i className="ri-home-7-fill text-[20px] hover:text-2xl"></i>
-                            {/* <span className="block text-xs leading-none">Home</span> */}
                         </a>
                     </div>
                     <div className="Mynetwork-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
                         <a href="/" className="flex flex-col items-center">
                             <i className="ri-group-3-fill text-[20px] hover:text-2xl"></i>
-                            {/* <span className="block text-xs leading-none">My Network</span> */}
                         </a>
                     </div>
                     <div className="Job-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
                         <a href="/" className="flex flex-col items-center">
                             <i className="ri-group-line text-[20px] hover:text-2xl"></i>
-                            {/* <span className="block text-xs leading-none">Jobs</span> */}
                         </a>
                     </div>
                     <div className="Notification-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
                         <a href="/" className="flex flex-col items-center">
                             <i className="ri-notification-3-fill text-[20px] hover:text-2xl"></i>
-                            {/* <span className="block text-xs leading-none">Notifications</span> */}
                         </a>
                     </div>
                 </div>
@@ -206,7 +226,8 @@ const HomeLayout = ({
                 </div>
 
             </div>
-            <div className="lastColumn rounded-lg max-md:hidden">
+            {(chat|| connectionRequest ||peopleYouMayKnow) && (
+                <div className="lastColumn rounded-lg max-md:hidden">
 
                 {/* Chat */}
 
@@ -222,6 +243,8 @@ const HomeLayout = ({
                 {peopleYouMayKnow}
 
             </div>
+            )}
+
         </div>
     </div>
   )
