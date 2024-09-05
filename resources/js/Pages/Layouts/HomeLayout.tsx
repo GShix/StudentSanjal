@@ -23,7 +23,7 @@ const HomeLayout = ({
     const [searchInput, setSearchInput] = useState(false);
 
     const user = usePage<PageProps>().props.auth.user;
-    const { flash } = usePage().props;
+    const { flash } = usePage<PageProps>().props;
 
     useEffect(() => {
         if (flash.success) {

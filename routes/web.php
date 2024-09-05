@@ -17,7 +17,10 @@ Route::get('uploadMedia', function () {
 
 // Route::get('post',[PostController::class,'index'])->name('createPost');
 Route::resource('post',PostController::class)->middleware('auth');
-Route::post('/post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+
+Route::post('post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+
+Route::get('post/{post}', [PostController::class, 'updatePostLoveCount'])->name('post.updatePostLoveCount');
 
 
 // Route::post('post',[PostController::class,'store'])->name('post.store');

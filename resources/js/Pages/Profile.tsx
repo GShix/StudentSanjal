@@ -4,6 +4,7 @@ import { FormEventHandler, useEffect, useState } from 'react';
 import { PageProps } from '@/types';
 import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
 import HomeLayout from './Layouts/HomeLayout';
+import { profile } from 'console';
 
 
 interface FormData {
@@ -39,6 +40,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     active_status: user?.active_status || false,
     _method: "PATCH"
   });
+  console.log(data.profile_image);
 
     useEffect(() => {
         if (data.dob) {
@@ -79,8 +81,8 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
       <Head title="Profile" />
       <section className='bg-gray-200 px-4 py-3 rounded-xl'>
         <form onSubmit={submit} encType="multipart/form-data">
-          <div className="space-y-12">
-            <div className="border-b border-gray-900/10 pb-12">
+          <div className="">
+            <div className="border-b border-gray-900/10">
               <h2 className="text-base font-semibold leading-7 text-gray-900">Profile Information</h2>
               <p className="mt-1 text-sm leading-6 text-gray-600">
                 This information will be displayed publicly so be careful what you share.
@@ -92,11 +94,13 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     Image
                   </label>
                   <div className="mt-2 flex flex-col items-center gap-x-3 justify-center">
-                    <UserCircleIcon aria-hidden="true" className="h-12 w-12 text-gray-300" />
+                    <div className="old-profile-image w-20 h-20 bg-gray-100 rounded-full p-2 border-2 border-[#c7ae6a]">
+                        <img className='w-full h-full object-cover object-center' src={user?user.profile_image:data.profile_image} alt="" srcset="" />
+                    </div>
                     <label
                       htmlFor="profile_image"
-                      className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
-                      <span>Change profile image</span>
+                      className="relative cursor-pointer rounded-md bg-white font-semibold text-[#c7ae6a] focus-within:outline-none focus-within:ring-2 focus-within:ring-[#1a1a1a] focus-within:ring-offset-2 hover:text-[#b99a45] mt-2 px-2 py-1">
+                      <span>Choose new Profile Image</span>
                       <input
                         id="profile_image"
                         name="profile_image"
@@ -117,13 +121,16 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                   <label htmlFor="banner_image" className="block text-sm font-medium leading-6 text-gray-900">
                     Banner image
                   </label>
-                  <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 py-10">
+                  <div className="old-profile-image h-20 mt-1 bg-gray-100 rounded-md p-2 border-2 border-[#c7ae6a]">
+                        <img className='w-full h-full object-cover object-center' src={user?user.banner_image:data.banner_image} alt="" srcset="" />
+                    </div>
+                  <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 max-sm:py-5 py-10">
                     <div className="text-center">
                       <PhotoIcon aria-hidden="true" className="mx-auto h-12 w-12 text-gray-300" />
-                      <div className="mt-4 flex text-sm leading-6 text-gray-600">
+                      <div className="mt-4 text-sm leading-6 text-gray-600">
                         <label
                           htmlFor="banner_image"
-                          className="relative cursor-pointer rounded-md bg-white font-semibold text-indigo-600 focus-within:outline-none focus-within:ring-2 focus-within:ring-indigo-600 focus-within:ring-offset-2 hover:text-indigo-500">
+                          className="relative cursor-pointer rounded-md bg-white font-semibold text-[#c7ae6a] focus-within:outline-none focus-within:ring-2 focus-within:ring-[#1a1a1a] focus-within:ring-offset-2 hover:text-[#b99a45] mt-2 px-2 py-1">
                           <span>Upload a file</span>
                           <input
                             id="banner_image"
@@ -147,8 +154,8 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
               </div>
             </div>
 
-            <div className="border-b border-gray-900/10 pb-12">
-              <div className="mt-10 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
+            <div className="border-b border-gray-900/10 pb-12 max-sm:pb-5">
+              <div className="mt-10 max-sm:mt-2 grid grid-cols-1 gap-x-6 gap-y-8 sm:grid-cols-6">
                 {/* First Name */}
                 <div className="sm:col-span-3">
                   <label htmlFor="first_name" className="block text-sm font-medium leading-6 text-gray-900">
@@ -278,7 +285,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <select
                       id="gender"
                       name="gender"
-                      value={data.gender}
+                      value={user?user.gender:data.gender}
                       onChange={(e) => setData('gender', e.target.value)}
                       autoComplete="sex"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"

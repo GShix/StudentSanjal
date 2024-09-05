@@ -1,20 +1,77 @@
 import { PageProps } from '@/types';
 import { useForm, usePage } from '@inertiajs/react';
-import React, { FormEventHandler, useState } from 'react';
+import axios from 'axios';
+import dayjs from 'dayjs';
+import relativeTime from 'dayjs/plugin/relativeTime';
+import React, { EventHandler, FormEventHandler, useState } from 'react';
+import { toast } from 'react-toastify';
 
+dayjs.extend(relativeTime);
 interface FormData{
     reason_to_remove_post:string;
 }
+interface Count{
+    post_love_count:number;
+}
+
 
 const Posts = () => {
-    // Access the latest posts shared by Inertia
     const { latest_posts,flash } = usePage<PageProps>().props;
-    console.log(flash);
+    // console.log(latest_posts)
+    // console.log(flash);
     const [removedPostId, setRemovedPostId] = useState<number | null>(null);
+
+    const getTimeAgo = (date: string) => {
+        const now = dayjs();
+        const postTime = dayjs(date);
+        const diffInMinutes = now.diff(postTime, 'minute');
+        const diffInHours = now.diff(postTime, 'hour');
+        const diffInDays = now.diff(postTime, 'day');
+
+        if (diffInMinutes < 60) {
+            return `${diffInMinutes} min`;
+        } else if (diffInHours < 24) {
+            return `${diffInHours} h`;
+        } else {
+            return `${diffInDays} d`;
+        }
+    };
+
     const { data, setData, post, errors, processing, recentlySuccessful,setError } = useForm<FormData>({
         reason_to_remove_post:""
-      });
+    });
 
+    // const handlePostLoveCount = (postId: number) => {
+    //     get(route('post.updatePostLoveCount', postId));
+    // };
+    const handlePostLoveCount = async (postId:number) => {
+        try {
+            const response = await axios.get(route('post.updatePostLoveCount', postId));
+            // console.log(response);
+            if (response.data.success) {
+                toast.success(response.data.message, {
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    progressStyle: {
+                        backgroundColor: "#c7ae6a"
+                    }
+                });
+                const loveCountElement = document.getElementById(`love-count-${postId}`);
+                if (loveCountElement) {
+                    loveCountElement.textContent = response.data.newLoveCount;
+                }
+            } else {
+                console.error('Failed to update love count.');
+            }
+        } catch (error) {
+            console.error('An error occurred:', error);
+        }
+    };
     // Handle post removal
     const handleRemovePost = (postId: number) => {
         setRemovedPostId(postId);
@@ -25,6 +82,7 @@ const Posts = () => {
         setRemovedPostId(null);
     };
 
+
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
@@ -32,9 +90,9 @@ const Posts = () => {
             onSuccess: () => {
                 setRemovedPostId(null);
             },
-            onError: (errors) => {
-                setError('reason_to_remove_post', errors.reason_to_remove_post);
-            }
+            // onError: (errors) => {
+            //     setError('reason_to_remove_post', errors.reason_to_remove_post);
+            // }
         });
     };
 
@@ -75,13 +133,13 @@ const Posts = () => {
                                 <div className="posts-users-icon w-11 h-11 p-[2.5px] bg-[#c7ae6a] rounded-full">
                                     <img className="object-cover object-bottom rounded-full w-10 h-full" src={post.user.profile_image} alt="" />
                                 </div>
-                                <div className="name-other flex justify-between w-[86%] items-center">
+                                <div className="name-other flex justify-between w-[86%] lg:w-[89%] items-center">
                                     <div className="posts-details">
                                         <div className="user-name">
-                                            <strong className="text-sm leading-tight font-semibold block">{post.user.first_name} {post.user.last_name}</strong>
+                                            <strong className="text-sm leading-tight font-semibold block">{post.user.first_name}{" "}{post.user.middle_name}{" "}{post.user.last_name}</strong>
                                         </div>
                                         <div className="flex items-center gap-2">
-                                            <span className="text-[12px] inline-block">4m</span>
+                                            <span className="text-[12px] inline-block">{getTimeAgo(post.created_at)}</span>
                                             <i className="ri-circle-fill text-[3px]"></i>
                                             <span className="inline-block"><i className="ri-group-fill text-sm"></i></span>
                                         </div>
@@ -105,8 +163,8 @@ const Posts = () => {
                             <div className="post-interaction mt-1 px-2">
                                 <div className="interaction-counts flex justify-between">
                                     <div className="like-count">
-                                        <i className="ri-heart-3-fill text-gray-100 p-[2px] bg-red-500 rounded-full mr-2 cursor-pointer"></i>
-                                        <span className="cursor-pointer hover:underline text-sm">2</span>
+                                       {post.post_love_count && ( <i className="ri-heart-3-fill text-gray-100 p-[2px] bg-red-500 rounded-full mr-2 cursor-pointer"></i>)}
+                                        <span className="cursor-pointer hover:underline text-sm" id={`love-count-${post.id}`}>{post.post_love_count}</span>
                                     </div>
                                     <div className="comment-count">
                                         <span className="cursor-pointer hover:underline text-sm">3</span>
@@ -115,7 +173,7 @@ const Posts = () => {
                                 </div>
                                 <div className="interaction-btn flex justify-between mt-[2px] py-1 border-b-[1.6px] border-t-[1.6px]">
                                     <div className="like w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
-                                        <i className="ri-thumb-up-line text-lg hover:ri-thumb-up-fill"></i>
+                                        <i className="ri-heart-3-line text text-lg"></i>
                                     </div>
                                     <div className="comment w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
                                         <i className="ri-chat-2-line text-lg"></i>

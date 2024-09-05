@@ -24,6 +24,7 @@ class UpdatePostRequest extends FormRequest
     {
         return [
             'post_description'=>['nullable','string'],
+            'post_love_count'=>['nullable','integer'],
             'media'=>['nullable','mimes:jpeg,png,jpg,gif,svg, mp4'],
             'job' => ['nullable', 'string', 'max:255'],
             'event' => ['nullable', 'string', 'max:255'],

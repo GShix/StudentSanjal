@@ -25,3 +25,8 @@
 > Post Media
 > Post remove and undo mechansim
 > Post user_id details
+
+## Day 5
+> Handle post_love_count
+> Day.js
+> Profile page updating

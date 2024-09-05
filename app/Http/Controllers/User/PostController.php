@@ -65,4 +65,19 @@ class PostController extends Controller
         $post->delete();
         return to_route('home')->with('success', 'Post deleted successfully');
     }
+
+    public function updatePostLoveCount(Post $post)
+    {
+        $post->update([
+            'post_love_count' => $post->post_love_count + 1
+        ]);
+
+        // return back()->with('success', 'Post loved successfully');
+        return response()->json([
+            'success' => true,
+            'newLoveCount' => $post->post_love_count,
+            'message'=>"Loved"
+        ]);
+    }
+
 }

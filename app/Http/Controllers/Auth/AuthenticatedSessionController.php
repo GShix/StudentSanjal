@@ -37,7 +37,7 @@ class AuthenticatedSessionController extends Controller
         $user = $request->user();
         // dd($user);
         if ($user->user_role === 'user') {
-            return redirect()->route('home',['user'=>$user]); // Assuming 'user' is the route name for User.tsx
+            return redirect()->route('home',['user'=>$user])->with('success',"Logged in successfully"); // Assuming 'user' is the route name for User.tsx
         }
         // dd($request->user()->toArray());
         // return redirect()->intended(route('dashboard',['user'=>$user]));
