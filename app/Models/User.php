@@ -2,6 +2,8 @@
 
 namespace App\Models;
 
+use App\Models\Post;
+use App\Models\PostInteraction;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -38,6 +40,11 @@ class User extends Authenticatable
     public function post(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+
+    public function postInteraction(): HasMany
+    {
+        return $this->hasMany(PostInteraction::class);
     }
 
     /**

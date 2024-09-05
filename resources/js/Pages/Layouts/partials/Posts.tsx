@@ -1,5 +1,5 @@
 import { PageProps } from '@/types';
-import { useForm, usePage } from '@inertiajs/react';
+import { Link, useForm, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import dayjs from 'dayjs';
 import relativeTime from 'dayjs/plugin/relativeTime';
@@ -17,7 +17,7 @@ interface Count{
 
 const Posts = () => {
     const { latest_posts,flash } = usePage<PageProps>().props;
-    // console.log(latest_posts)
+    console.log(latest_posts)
     // console.log(flash);
     const [removedPostId, setRemovedPostId] = useState<number | null>(null);
 
@@ -131,7 +131,8 @@ const Posts = () => {
                         <>
                             <div className="posts-user-profile bg-gray-100 rounded-xl flex gap-3 leading-tight items-center h-12">
                                 <div className="posts-users-icon w-11 h-11 p-[2.5px] bg-[#c7ae6a] rounded-full">
-                                    <img className="object-cover object-bottom rounded-full w-10 h-full" src={post.user.profile_image} alt="" />
+                                    <Link href={route('profile.show',user)}>
+                                    <img className="object-cover object-bottom rounded-full w-10 h-full" src={post.user.profile_image} alt="" /></Link>
                                 </div>
                                 <div className="name-other flex justify-between w-[86%] lg:w-[89%] items-center">
                                     <div className="posts-details">

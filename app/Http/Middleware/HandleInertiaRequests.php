@@ -30,12 +30,14 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user_id = $request->user()->id;
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $request->user(),
             ],
             'latest_posts'=>Post::with('user')->latest()->take(5)->get(),
+            // 'his_posts'=>Post::with( 'user')->get(),
 
             'flash' => [
             'success' => $request->session()->get('success'),

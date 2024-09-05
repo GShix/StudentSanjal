@@ -93,9 +93,9 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                   <label htmlFor="profile_image" className="block text-sm font-medium leading-6 text-gray-900">
                     Image
                   </label>
-                  <div className="mt-2 flex flex-col items-center gap-x-3 justify-center">
-                    <div className="old-profile-image w-20 h-20 bg-gray-100 rounded-full p-2 border-2 border-[#c7ae6a]">
-                        <img className='w-full h-full object-cover object-center' src={user?user.profile_image:data.profile_image} alt="" srcset="" />
+                  <div className="mt-2 flex flex-col items-center gap-y-3 justify-center">
+                    <div className="old-profile-image  rounded-full p-1 bg-[#c7ae6a] ">
+                        <img className='w-20 h-20 rounded-full object-cover object-center' src={user?user.profile_image:data.profile_image} alt="" srcset="" />
                     </div>
                     <label
                       htmlFor="profile_image"
@@ -122,16 +122,16 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     Banner image
                   </label>
                   <div className="old-profile-image h-20 mt-1 bg-gray-100 rounded-md p-2 border-2 border-[#c7ae6a]">
-                        <img className='w-full h-full object-cover object-center' src={user?user.banner_image:data.banner_image} alt="" srcset="" />
+                        <img className='w-full h-full object-contain' src={user?user.banner_image:data.banner_image} alt="" srcset="" />
                     </div>
                   <div className="mt-2 flex justify-center rounded-lg border border-dashed border-gray-900/25 px-6 max-sm:py-5 py-10">
                     <div className="text-center">
                       <PhotoIcon aria-hidden="true" className="mx-auto h-12 w-12 text-gray-300" />
-                      <div className="mt-4 text-sm leading-6 text-gray-600">
+                      <div className="mt-2 text-sm leading-6 text-gray-600">
                         <label
                           htmlFor="banner_image"
                           className="relative cursor-pointer rounded-md bg-white font-semibold text-[#c7ae6a] focus-within:outline-none focus-within:ring-2 focus-within:ring-[#1a1a1a] focus-within:ring-offset-2 hover:text-[#b99a45] mt-2 px-2 py-1">
-                          <span>Upload a file</span>
+                          <span>Upload a new banner</span>
                           <input
                             id="banner_image"
                             name="banner_image"
@@ -144,9 +144,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                             }}
                           />
                         </label>
-                        <p className="pl-1">or drag and drop</p>
                       </div>
-                      <p className="text-xs leading-5 text-gray-600">PNG, JPG, GIF up to 10MB</p>
                     </div>
                   </div>
                   <InputError className="mt-2" message={errors.banner_image} />
@@ -285,7 +283,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <select
                       id="gender"
                       name="gender"
-                      value={user?user.gender:data.gender}
+                      value={data.gender}
                       onChange={(e) => setData('gender', e.target.value)}
                       autoComplete="sex"
                       className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"

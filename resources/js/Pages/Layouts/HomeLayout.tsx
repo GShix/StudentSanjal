@@ -153,7 +153,7 @@ const HomeLayout = ({
                     </div>
                     </div>
                     <div className="user-details textce flex flex-col flex-wrap mt-14 items-center px-2 justify-center text-center">
-                        <a href="/" className="text-base font-semibold  hover:underline">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</a>
+                        <a href={route('profile.show',user)} className="text-base font-semibold  hover:underline">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</a>
                         <p className="text-xs mt-1 text-gray-800/70">{user.headline}</p>
                     </div>
                     <div className="user-details textce flex flex-col flex-wrap pt-5 px-5 gap-y-2">
