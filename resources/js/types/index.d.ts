@@ -1,7 +1,7 @@
 export interface User {
     id: number;
-    profile_image: File | string;
-    banner_image: File | string;
+    profile_image: File | null;
+    banner_image: File | null;
     first_name: string;
     middle_name: string;
     last_name: string;

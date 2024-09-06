@@ -39,6 +39,35 @@
     scale: 1.03;
     /* color: #c7ae6a; */
 }
-.lastRow{
-    grid-template-columns: .9fr 1.8fr 1.2fr;
+
+.lastRow-updateProfile{
+    grid-template-columns: 1fr;
 }
+/* For small device(below <768px) */
+.lastRow{
+    display: grid;
+    grid-template-columns: 1fr;
+}
+
+
+@media (min-width: 768px) {
+    .lastRow{
+        display: grid;
+        grid-template-columns: 1fr 2fr;
+    }
+
+    .lastRow-updateProfile{
+        grid-template-columns:.5fr 1fr;
+    }
+  }
+
+@media (min-width: 1024px) {
+    .lastRow{
+        display: grid;
+        grid-template-columns: .9fr 1.8fr 1.2fr;
+    }
+
+    .lastRow-updateProfile{
+        grid-template-columns: .8fr 2fr;
+    }
+  }

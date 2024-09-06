@@ -16,9 +16,24 @@ class ShowProfileController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function index()
+    public function showProfile($username)
     {
-        return Inertia::render('ShowProfile');
+        // Retrieve the user by username
+        $user = User::where('username', $username)->first();
+
+        // Check if the user exists
+        if (!$user) {
+            abort(404, 'User not found');
+        }
+
+        // Retrieve the user's posts
+        $his_posts = Post::where('user_id', $user->id)->latest()->get();
+
+        // Render the profile view with user data and posts
+        return Inertia::render('ShowProfile', [
+            'user' => $user,
+            'his_posts' => $his_posts,
+        ]);
     }
 
     /**
@@ -27,24 +42,6 @@ class ShowProfileController extends Controller
     public function store(Request $request)
     {
 
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show($user_id)
-    {
-        // Retrieve the user based on user_id
-        $user = User::findOrFail($user_id);
-
-        // Fetch the user's posts
-        $his_posts = Post::where('user_id', $user_id)->latest()->get();
-
-        // Pass the user and their posts to the Inertia view
-        return Inertia::render('ShowProfile', [
-            'auth' => ['user' => $user],
-            'his_posts' => $his_posts
-        ]);
     }
 
     /**

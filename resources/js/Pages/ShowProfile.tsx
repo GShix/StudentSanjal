@@ -2,11 +2,13 @@ import { usePage } from "@inertiajs/react";
 import HomeLayout from "./Layouts/HomeLayout";
 import { PageProps } from "@/types";
 import { useEffect, useState } from "react";
+import TimeAgo from "./Layouts/TimeAgo";
 
 const ShowProfile = () => {
-  const user = usePage<PageProps>().props.auth.user;
-  const { his_posts } = usePage<PageProps>().props;
+//   const user = usePage<PageProps>().props.auth.user;
+  const { his_posts,user} = usePage<PageProps>().props;
 
+  console.log(his_posts)
   const [hisPosts, setHisPosts] = useState<any[]>([]);
 
   useEffect(() => {
@@ -32,9 +34,9 @@ const ShowProfile = () => {
           </div>
         </div>
         <div className="intro mt-16 px-3">
-          <span className="block font-semibold text-lg leading-normal">Dambar Sing Gharti</span>
-          <span className="block text-sm font-normal text-gray-800/90">Laravel Developer</span>
-          <span className="block text-[13px] font-normal leading-loose text-gray-800/70">Nepalgunj</span>
+          <span className="block font-semibold text-lg leading-normal">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</span>
+          <span className="block text-sm font-normal text-gray-800/90">{user.headline}</span>
+          <span className="block text-[13px] font-normal leading-loose text-gray-800/70">{user.address}</span>
           <div className="flex items-center gap-2">
             <span className="inline-block text-gray-800/90 text-sm">100 Followers</span>
             <i className="ri-circle-fill text-[3px]"></i>
@@ -58,7 +60,7 @@ const ShowProfile = () => {
                 <div className="posts-users-icon w-11 h-11 p-[2.5px] bg-[#c7ae6a] rounded-full">
                   <img
                     className="object-cover object-bottom rounded-full w-10 h-full"
-                    src={post.user.profile_image}
+                    src={user.profile_image}
                     alt=""
                   />
                 </div>
@@ -66,11 +68,13 @@ const ShowProfile = () => {
                   <div className="posts-details">
                     <div className="user-name">
                       <strong className="text-sm leading-tight font-semibold block">
-                        {post.user.first_name} {post.user.middle_name} {post.user.last_name}
+                        {user.first_name} {user.middle_name} {user.last_name}
                       </strong>
                     </div>
                     <div className="flex items-center gap-2">
-                      <span className="text-[12px] inline-block">1 min ago</span>
+                      <span className="text-[12px] inline-block">
+                        <TimeAgo date={post.created_at}/>
+                      </span>
                       <i className="ri-circle-fill text-[3px]"></i>
                       <span className="inline-block">
                         <i className="ri-group-fill text-sm"></i>

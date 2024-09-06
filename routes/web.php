@@ -24,11 +24,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('post/{post}', [PostController::class, 'updatePostLoveCount'])->name('post.updatePostLoveCount');
 
-    // Route::get('myProfile',[ShowProfileController::class, 'index'])->name('myProfile')->middleware('auth');
+    Route::get('showProfile/{username}',[ShowProfileController::class, 'showProfile'])->name('showProfile')->middleware('auth');
 
-    // Route::get('/profile/{user_id}', [ShowProfileController::class, 'show'])->name('userProfile');
-    // Define a route for showing user profiles by ID or username
-    Route::get('profile/{user}', [ShowProfileController::class, 'show'])->name('profile.show');
 
 
 });

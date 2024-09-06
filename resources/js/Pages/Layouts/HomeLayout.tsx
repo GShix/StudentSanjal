@@ -1,6 +1,6 @@
 import Dropdown from "@/Components/Dropdown"
 import { PageProps } from "@/types";
-import { usePage } from "@inertiajs/react";
+import { Link, usePage } from "@inertiajs/react";
 import { PropsWithChildren, ReactNode, useEffect, useState } from "react"
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
@@ -51,7 +51,7 @@ const HomeLayout = ({
             zIndex: 1000}}>
             <div className="col1 flex max-sm:gap-1 max-md:gap-5 gap-12">
                 <a className="logo" href={route('home')}>
-                    <img className="w-56 sm:w-58 sm:h-16" src="/img/Home_logo.png" alt="" srcSet="" />
+                    <img className="w-56 sm:w-60 sm:h-16" src="/img/Home_logo.png" alt="" srcSet="" />
                 </a>
                 <div className="search-btn relative flex items-center max-w-[60%]">
                     {searchInput &&
@@ -118,13 +118,10 @@ const HomeLayout = ({
                 }
 
                 <div className="profile text-white text-[34px] max-sm:text-3xl flex items-center flex-row-reverse">
-                    <div className="user-icon p-1 bg-gray-600 rounded-full hover:bg-gray-500">
+                    <div className="user-icon p-1 rounded-full hover:bg-gray-700">
                     <Dropdown>
                         <Dropdown.Trigger>
-                        <div className="chat-icon w-10 h-10 p-[3px] bg-[#c7ae6a] rounded-full relative">
-                            <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
-                                <div className="active-status h-2 w-2 bg-green-500  rounded-full"></div>
-                            </div>
+                        <div className="chat-icon w-10 h-10 p-[3px] bg-[#c7ae6a] rounded-full">
                             <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" />
                         </div>
                             {/* <img className="object-cover object-center rounded-full w-10 h-10 cursor-pointer" src={"/img/lady1.jpg"} alt="" /> */}
@@ -141,19 +138,20 @@ const HomeLayout = ({
                 </div>
             </div>
         </div>
-        <div className="lastRow grid grid-cols-3 gap-8 mx-8 mt-6 mb-5 relative">
+        <div className="lastRow sm:gap-4 md:gap-8 mx-4 sm:mx-8 mt-6 mb-5 relative">
             <div className="firstColumn max-sm:hidden rounded-lg">
                 <div className="user-profile bg-gray-100 hover:bg-gray-100/80 rounded-xl  justify-center flex-col gap-3 leading-tight items-center pb-5 border border-gray-400/50">
                     <div className="banner-image h-16 w-full relative flex flex-col justify-center items-center border-b border-gray-400/20">
                         <img className="h-full w-full object-cover object-center rounded-t-xl" src={user.banner_image} alt="" srcSet="" />
                     <div className="profile-banner-image absolute top-[50%]">
                         <div className="chat-icon w-[70px] h-[70px] p-[2px] bg-[#c7ae6a] rounded-full">
-                            <img className="object-cover object-center rounded-full w-full h-full cursor-pointer ab" src={user.profile_image} alt="" />
+                        <Link href={route('showProfile',user.username)}>
+                            <img className="object-cover object-center rounded-full w-full h-full cursor-pointer ab" src={user.profile_image} alt="" /></Link>
                         </div>
                     </div>
                     </div>
                     <div className="user-details textce flex flex-col flex-wrap mt-14 items-center px-2 justify-center text-center">
-                        <a href={route('profile.show',user)} className="text-base font-semibold  hover:underline">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</a>
+                        <a href={route('showProfile',user.username)} className="text-base font-semibold  hover:underline">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</a>
                         <p className="text-xs mt-1 text-gray-800/70">{user.headline}</p>
                     </div>
                     <div className="user-details textce flex flex-col flex-wrap pt-5 px-5 gap-y-2">
@@ -181,14 +179,14 @@ const HomeLayout = ({
                             <ul className="flex flex-col">
                                 <li><a className="flex items-center font-medium px-2 py-2 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-2" src="/img/tu_logo.png" alt="" srcSet="" />MMC Itians, Npj</a></li>
                                 <li><a className="flex items-center font-medium px-2 py-2 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-2" src="/img/hackathon.png" alt="" />MMC Hackathon 2081</a></li>
-                                <li><a className="flex items-center font-medium px-2 py-2 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-2" src="/img/icon.png" alt="" />Student Sanjal</a></li>
+                                <li><a className="flex items-center font-medium px-2 py-2 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-2" src="/img/icon.png" alt="" />Student Sanjal Official</a></li>
                             </ul>
                         </div>
                     </div>
                 </div>
 
             </div>
-            <div className="midColumn rounded-lg max-lg:w-96">
+            <div className="midColumn rounded-lg">
                 <div className="mobile-down-navbar flex gap-14 md:hidden bg-gray-100 justify-center rounded-xl px-2.5 py-3 mb-4 h-14">
                     <div className="Home-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
                         <a href="/" className="flex flex-col items-center">
