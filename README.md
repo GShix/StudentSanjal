@@ -47,3 +47,5 @@
 
 > UpdateProfile page- css fixing
 
+## Day 7
+> Note Features

@@ -66,6 +66,9 @@
         display: grid;
         grid-template-columns: .9fr 1.8fr 1.2fr;
     }
+    .chat-ui{
+        grid-template-columns: 1.2fr 2fr;
+    }
 
     .lastRow-updateProfile{
         grid-template-columns: .8fr 2fr;

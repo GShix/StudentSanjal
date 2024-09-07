@@ -115,7 +115,7 @@ const Posts = () => {
                                 <Link href={route('showProfile', post.user.username)}>
                                     <img className="object-cover object-bottom rounded-full w-10 h-full" src={post.user.profile_image} alt="" />
                                 </Link>
-                                <div className={`${post.user.active_status ? 'block' : 'hidden'} bg-green-500 w-[10px] h-[10px] border-[1.5px] border-white rounded-full absolute bottom-[1px] right-0`}></div>
+                                <div className={`${post.user.active_status ? 'block' : 'hidden'} bg-green-500 w-[10px] h-[10px] border-[1.5px] border-white rounded-full absolute bottom-[2px] right-[1px]]`}></div>
                             </div>
                             <div className="name-other flex justify-between w-[86%] lg:w-[89%] items-center">
                                 <div className="posts-details">

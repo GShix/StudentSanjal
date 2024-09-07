@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Note;
 use App\Models\Post;
 use Inertia\Middleware;
 use Illuminate\Http\Request;
@@ -30,14 +31,20 @@ class HandleInertiaRequests extends Middleware
      */
     public function share(Request $request): array
     {
+        $user = $request->user();
 
         return [
             ...parent::share($request),
             'auth' => [
-                'user' => $request->user(),
+                'user' => $user,
+                // Fetch the latest note for the authenticated user
+                'latest_note' => $user
+                    ? Note::where('user_id', $user->id)->latest()->first()
+                    : null,
             ],
             'latest_posts'=>Post::with('user')->latest()->take(5)->get(),
             // 'his_posts'=>Post::with( 'user')->get(),
+
 
             'flash' => [
             'success' => $request->session()->get('success'),

@@ -47,6 +47,11 @@ class User extends Authenticatable
         return $this->hasMany(PostInteraction::class);
     }
 
+    public function note(): HasMany
+    {
+        return $this->hasMany(Note::class);
+    }
+
     /**
      * The attributes that should be hidden for serialization.
      *
