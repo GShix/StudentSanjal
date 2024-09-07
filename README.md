@@ -49,3 +49,5 @@
 
 ## Day 7
 > Note Features
+> Edit and Delete note
+> Message page
