@@ -16,7 +16,7 @@ const ShowProfile = () => {
     setHisPosts(userPosts);
   }, [his_posts, user.id]);
 
-  console.log(hisPosts);
+//   console.log(hisPosts);
 
   return (
     <HomeLayout>
