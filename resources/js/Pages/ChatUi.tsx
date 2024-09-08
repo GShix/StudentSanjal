@@ -28,6 +28,7 @@ const ChatUi = () => {
     const handleEditNote =() =>{
         setShowNoteEdit(false);
         setShowNoteCreate(true);
+        setShowMessage(false);
     }
 
     const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({

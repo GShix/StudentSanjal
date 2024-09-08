@@ -51,3 +51,6 @@
 > Note Features
 > Edit and Delete note
 > Message page
+
+## Day 8
+> Modal 

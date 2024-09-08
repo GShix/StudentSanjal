@@ -14,22 +14,20 @@ const Posts = () => {
     const { latest_posts, flash } = usePage<PageProps>().props;
     const { user } = usePage<PageProps>().props.auth;
 
-
-  const { data, setData, post, errors, processing, recentlySuccessful,setError } = useForm<FormData>({
-    reason_to_remove_post:""
-})
+    const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({
+        reason_to_remove_post: ""
+    });
 
     const [removedPostId, setRemovedPostId] = useState<number | null>(null);
-
     const [showModal, setShowModal] = useState(false);
     const [imgSrc, setImgSrc] = useState([]);
     const [modalDescription, setModalDescription] = useState([]);
 
-    const handleShowModal = (imgSrc:any,post_description:string) =>{
+    const handleShowModal = (imgSrc: any, post_description: string) => {
         setShowModal(true);
         setImgSrc(imgSrc);
         setModalDescription(post_description);
-    }
+    };
 
     const handlePostLoveCount = async (postId: number) => {
         try {
@@ -96,8 +94,8 @@ const Posts = () => {
                                                 type="text"
                                                 name="reason_to_remove_post"
                                                 id="reason_to_remove_post"
-                                                value={post.reason_to_remove_post}
-                                                // onChange={(e) => setData("reason_to_remove_post", e.target.value)}
+                                                value={data.reason_to_remove_post} // Corrected value
+                                                onChange={(e) => setData("reason_to_remove_post", e.target.value)}
                                                 placeholder="Must enter your reason to remove this post ..."
                                             />
                                         </div>
@@ -109,93 +107,91 @@ const Posts = () => {
                             </div>
                         </div>
                     ) : (
-                    <>
-                        <div className="posts-user-profile bg-gray-100 rounded-xl flex gap-3 leading-tight items-center h-12">
-                            <div className="posts-users-icon w-11 h-11 p-[2px] bg-[#c7ae6a] rounded-full relative flex justify-end">
-                                <Link href={route('showProfile', post.user.username)}>
-                                    <img className="object-cover object-bottom rounded-full w-10 h-full" src={post.user.profile_image} alt="" />
-                                </Link>
-                                <div className={`${post.user.active_status ? 'block' : 'hidden'} bg-green-500 w-[10px] h-[10px] border-[1.5px] border-white rounded-full absolute bottom-[2px] right-[1px]]`}></div>
-                            </div>
-                            <div className="name-other flex justify-between w-[86%] lg:w-[89%] items-center">
-                                <div className="posts-details">
-                                    <div className="user-name">
-                                        <Link href={route('showProfile', post.user.username)}>
-                                            <strong className="text-sm leading-tight font-semibold block hover:underline">{post.user.first_name} {post.user.middle_name} {post.user.last_name}</strong>
-                                        </Link>
-                                    </div>
-                                    <div className="flex items-center gap-2">
-                                        <span className="text-[12px] inline-block">
-                                            <TimeAgo date={post.created_at} />
-                                        </span>
-                                        <i className="ri-circle-fill text-[3px]"></i>
-                                        <span className="inline-block"><i className="ri-group-fill text-sm"></i></span>
-                                    </div>
+                        <>
+                            <div className="posts-user-profile bg-gray-100 rounded-xl flex gap-3 leading-tight items-center h-12">
+                                <div className="posts-users-icon w-11 h-11 p-[2px] bg-[#c7ae6a] rounded-full relative flex justify-end">
+                                    <Link href={route('showProfile', post.user.username)}>
+                                        <img className="object-cover object-bottom rounded-full w-10 h-full" src={post.user.profile_image} alt="" />
+                                    </Link>
+                                    <div className={`${post.user.active_status ? 'block' : 'hidden'} bg-green-500 w-[10px] h-[10px] border-[1.5px] border-white rounded-full absolute bottom-[2px] right-[1px]`}></div>
                                 </div>
-                                <div className="posts-action flex justify-end gap-3">
-                                    <div className="post-option-btn rotate-90">
-                                        <i className="ri-more-2-fill rotate-180 text-lg cursor-pointer p-1 rounded-md hover:bg-gray-300/60"></i>
+                                <div className="name-other flex justify-between w-[86%] lg:w-[89%] items-center">
+                                    <div className="posts-details">
+                                        <div className="user-name">
+                                            <Link href={route('showProfile', post.user.username)}>
+                                                <strong className="text-sm leading-tight font-semibold block hover:underline">{post.user.first_name} {post.user.middle_name} {post.user.last_name}</strong>
+                                            </Link>
+                                        </div>
+                                        <div className="flex items-center gap-2">
+                                            <span className="text-[12px] inline-block">
+                                                <TimeAgo date={post.created_at} />
+                                            </span>
+                                            <i className="ri-circle-fill text-[3px]"></i>
+                                            <span className="inline-block"><i className="ri-group-fill text-sm"></i></span>
+                                        </div>
                                     </div>
-                                    <div className="post-option-btn">
-                                        <i className="ri-close-line text-xl cursor-pointer p-[3px] rounded-md hover:bg-gray-300/60" onClick={() => handleRemovePost(post.id)}></i>
+                                    <div className="posts-action flex justify-end gap-3">
+                                        <div className="post-option-btn rotate-90">
+                                            <i className="ri-more-2-fill rotate-180 text-lg cursor-pointer p-1 rounded-md hover:bg-gray-300/60"></i>
+                                        </div>
+                                        <div className="post-option-btn">
+                                            <i className="ri-close-line text-xl cursor-pointer p-[3px] rounded-md hover:bg-gray-300/60" onClick={() => handleRemovePost(post.id)}></i>
+                                        </div>
                                     </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div className="post_description px-1 my-2">
-                            <span className="text-gray-700">{post.post_description}</span>
-                        </div>
-                        <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px]">
-                            <img className="rounded-md cursor-pointer" src={post.media} alt="Users post media" onClick={()=>handleShowModal(post.media,post.post_description)} />
-                        </div>
-                        <div className="post-interaction mt-1 px-2">
-                            <div className="interaction-counts flex justify-between">
-                                <div className="like-count">
-                                    {post.post_love_count && (<i className="ri-heart-3-fill text-gray-100 p-[2px] bg-red-500 rounded-full mr-2 cursor-pointer"></i>)}
-                                    <span className="cursor-pointer hover:underline text-sm" id={`love-count-${post.id}`}>{post.post_love_count}</span>
-                                </div>
-                                <div className="comment-count">
-                                    <span className="cursor-pointer hover:underline text-sm">3</span>
-                                    <i className="ri-chat-2-line text-gray-800 ml-2 p-[2px] cursor-pointer"></i>
                                 </div>
                             </div>
-                            <div className="interaction-btn flex justify-between mt-[2px] py-1 border-b-[1.6px] border-t-[1.6px]">
-                                <div className="like w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
-                                    <i className="ri-heart-3-line text text-lg"></i>
+                            <div className="post_description px-1 my-2">
+                                <span className="text-gray-700">{post.post_description}</span>
+                            </div>
+                            <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px]">
+                                <img className="rounded-md cursor-pointer" src={post.media} alt="Users post media" onClick={() => handleShowModal(post.media, post.post_description)} aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-scale-animation-modal" data-hs-overlay="#hs-scale-animation-modal" />
+                            </div>
+                            <div className="post-interaction mt-1 px-2">
+                                <div className="interaction-counts flex justify-between">
+                                    <div className="like-count">
+                                        {post.post_love_count && (<i className="ri-heart-3-fill text-gray-100 p-[2px] bg-red-500 rounded-full mr-2 cursor-pointer"></i>)}
+                                        <span className="cursor-pointer hover:underline text-sm" id={`love-count-${post.id}`}>{post.post_love_count}</span>
+                                    </div>
+                                    <div className="comment-count">
+                                        <span className="cursor-pointer hover:underline text-sm">1{post.post_comment_count}</span>
+                                        <i className="ri-chat-2-line text-gray-800 ml-2 p-[2px] cursor-pointer"></i>
+                                    </div>
                                 </div>
-                                <div className="comment w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
-                                    <i className="ri-chat-2-line text-lg"></i>
-                                </div>
-                                <div className="share w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
-                                    <i className="ri-share-forward-line text-lg"></i>
+                                <div className="interaction-btn flex justify-between mt-[2px] py-1 border-b-[1.6px] border-t-[1.6px]">
+                                    <div className="like w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
+                                        <i className="ri-heart-3-line text text-lg"></i>
+                                    </div>
+                                    <div className="comment w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
+                                        <i className="ri-chat-2-line text-lg"></i>
+                                    </div>
+                                    <div className="share w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
+                                        <i className="ri-share-forward-line text-lg"></i>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    </>
+                        </>
                     )}
-                    {showModal &&(
-                    <div className="fixed top-20 lg:-left-[80px] inset-2 flex items-center justify-center bg-opacity-50 z-50">
-                        <div className="bg-white rounded-md shadow-lg max-w-lg mx-4 w-full relative h-full">
-                            <button
-                                className="absolute bottom-2 right-2 text-red-600 hover:text-gray-900"
-                                onClick={()=>setShowModal(false)} > Close
-                            </button>
-                            <div className="p-1 object-cover h-[90%] w-full">
-                                <img
-                                    src={imgSrc}
-                                    alt="Post Media"
-                                    className="w-full h-full rounded-md object-fit cursor-pointer" onClick={()=>setShowModal(false)}/>
+
+                    {/* Modal */}
+                    {showModal && (
+                    <div className="modal top-10">
+                        <Modal
+                            show={showModal}
+                            onClose={() => setShowModal(false)} // Corrected function syntax
+                            maxWidth="md"
+                            closeable={true}
+                        >
+                            <div className="p-6">
+                                <img className="rounded-md cursor-pointer w-full object-cover" src={imgSrc ?? ''} alt="Post media" onClick={()=>setShowModal(false)} />
+                                <p className="mt-4">{modalDescription}</p>
                             </div>
-                            <div className="px-2 py-1">
-                                <p className="text-gray-800">{modalDescription}</p>
-                            </div>
-                        </div>
+                        </Modal>
                     </div>
                     )}
                 </div>
             ))}
         </>
     );
-}
+};
 
 export default Posts;

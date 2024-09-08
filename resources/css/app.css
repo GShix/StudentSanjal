@@ -64,7 +64,7 @@
 @media (min-width: 1024px) {
     .lastRow{
         display: grid;
-        grid-template-columns: .9fr 1.8fr 1.2fr;
+        grid-template-columns: 1fr 1.8fr 1.2fr;
     }
     .chat-ui{
         grid-template-columns: 1.2fr 2fr;
