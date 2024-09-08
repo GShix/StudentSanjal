@@ -136,7 +136,7 @@ const CleanHomeLayout = ({
                 </div>
             </div>
         </div>
-        <div className="clean-lastRow mx-6 sm:mx-8 mt-6 relative">
+        <div className="clean-lastRow mx-6 sm:mx-8 mt-5 relative">
             <div className="clean-Column rounded-lg">
                 <div className="mobile-down-navbar flex gap-14 md:hidden bg-gray-100 justify-center rounded-xl px-2.5 py-3 mb-4 h-14">
                     <div className="Home-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">

@@ -54,3 +54,4 @@
 
 ## Day 8
 > Modal 
+> message ui and z-index fixed
