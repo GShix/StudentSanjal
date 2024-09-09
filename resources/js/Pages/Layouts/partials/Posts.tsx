@@ -20,15 +20,8 @@ const Posts = () => {
 
     const [removedPostId, setRemovedPostId] = useState<number | null>(null);
     const [showModal, setShowModal] = useState(false);
-    const [imgSrc, setImgSrc] = useState([]);
-    const [modalDescription, setModalDescription] = useState([]);
 
-    const handleShowModal = (imgSrc: any, post_description: string) => {
-        setShowModal(true);
-        setImgSrc(imgSrc);
-        setModalDescription(post_description);
-    };
-
+console.log(latest_posts)
     const handlePostLoveCount = async (postId: number) => {
         try {
             const response = await axios.get(route('post.updatePostLoveCount', postId));
@@ -74,6 +67,10 @@ const Posts = () => {
         });
     };
 
+    const getProfileLink = (username?: string) => {
+        return username ? route('showProfile', username) : route('updateProfile');
+    };
+
     return (
         <>
             {latest_posts.map((post: any) => (
@@ -110,7 +107,7 @@ const Posts = () => {
                         <>
                             <div className="posts-user-profile bg-gray-100 rounded-xl flex gap-3 leading-tight items-center h-12">
                                 <div className="posts-users-icon w-11 h-11 p-[2px] bg-[#c7ae6a] rounded-full relative flex justify-end">
-                                    <Link href={route('showProfile', post.user.username)}>
+                                    <Link href={getProfileLink(post.user.username)}>
                                         <img className="object-cover object-bottom rounded-full w-10 h-full" src={post.user.profile_image} alt="" />
                                     </Link>
                                     <div className={`${post.user.active_status ? 'block' : 'hidden'} bg-green-500 w-[10px] h-[10px] border-[1.5px] border-white rounded-full absolute bottom-[2px] right-[1px]`}></div>
@@ -144,7 +141,8 @@ const Posts = () => {
                                 <span className="text-gray-700">{post.post_description}</span>
                             </div>
                             <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px]">
-                                <img className="rounded-md cursor-pointer" src={post.media} alt="Users post media" onClick={() => handleShowModal(post.media, post.post_description)} aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-scale-animation-modal" data-hs-overlay="#hs-scale-animation-modal" />
+                            {post.media && (
+                                <img className="rounded-md cursor-pointer" src={post.media} alt="Users post media" onClick={() => setShowModal(true)} aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-scale-animation-modal" data-hs-overlay="#hs-scale-animation-modal" /> )}
                             </div>
                             <div className="post-interaction mt-1 px-2">
                                 <div className="interaction-counts flex justify-between">
@@ -182,8 +180,8 @@ const Posts = () => {
                             closeable={true}
                         >
                             <div className="p-6">
-                                <img className="rounded-md cursor-pointer w-full object-cover" src={imgSrc ?? ''} alt="Post media" onClick={()=>setShowModal(false)} />
-                                <p className="mt-4">{modalDescription}</p>
+                                <img className="rounded-md cursor-pointer w-full object-cover" src={post.media ?? ''} alt="Post media" onClick={()=>setShowModal(false)} />
+                                <p className="mt-4">{post.post_description}</p>
                             </div>
                         </Modal>
                     </div>

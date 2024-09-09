@@ -25,6 +25,7 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->timestamp('email_verified_at')->nullable();
             $table->string('password');
+            $table->boolean('profile_updated')->default(false);
             $table->enum('user_role',['user','admin'])->default('user');
             $table->boolean('active_status')->default(false);
             $table->enum('account_status', ['pending', 'verified', 'blueTick', 'goldTick'])->default('pending');

@@ -2,6 +2,7 @@ import { Head, Link, router, useForm, usePage } from '@inertiajs/react';
 import CleanHomeLayout from './Layouts/CleanHomeLayout';
 import { PageProps } from '@/types';
 import { FormEventHandler, useEffect, useState } from 'react';
+import ProfileImage from './Layouts/partials/ProfileImage';
 
 interface FormData {
     title: string;
@@ -9,7 +10,20 @@ interface FormData {
     image:File | null;
     like_message: string;
 }
-
+interface ChatGarneSathi {
+    profile_image: string;
+    first_name: string;
+    middle_name: string;
+    last_name: string;
+    username: string;
+    active_status: string;
+    // Add other properties that you expect to exist in chatGarneSathi
+}
+interface noteWalaSathi{
+    note:string;
+    profile_image:string;
+    title:string;
+}
 const ChatUi = () => {
     const { user, latest_note } = usePage<PageProps>().props.auth;
 
@@ -22,12 +36,13 @@ const ChatUi = () => {
 
     const { allUsers = [] } = usePage<PageProps>().props;
 
+    const [chatGarneSathi, setChatGarneSathi] = useState<ChatGarneSathi | null>(null);
 
     const [showNoteCreate, setShowNoteCreate] = useState(false);
     const [showNoteEdit, setShowNoteEdit] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
-    const [chatGarneSathi,setChatGarneSathi] = useState({});
-    const [noteWalaSathi,setNoteWalaSathi] = useState({});
+    // const [chatGarneSathi,setChatGarneSathi] = useState({});
+    const [noteWalaSathi,setNoteWalaSathi] = useState<noteWalaSathi | null>(null);
     const [showOthersNote,setShowOthersNote] = useState(false);
 
     const showMessageHandle = (sathi:any)=>{
@@ -61,14 +76,14 @@ const ChatUi = () => {
     const [showSearchInput,setShowSearchInput] = useState(false);
 
     const [otherUsers, setOtherUsers] = useState([]);
+
+    console.log(otherUsers)
+
     useEffect(() => {
         if (user && allUsers.length > 0) {
-            setOtherUsers(allUsers.filter((other) => other.id !== user.id));
+            setOtherUsers(allUsers.filter((other:any) => other.id !== user.id));
         }
     }, [user, allUsers]);
-
-
-
 
     const submit = () => {
         post(route('note.store'), {
@@ -94,6 +109,17 @@ const ChatUi = () => {
         });
     };
 
+    const getProfileLink:any = (username?: string, otherUsername?:string,otherId?:number) => {
+        if(username){
+            return username ? route('showProfile', username) : route('updateProfile');
+        }else if(otherUsername) {
+            return otherUsername ?? route('showProfile', otherUsername);
+        } else if(otherId) {
+            return otherId ?? route('showProfileById', otherId)
+
+        }{
+        }
+    };
     return (
         <CleanHomeLayout>
             <Head title="Chat" />
@@ -105,13 +131,14 @@ const ChatUi = () => {
                     <div className="header flex items-center justify-between">
                         <div className="profile flex items-center gap-2">
                             <div className="posts-users-icon w-11 h-11 p-[2.5px] bg-[#c7ae6a] rounded-full relative flex justify-end">
-                                <Link href={route('showProfile', user.username)}>
-                                    <img className="object-cover object-bottom rounded-full w-10 h-full" src={user.profile_image} alt="" />
+                                <Link href={getProfileLink(user.username)}>
+                                    <ProfileImage image={user.profile_image} />
+                                    {/* <img className="object-cover object-bottom rounded-full w-10 h-full" src={user.profile_image} alt="" /> */}
                                 </Link>
                                 {user.active_status && <div className="bg-green-500 w-[10px] h-[10px] border-[1.5px] border-white rounded-full absolute bottom-[2px] right-[1px]"></div>}
                             </div>
                             <div className="username flex items-center gap-1">
-                                {user.username}
+                                {(user.username)?user.username:`${user.first_name} ${user.middle_name?user.middle_name:""} ${user.last_name}`}
                                 <i className="ri-arrow-down-s-line text-xl font-light"></i>
                             </div>
                         </div>
@@ -129,7 +156,7 @@ const ChatUi = () => {
                         <div className="connection-note px-2 py-2 flex gap-6 items-center h-38">
                             <div className="your flex items-center flex-col max-w-24">
                                 { (latest_note && latest_note.title)? (
-                                <div className="relative bg-white text-gray-500 rounded-lg shadow-lg px-2.5 py-[6px] inline-block mb-[5px] cursor-pointer" onClick={() => handleEditNote(true)}>
+                                <div className="relative bg-white text-gray-500 rounded-lg shadow-lg px-2.5 py-[6px] inline-block mb-[5px] cursor-pointer" onClick={() => handleEditNote()}>
                                    <span className='text-nowrap text-sm'>
                                         {latest_note && latest_note.title
                                         ? latest_note.title.length > 10
@@ -147,7 +174,8 @@ const ChatUi = () => {
                                 )}
 
                                 <div className="posts-users-icon w-[70px] h-[70px] rounded-full relative flex justify-end">
-                                    <img className="object-cover object-bottom rounded-full w-full h-full" src={user.profile_image} alt="" />
+                                    <ProfileImage image={user.profile_image} />
+                                    {/* <img className="object-cover object-bottom rounded-full w-full h-full" src={user.profile_image} alt="" /> */}
                                 </div>
                                 <div className="user text-[12.5px] text-gray-500">
                                     <span>Your note</span>
@@ -167,7 +195,7 @@ const ChatUi = () => {
                                     </div>
                                 )}
                                     <div className={`posts-users-icon w-[70px] h-[70px] rounded-full relative flex justify-end max-w-20 ${(Array.isArray(other.note) && other.note.length) ? 'mt-0' : 'mt-10'}`}>
-                                       <Link href={route('showProfile',other.username)}>
+                                       <Link href={getProfileLink(other.username)}>
                                             <img className="object-cover object-bottom rounded-full w-full h-full" src={other.profile_image} alt={`${other.first_name}'s Profile`} />
                                         </Link>
                                     </div>
@@ -228,47 +256,12 @@ const ChatUi = () => {
                                     />
                                 </div>
                                 <div className="profile-image mt-1 w-36 h-36">
-                                    <img className="rounded-full w-full h-full object-cover object-center" src={user.profile_image} alt="" />
+                                    <ProfileImage image={user.profile_image}/>
+                                    {/* <img className="rounded-full w-full h-full object-cover object-center" src={user.profile_image} alt="" /> */}
                                 </div>
                             </div>
                         </div>
                     )}
-
-                    {/* {showNoteEdit && (
-                    <>
-                    {!(noteWalaSathi.id === user.id) ? (
-                        <div className='absolute left-[25%] top-[10%] z-20'>
-                        <div className="flex flex-col justify-center items-center h-72 bg-gray-50 w-72 mt-10 rounded-lg px-2 py-3 relative" style={{ boxShadow:"0 0 5px 5px #d6d6d6" }}>
-                            <i className="ri-close-fill absolute top-1 right-2 text-xl cursor-pointer hover:text-[#b99a45]" onClick={()=>setShowNoteEdit(false)}></i>
-                            <div className="relative bg-white text-gray-500 rounded-lg shadow-lg px-2 py-1 inline-block mb-1">
-                                <div className="absolute rotate-90 -bottom-2 left-[40%] w-3 h-0 border-t-[15px] border-t-white border-r-[10px] border-r-transparent"></div>
-                                <span className='rounded-md px-2'>{noteWalaSathi.note[0].title}</span>
-                            </div>
-                            <div className="profile-image mt-1 w-32 h-32">
-                                <img className="rounded-full w-full h-full object-cover object-center" src={noteWalaSathi.profile_image} alt="" />
-                            </div>
-                        </div>
-                    </div>
-                    ):(
-                        <div className='absolute left-[25%] top-[10%] z-20'>
-                            <div className="flex flex-col justify-center items-center h-80 bg-gray-50 w-72 mt-10 rounded-lg px-2 py-3 relative" style={{ boxShadow:"0 0 5px 5px #d6d6d6" }}>
-                                <i className="ri-close-fill absolute top-1 right-2 text-xl cursor-pointer hover:text-[#b99a45]" onClick={()=>setShowNoteEdit(false)}></i>
-                                <div className="relative bg-white text-gray-500 rounded-lg shadow-lg px-2 py-1 inline-block mb-1">
-                                    <div className="absolute rotate-90 -bottom-2 left-[40%] w-3 h-0 border-t-[15px] border-t-white border-r-[10px] border-r-transparent"></div>
-                                    <span className='rounded-md px-2'>{latest_note.title}</span>
-                                </div>
-                                <div className="profile-image mt-1 w-32 h-32">
-                                    <img className="rounded-full w-full h-full object-cover object-center" src={user.profile_image} alt="" />
-                                </div>
-                                <div className="note-btn w-full mt-4 flex flex-col gap-2 font-medium text-white">
-                                    <button className='bg-[#c8b37c] w-full rounded-md py-1 hover:bg-[#b99a45]' onClick={handleCreateNote}>Create a new note</button>
-                                        <button className='bg-gray-50 w-full rounded-md py-1 text-[#b99a45] hover:bg-gray-200' onClick={()=>deleteNote(latest_note)}>Delete note</button>
-                                </div>
-                            </div>
-                        </div>
-                    )}
-                    </>
-                    )} */}
 
                     {showNoteEdit && (
                         <div className='absolute left-[25%] top-[12%] z-20'>
@@ -279,7 +272,8 @@ const ChatUi = () => {
                                 <span className='rounded-md'>{latest_note.title}</span>
                             </div>
                             <div className="profile-image mt-1 w-32 h-32">
-                                <img className="rounded-full w-full h-full object-cover object-center" src={user.profile_image} alt="" />
+                                <ProfileImage image={user.profile_image} />
+                                {/* <img className="rounded-full w-full h-full object-cover object-center" src={user.profile_image} alt="" /> */}
                             </div>
                             <div className="note-btn w-full mt-4 flex flex-col gap-2 font-medium text-white">
                                 <button className='bg-[#c8b37c] w-full rounded-md py-1 hover:bg-[#b99a45]' onClick={handleCreateNote}>Create a new note</button>
@@ -320,7 +314,7 @@ const ChatUi = () => {
                                     <img className="object-cover object-center rounded-full w-full h-full" src={chatGarneSathi.profile_image} alt="" />
                                 </div>
                                 <div className="chat-details">
-                                    <Link href={route('showProfile',chatGarneSathi.username)}>
+                                    <Link href={getProfileLink(chatGarneSathi.username)}>
                                         <strong className="text-sm font-semibold">{chatGarneSathi.first_name} {chatGarneSathi.middle_name} {chatGarneSathi.last_name}</strong>
                                     <p className="text-xs">{chatGarneSathi.active_status?"Active Now":"Offline"}</p></Link>
                                 </div>
@@ -340,7 +334,16 @@ const ChatUi = () => {
                         <div className="footer rounded-b-lg absolute bottom-0 border-t border-b w-full px-10 py-2 flex items-center justify-between">
                             <div className="add flex items-center text-xl gap-4">
                                 <i className="ri-add-circle-fill hover:bg-gray-200 rounded-full px-2 py-1 cursor-pointer"></i>
-                                <i className="ri-image-add-fill hover:bg-gray-200 rounded-full px-2 py-1 cursor-pointer"></i>
+                                <label htmlFor="media">
+                                    <i className="ri-image-add-fill hover:bg-gray-200 rounded-full px-2 py-[7px] cursor-pointer"></i>
+                                        <input
+                                            id="media"
+                                            name="media"
+                                            type="file"
+                                            className="sr-only"
+                                            // onChange={handleFileChange}
+                                        />
+                                    </label>
                             </div>
                             <div className="message flex items-center gap-5">
                                 <div className="input">

@@ -32,25 +32,21 @@ class ProfileController extends Controller
     {
         $user = $request->user();
 
-        // dd($request->toArray());
-        // Update user profile data with validated input
         $user->fill($request->except(['profile_image', 'banner_image']));
 
-        // Handle profile image upload if present
         if ($request->hasFile('profile_image')) {
             $user->profile_image = $request->file('profile_image');
         }
 
-        // Handle banner image upload if present
         if ($request->hasFile('banner_image')) {
             $user->banner_image = $request->file('banner_image');
         }
 
-        // Hash and update the password if provided
         if ($request->filled('password')) {
             $user->password = Hash::make($request->password);
         }
 
+        $user->profile_updated = true;
         $user->save();
 
         return to_route('profile.edit')->with('success','Profile is updated successfully');

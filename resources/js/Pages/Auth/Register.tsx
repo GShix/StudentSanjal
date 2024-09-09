@@ -5,10 +5,12 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import { Head, Link, useForm } from '@inertiajs/react';
+import axios from 'axios';
 
 const MIN_AGE = 14;
 
 export default function Register() {
+
     const { data, setData, post, processing, errors, reset,setError } = useForm({
         first_name:"",
         middle_name:"",
@@ -17,7 +19,8 @@ export default function Register() {
         gender:"",
         email :"",
         password:"",
-        password_confirmation:""
+        password_confirmation:"",
+        username:"",
     });
     const [eye1,setEye1] = useState(false);
     const [eye2,setEye2] = useState(false);
@@ -59,92 +62,6 @@ export default function Register() {
   const maxDate = today.toISOString().split('T')[0];
 
     return (
-        // <GuestLayout>
-        //     <Head title="Register" />
-
-        //     <form onSubmit={submit}>
-        //         <div>
-        //             <InputLabel htmlFor="name" value="Name" />
-
-        //             <TextInput
-        //                 id="name"
-        //                 name="name"
-        //                 value={data.name}
-        //                 className="mt-1 block w-full"
-        //                 autoComplete="name"
-        //                 isFocused={true}
-        //                 onChange={(e) => setData('name', e.target.value)}
-        //                 required
-        //             />
-
-        //             <InputError message={errors.name} className="mt-2" />
-        //         </div>
-
-        //         <div className="mt-4">
-        //             <InputLabel htmlFor="email" value="Email" />
-
-        //             <TextInput
-        //                 id="email"
-        //                 type="email"
-        //                 name="email"
-        //                 value={data.email}
-        //                 className="mt-1 block w-full"
-        //                 autoComplete="username"
-        //                 onChange={(e) => setData('email', e.target.value)}
-        //                 required
-        //             />
-
-        //             <InputError message={errors.email} className="mt-2" />
-        //         </div>
-
-        //         <div className="mt-4">
-        //             <InputLabel htmlFor="password" value="Password" />
-
-        //             <TextInput
-        //                 id="password"
-        //                 type="password"
-        //                 name="password"
-        //                 value={data.password}
-        //                 className="mt-1 block w-full"
-        //                 autoComplete="new-password"
-        //                 onChange={(e) => setData('password', e.target.value)}
-        //                 required
-        //             />
-
-        //             <InputError message={errors.password} className="mt-2" />
-        //         </div>
-
-        //         <div className="mt-4">
-        //             <InputLabel htmlFor="password_confirmation" value="Confirm Password" />
-
-        //             <TextInput
-        //                 id="password_confirmation"
-        //                 type="password"
-        //                 name="password_confirmation"
-        //                 value={data.password_confirmation}
-        //                 className="mt-1 block w-full"
-        //                 autoComplete="new-password"
-        //                 onChange={(e) => setData('password_confirmation', e.target.value)}
-        //                 required
-        //             />
-
-        //             <InputError message={errors.password_confirmation} className="mt-2" />
-        //         </div>
-
-        //         <div className="flex items-center justify-end mt-4">
-        //             <Link
-        //                 href={route('login')}
-        //                 className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
-        //             >
-        //                 Already registered?
-        //             </Link>
-
-        //             <PrimaryButton className="ms-4" disabled={processing}>
-        //                 Register
-        //             </PrimaryButton>
-        //         </div>
-        //     </form>
-        // </GuestLayout>
         <section className="bg-[#1a1a1a] min-h-screen">
         <Head title="Register" />
             <div className="w-full px-5 mx-auto flex  justify-between max-md:flex-col">
@@ -260,6 +177,24 @@ export default function Register() {
                                         <InputError message={errors.gender} className="mt-2" />
                                     </div>
                                 </div>
+                            {/* <div className="relative w-full mb-4">
+                                <div className="username">
+                                    <label
+                                        className="block uppercase text-gray-300 text-xs font-bold mb-2"
+                                        htmlFor="username">Username
+                                    </label>
+                                    <div className="username-input relative flex items-center gap-1">
+                                        <input
+                                        id='username'
+                                        type="text" name="username"
+                                        className="border-0 px-3 py-2.5 placeholder-gray-600 text-gray-800 bg-gray-100 rounded text-sm shadow focus:outline-none focus:ring w-full ease-linear transition-all duration-150"
+                                        placeholder="Set an unique username" autoComplete="username"
+                                        onChange={(e) => setUsernameChha(e.target.value)}/>
+                                        <button className="ri-checkbox-circle-line text-white md:right-2 md:text-base px-1 py-2 rounded-md text-nowrap hover:bg-[#b99a45]" disabled={checkUsernameBtn} onClick={()=>checkUsernameChhaKiNai(usernameChha)}>Check username</button>
+                                    </div>
+                                </div>
+                            <InputError message={errors.username} className="mt-2" />
+                            </div> */}
                             <div className="relative w-full mb-4">
                                 <div className="email">
                                     <label

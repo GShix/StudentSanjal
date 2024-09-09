@@ -29,7 +29,6 @@ class UserFactory extends Factory
             'first_name' => fake()->name(),
             'last_name' => fake()->name(),
             'headline'=>static::$headline,
-            'username'=>static::$username,
             'active_status' => fake()->boolean(),
             'account_status' => fake()->randomElement(['pending', 'verified', 'blueTick', 'GoldTick']),
             'user_role' => fake()->randomElement(['user', 'admin']),

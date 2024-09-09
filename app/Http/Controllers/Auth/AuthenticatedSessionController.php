@@ -19,6 +19,11 @@ class AuthenticatedSessionController extends Controller
      */
     public function create(): Response
     {
+        $user = Auth::user();
+        if ($user && !$user->profile_updated) {
+            return redirect()->route('showProfile')->with('warning', "Must update your profile");
+        }
+
         return Inertia::render('Auth/Login', [
             'canResetPassword' => Route::has('password.request'),
             'status' => session('status'),
@@ -37,8 +42,13 @@ class AuthenticatedSessionController extends Controller
         $user = $request->user();
         // dd($user);
         if ($user->user_role === 'user') {
-            return redirect()->route('home',['user'=>$user])->with('success',"Logged in successfully"); // Assuming 'user' is the route name for User.tsx
+            if ($user->profile_updated) {
+                return redirect()->route('home')->with('success',"Logged in successfully");
+            } else {
+                return redirect()->route('updateProfile')->with('success',"Please update your profile");
+            }
         }
+
         // dd($request->user()->toArray());
         // return redirect()->intended(route('dashboard',['user'=>$user]));
     }

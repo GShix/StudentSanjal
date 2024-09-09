@@ -18,18 +18,33 @@ class ShowProfileController extends Controller
      */
     public function showProfile($username)
     {
-        // Retrieve the user by username
         $user = User::where('username', $username)->first();
 
-        // Check if the user exists
+        if (!$user->profile_updated) {
+            return redirect()->route('showProfile')->with('warning',"Must update your profile");
+        }
         if (!$user) {
             abort(404, 'User not found');
         }
 
-        // Retrieve the user's posts
         $his_posts = Post::where('user_id', $user->id)->latest()->get();
 
-        // Render the profile view with user data and posts
+        return Inertia::render('ShowProfile', [
+            'user' => $user,
+            'his_posts' => $his_posts,
+        ]);
+    }
+
+    public function showProfileById($id)
+    {
+        $user = User::where('id', $id)->first();
+
+        if (!$user) {
+            abort(404, 'User not found');
+        }
+
+        $his_posts = Post::where('user_id', $user->id)->latest()->get();
+
         return Inertia::render('ShowProfile', [
             'user' => $user,
             'his_posts' => $his_posts,

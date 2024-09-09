@@ -4,6 +4,8 @@ import { Link, usePage } from "@inertiajs/react";
 import { PropsWithChildren, ReactNode, useEffect, useState } from "react"
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import ProfileImage from "./partials/ProfileImage";
+import BannerImage from "./partials/BannerImage";
 
 const HomeLayout = ({
     story,
@@ -42,6 +44,11 @@ const HomeLayout = ({
         }
     }, [flash.success]);
 
+    const getProfileLink = (username?: string):any => {
+        if(username){
+            return username ? route('showProfile', username) : route('updateProfile');
+        }
+    };
   return (
     // <h1 className="bg-black h-100px">ljkfsflsj</h1>
     <div className="home bg-gray-400/45">
@@ -122,7 +129,8 @@ const HomeLayout = ({
                     <Dropdown>
                         <Dropdown.Trigger>
                         <div className="chat-icon w-10 h-10 p-[3px] bg-[#c7ae6a] rounded-full">
-                            <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" />
+                            <ProfileImage image={user.profile_image} />
+                            {/* <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" /> */}
                         </div>
                         </Dropdown.Trigger>
 
@@ -141,16 +149,19 @@ const HomeLayout = ({
             <div className="firstColumn max-sm:hidden rounded-lg">
                 <div className="user-profile bg-gray-100 hover:bg-gray-100/80 rounded-xl  justify-center flex-col gap-3 leading-tight items-center pb-5 border border-gray-400/50">
                     <div className="banner-image h-16 w-full relative flex flex-col justify-center items-center border-b border-gray-400/20">
-                        <img className="h-full w-full object-cover object-center rounded-t-xl" src={user.banner_image} alt="" srcSet="" />
+                        {/* <img className="h-full w-full object-cover object-center rounded-t-xl" src={user.banner_image} alt="" srcSet="" /> */}
+                        <BannerImage image={user.banner_image} className="h-full w-full object-cover object-center rounded-t-xl" />
                     <div className="profile-banner-image absolute top-[50%]">
                         <div className="chat-icon w-[70px] h-[70px] p-[2px] bg-[#c7ae6a] rounded-full">
-                        <Link href={route('showProfile',user.username)}>
-                            <img className="object-cover object-center rounded-full w-full h-full cursor-pointer ab" src={user.profile_image} alt="" /></Link>
+                        <Link href={getProfileLink(user.username)}>
+                            <ProfileImage image={user.profile_image} />
+                            {/* <img className="object-cover object-center rounded-full w-full h-full cursor-pointer ab" src={user.profile_image} alt="" /> */}
+                        </Link>
                         </div>
                     </div>
                     </div>
                     <div className="user-details textce flex flex-col flex-wrap mt-14 items-center px-2 justify-center text-center">
-                        <a href={route('showProfile',user.username)} className="text-base font-semibold  hover:underline">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</a>
+                        <a href={getProfileLink(user.username)} className="text-base font-semibold  hover:underline">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</a>
                         <p className="text-xs mt-1 text-gray-800/70">{user.headline}</p>
                     </div>
                     <div className="user-details textce flex flex-col flex-wrap pt-5 px-5 gap-y-2">

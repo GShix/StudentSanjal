@@ -35,6 +35,7 @@ class RegisteredUserController extends Controller
         // dd($request);
 
         $validated['password'] = Hash::make($validated['password']);
+        $validated['profile_updated'] = false;
 
         unset($validated['password_confirmation']);
 
@@ -44,5 +45,18 @@ class RegisteredUserController extends Controller
         event(new Registered($user));
 
         return to_route('login');
+    }
+
+
+
+    public function checkUsername($username)
+    {
+        $exists = User::where('username', $username)->exists();
+
+        if($exists){
+            return response()->json(['available' => true]);
+        }else{
+            return response()->json(['available' => true]);
+        }
     }
 }

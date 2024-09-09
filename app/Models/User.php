@@ -32,6 +32,7 @@ class User extends Authenticatable
         'gender',
         'email',
         'password',
+        'profile_updated',
         'user_role',
         'active_status',
         'account_status',

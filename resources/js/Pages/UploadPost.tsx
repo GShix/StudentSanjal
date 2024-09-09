@@ -2,6 +2,7 @@ import { Head, useForm, usePage } from "@inertiajs/react";
 import HomeLayout from "./Layouts/HomeLayout";
 import { FormEventHandler, useEffect, useState } from "react";
 import { PageProps } from "@/types";
+import ProfileImage from "./Layouts/partials/ProfileImage";
 
 interface FormData {
     post_description: string;
@@ -65,7 +66,8 @@ const UploadMedia = () => {
                 <div className="w-full max-w-md mx-auto my-4 p-4 bg-white rounded-lg shadow-md border border-gray-100">
                     <div className="flex items-center mb-4">
                         <div className="user-profile_image h-[50px] w-[50px] bg-[#c7ae6a] rounded-full p-[2px]">
-                            <img src={user.profile_image} alt="Profile" className="rounded-full w-full h-full bg-[#b99a45] object-cover object-center" />
+                            <ProfileImage image={user.profile_image} />
+                            {/* <img src={user.profile_image} alt="Profile" className="rounded-full w-full h-full bg-[#b99a45] object-cover object-center" /> */}
                         </div>
                         <div className="ml-4">
                             <div className="font-medium text-gray-700">

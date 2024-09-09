@@ -7,7 +7,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-use Illuminate\Container\Attributes\Auth;
+use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
@@ -16,6 +16,12 @@ class ChatController extends Controller
      */
     public function index()
     {
+        $user = Auth::user(); // Get the currently authenticated user
+
+        if ($user->username && !$user->profile_updated) {
+            return redirect()->route('showProfile',$user->username)->with('warning', "Must update your profile");
+        }
+
         $allUsers = User::with(['note' => function ($query) {
             $query->latest()->take(1);
         }])->latest()->get();

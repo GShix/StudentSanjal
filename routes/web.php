@@ -19,6 +19,10 @@ Route::middleware('auth')->group(function () {
         return Inertia::render('UploadMedia');
     })->name('uploadMedia');
 
+    Route::get('updateProfile', function () {
+        return Inertia::render('Profile');
+    })->name('updateProfile');
+
     // Route::get('post',[PostController::class,'index'])->name('createPost');
     Route::resource('post',PostController::class)->middleware('auth');
 
@@ -27,6 +31,7 @@ Route::middleware('auth')->group(function () {
     Route::get('post/{post}', [PostController::class, 'updatePostLoveCount'])->name('post.updatePostLoveCount');
 
     Route::get('showProfile/{username}',[ShowProfileController::class, 'showProfile'])->name('showProfile')->middleware('auth');
+    Route::get('showProfile/{id}',[ShowProfileController::class, 'showProfileById'])->name('showProfileById')->middleware('auth');
 
 
 

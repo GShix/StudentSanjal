@@ -1,5 +1,7 @@
 import { PageProps } from "@/types";
 import { Link, usePage } from "@inertiajs/react";
+import { useEffect } from "react";
+import ProfileImage from "./ProfileImage";
 
 const WhatOnYourMind = () => {
     const user = usePage<PageProps>().props.auth.user;
@@ -7,7 +9,8 @@ const WhatOnYourMind = () => {
   return (
     <div className="what-on-your-min bg-gray-100 rounded-xl flex justify-between gap-2.5 px-2.5 py-4 border border-gray-400/50">
         <div className="chat-icon w-12 h-12 p-[2px] bg-[#c7ae6a] rounded-full relative">
-            <img className="object-cover object-center rounded-full w-full h-full" src={user.profile_image} alt="" />
+            {/* <img className="object-cover object-center rounded-full w-full h-full" src={user.profile_image} alt="" /> */}
+            <ProfileImage image={user.profile_image}/>
         </div>
         <div className="post-container w-[87%]">
             <div className="textarea mr-1">

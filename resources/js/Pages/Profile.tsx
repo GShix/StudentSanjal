@@ -2,10 +2,6 @@ import InputError from '@/Components/InputError';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler, useEffect, useState } from 'react';
 import { PageProps } from '@/types';
-import { PhotoIcon, UserCircleIcon } from '@heroicons/react/24/solid';
-import HomeLayout from './Layouts/HomeLayout';
-import { profile } from 'console';
-import Dropdown from '@/Components/Dropdown';
 import { toast, ToastContainer } from 'react-toastify';
 import CleanHomeLayout from './Layouts/CleanHomeLayout';
 

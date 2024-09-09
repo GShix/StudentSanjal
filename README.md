@@ -56,3 +56,8 @@
 > Modal 
 > message ui and z-index fixed
 > See others note
+
+## Day 9
+> Username update while loggedin in first time
+> File URL | Path
+> getProfileUrl
