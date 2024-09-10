@@ -3,6 +3,7 @@ import HomeLayout from "./Layouts/HomeLayout";
 import { PageProps } from "@/types";
 import { useEffect, useState } from "react";
 import TimeAgo from "./Layouts/TimeAgo";
+import ProfileImage from "./Layouts/partials/ProfileImage";
 
 const ShowProfile = () => {
 //   const user = usePage<PageProps>().props.auth.user;
@@ -29,8 +30,9 @@ const ShowProfile = () => {
               alt=""
             />
           </div>
-          <div className="profile_image absolute w-28 top-10 bg-gray-100 rounded-full p-1 left-3">
-            <img className="w-full rounded-full" src={user.profile_image} alt="" />
+          <div className="profile_image absolute w-28 h-28 top-10 bg-gray-100 rounded-full p-1 left-3">
+            <ProfileImage image={user.profile_image}/>
+            {/* <img className="w-full rounded-full" src={user.profile_image} alt="" /> */}
           </div>
         </div>
         <div className="intro mt-16 px-3">

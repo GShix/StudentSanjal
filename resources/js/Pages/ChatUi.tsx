@@ -4,11 +4,13 @@ import { PageProps } from '@/types';
 import { FormEventHandler, useEffect, useState } from 'react';
 import ProfileImage from './Layouts/partials/ProfileImage';
 
-interface FormData {
+interface noteData {
     title: string;
-    message:string;
-    image:File | null;
-    like_message: string;
+}
+interface FormData {
+    message?:string;
+    // media?:File | null;
+    // like?: string;
 }
 interface ChatGarneSathi {
     profile_image: string;
@@ -27,11 +29,14 @@ interface noteWalaSathi{
 const ChatUi = () => {
     const { user, latest_note } = usePage<PageProps>().props.auth;
 
-    const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({
+    const { data: noteData, setData: setNoteData, post: postNote, errors: noteErrors, processing: noteProcessing, recentlySuccessful: noteRecentlySuccessful, setError: setNoteError } = useForm<noteData>({
         title: '',
+    });
+
+    const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({
         message:'',
-        image:null,
-        like_message: '',
+        // image:null,
+        // like: '',
     });
 
     const { allUsers = [] } = usePage<PageProps>().props;
@@ -48,7 +53,8 @@ const ChatUi = () => {
     const showMessageHandle = (sathi:any)=>{
         setShowMessage(true);
         setChatGarneSathi(sathi)
-        console.log(sathi,"Sathi")
+        post(route('startChat',sathi));
+        // console.log(sathi,"Sathi")
     }
 
     const handleEditNote =() =>{
@@ -77,29 +83,41 @@ const ChatUi = () => {
 
     const [otherUsers, setOtherUsers] = useState([]);
 
-    console.log(otherUsers)
-
     useEffect(() => {
         if (user && allUsers.length > 0) {
             setOtherUsers(allUsers.filter((other:any) => other.id !== user.id));
         }
     }, [user, allUsers]);
 
-    const submit = () => {
-        post(route('note.store'), {
+    const handleMessage = (e:any)=>{
+        e.preventDefault();
+
+        post(route('message.send'), {
             onSuccess: () => {
-                setData('title', '');
+                // setData('message', '');
+                // setData('media', null);
+                // setData('like', '');
+            },
+            onError: (error) => {
+                setNoteError('title', error);
+            },
+        });
+    }
+    const storeNote = () => {
+        postNote(route('note.store'), {
+            onSuccess: () => {
+                setNoteData('title', '');
                 setShowNoteCreate(false);
             },
             onError: (error) => {
-                setError('title', error);
+                setNoteError('title', error);
             },
         });
     };
     const deleteNote = (latestNote:any) => {
         router.delete(route('note.destroy',latestNote), {
             onSuccess: () => {
-                setData('title', '');
+                setNoteData('title', '');
                 setShowNoteCreate(false);
                 setShowNoteEdit(false);
             },
@@ -125,7 +143,6 @@ const ChatUi = () => {
             <Head title="Chat" />
             {/* <div className="chat-ui max-h-screen min-h-[85vh] pb-3 -mt-1 grid grid-cols-2 gap-4 relative mt-40"> */}
             <div className="chat-ui max-h-screen min-h-[85vh] pb-3 -mt-1 grid grid-cols-2 gap-4 relative">
-                {/* Left Column */}
                 <div className="first-col bg-gray-100 rounded-lg px-4 py-2 h-full">
                     {/* Header */}
                     <div className="header flex items-center justify-between">
@@ -235,9 +252,9 @@ const ChatUi = () => {
                                 </button>
                                 <h2 className="font-semibold">New Note</h2>
                                 <button
-                                    className={`py-2 px-2 rounded-lg ${data.title ? 'hover:bg-[#b99a45] text-black hover:text-white' : 'text-gray-400 cursor-not-allowed'}`}
-                                    disabled={!data.title}
-                                    onClick={submit}
+                                    className={`py-2 px-2 rounded-lg ${noteData.title ? 'hover:bg-[#b99a45] text-black hover:text-white' : 'text-gray-400 cursor-not-allowed'}`}
+                                    disabled={!noteData.title}
+                                    onClick={storeNote}
                                 >
                                     Share
                                 </button>
@@ -246,13 +263,13 @@ const ChatUi = () => {
                                 <div className="relative bg-white text-gray-500 rounded-lg shadow-lg px-2.5 py-[6px] inline-block mb-1">
                                     <div className="absolute rotate-90 top-[47px] left-[40%] w-3 h-0 border-t-[15px] border-t-white border-r-[10px] border-r-transparent"></div>
                                     <input
-                                        value={data.title}
+                                        value={noteData.title}
                                         className="border-none rounded-md"
                                         type="text"
                                         name="title"
                                         id="note-title"
                                         placeholder={`${user.first_name}, Share your thoughts...`}
-                                        onChange={(e) => setData('title', e.target.value)}
+                                        onChange={(e) => setNoteData('title', e.target.value)}
                                     />
                                 </div>
                                 <div className="profile-image mt-1 w-36 h-36">
@@ -331,42 +348,41 @@ const ChatUi = () => {
                             </div>
 
                         </div>
-                        <div className="footer rounded-b-lg absolute bottom-0 border-t border-b w-full px-10 py-2 flex items-center justify-between">
-                            <div className="add flex items-center text-xl gap-4">
-                                <i className="ri-add-circle-fill hover:bg-gray-200 rounded-full px-2 py-1 cursor-pointer"></i>
-                                <label htmlFor="media">
-                                    <i className="ri-image-add-fill hover:bg-gray-200 rounded-full px-2 py-[7px] cursor-pointer"></i>
+                        <div className="footer rounded-b-lg absolute bottom-0 border-t border-b w-full px-10 py-2 ">
+                            <form onSubmit={handleMessage} className='flex items-center justify-between'>
+                                <div className="add flex items-center text-xl gap-4">
+                                    <i className="ri-add-circle-fill hover:bg-gray-200 rounded-full px-2 py-1 cursor-pointer"></i>
+                                    <label htmlFor="media">
+                                        <i className="ri-image-add-fill hover:bg-gray-200 rounded-full px-2 py-[7px] cursor-pointer"></i>
+                                            <input
+                                                id="media"
+                                                name="media"
+                                                type="file"
+                                                className="sr-only"
+                                                onChange={(e: React.ChangeEvent<HTMLInputElement>) => {
+                                                    if (e.target.files) {
+                                                        setData('media', e.target.files[0]);
+                                                    }
+                                                    }}/>
+                                        </label>
+                                </div>
+                                <div className="message flex items-center gap-5">
+                                    <div className="input">
                                         <input
-                                            id="media"
-                                            name="media"
-                                            type="file"
-                                            className="sr-only"
-                                            // onChange={handleFileChange}
-                                        />
-                                    </label>
-                            </div>
-                            <div className="message flex items-center gap-5">
-                                <div className="input">
-                                    <input
-                                    value={data.message} onChange={(e)=>setData('message',e.target.value)}
-                                    className='rounded-full placeholder:text-sm w-96' type="text" name="message" id="message" placeholder='Write a message'/>
+                                        value={data.message} onChange={(e)=>setData('message',e.target.value)}
+                                        className='rounded-full placeholder:text-sm w-96' type="text" name="message" id="message" placeholder='Write a message'/>
+                                    </div>
+                                    <div className="send-btn">
+                                        <button type='submit'>
+                                            <i className={`ri-send-plane-fill text-xl rounded-full cursor-pointer px-2 py-1 hover:bg-gray-200 ${data.message?"block":'hidden'}`}></i>
+                                            <i className={`cursor-pointer hover:bg-gray-200 rounded-full px-2 py-1 ri-thumb-up-fill text-xl ${!data.message?"block":"hidden"}`}></i>
+                                        </button>
+                                    </div>
                                 </div>
-                                <div className="send-btn">
-                                    <svg
-                                        viewBox="0 0 12 13"
-                                        width="38"
-                                        height="38"
-                                        fill="currentColor"
-                                        className={`rounded-full cursor-pointer p-2 hover:bg-gray-200 ${data.message?"block":'hidden'}`}>
-                                        <g fillRule="evenodd" transform="translate(-450 -1073)">
-                                            <path d="m458.371 1079.75-6.633.375a.243.243 0 0 0-.22.17l-.964 3.255c-.13.418-.024.886.305 1.175a1.08 1.08 0 0 0 1.205.158l8.836-4.413c.428-.214.669-.677.583-1.167-.06-.346-.303-.633-.617-.79l-8.802-4.396a1.073 1.073 0 0 0-1.183.14c-.345.288-.458.77-.325 1.198l.963 3.25c.03.097.118.165.22.17l6.632.375s.254 0 .254.25-.254.25-.254.25" />
-                                        </g>
-                                    </svg>
-                                    <i className={`cursor-pointer hover:bg-gray-200 rounded-full px-2 py-1 ri-thumb-up-fill text-xl ${!data.message?"block":"hidden"}`}></i>
-                                </div>
-                            </div>
+                            </form>
                         </div>
-                    </div>)}
+                    </div>
+                    )}
                 </div>
             </div>
         </CleanHomeLayout>

@@ -61,3 +61,7 @@
 > Username update while loggedin in first time
 > File URL | Path
 > getProfileUrl
+
+
+## Day 6
+> storeNote updated

@@ -11,9 +11,11 @@ use Illuminate\Support\Facades\Auth;
 
 class ChatController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
+    public $user;
+    public $sender_id;
+    public $receiver_id;
+    public $message="";
+
     public function index()
     {
         $user = Auth::user(); // Get the currently authenticated user
@@ -30,21 +32,35 @@ class ChatController extends Controller
             'allUsers'=>$allUsers
         ]);
     }
-
     /**
      * Show the form for creating a new resource.
      */
-    public function create()
+    public function startChat($sathiKoId)
     {
-        //
+        $this->sender_id = Auth::user()->id;
+        $this->receiver_id = User::whereId($sathiKoId)->first();
     }
 
     /**
      * Store a newly created resource in storage.
      */
-    public function store(Request $request)
+    public function sendMessage(Request $request)
     {
-        //
+
+        // if ($request->hasFile('media')) {
+        //     $path = $request->file('media')->store('media', 'public');
+        //     $validated['media'] = $path;
+        // }
+        $chatMessage = new Chat();
+        $chatMessage->sender_id = $this->sender_id;
+        $chatMessage->receiver_id = $this->receiver_id;
+        $chatMessage->message = $request->message;
+
+        // Chat::create([
+        //     'message'=>$request->message,
+        //     'sender_id'=>$this->sender_id,
+        //     'receriver_id'=>$this->receiver_id
+        // ]);
     }
 
     /**

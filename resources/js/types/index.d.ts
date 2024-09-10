@@ -24,4 +24,5 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     latest_posts:any;
     flash: any;
     allUsers:any;
+    user:any;
 };

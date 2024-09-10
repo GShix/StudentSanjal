@@ -14,10 +14,12 @@ class NoteController extends Controller
 {
     public function store(StoreNoteRequest $request)
     {
-        // Note::create($request->validated());
-        // $noteWalaUsers = User::with('note')->latest()->get();
+        // Note::create($request->validated()+['user_id'=> Auth::user()->id]);
+        Note::create([
+            'title' => $request->validated('title'),
+            'user_id' => Auth::id(),  // Associate the note with the logged-in user
+        ]);
 
-        Note::create($request->validated()+['user_id'=> Auth::user()->id]);
 
         return back()->with('success','Note created successfully');
     }

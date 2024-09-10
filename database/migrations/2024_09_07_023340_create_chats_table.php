@@ -1,8 +1,8 @@
 <?php
 
-use Illuminate\Database\Migrations\Migration;
-use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Database\Schema\Blueprint;
+use Illuminate\Database\Migrations\Migration;
 
 return new class extends Migration
 {
@@ -13,6 +13,12 @@ return new class extends Migration
     {
         Schema::create('chats', function (Blueprint $table) {
             $table->id();
+            $table->foreignId('sender_id')->nullable();
+            $table->foreignId('receiver_id')->nullable();
+            $table->text('text_field')->nullable();
+            $table->string('media')->nullable();
+            $table->string('like')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }
