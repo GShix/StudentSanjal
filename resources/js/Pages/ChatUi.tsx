@@ -8,9 +8,9 @@ interface noteData {
     title: string;
 }
 interface FormData {
-    message?:string;
-    // media?:File | null;
-    // like?: string;
+    text_field?:string;
+    media?:File | null;
+    like?: string;
 }
 interface ChatGarneSathi {
     profile_image: string;
@@ -34,12 +34,24 @@ const ChatUi = () => {
     });
 
     const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({
-        message:'',
-        // image:null,
-        // like: '',
+        text_field:'',
+        media:null,
+        like: '',
     });
 
+    const showMessageHandle = (sathi:any) => {
+        setChatGarneSathi(sathi);
+        post(route('startChat', sathi.id));
+        setShowMessage(true);
+        setData({
+            text_field: '',
+            media: null,
+            like: '',
+        });
+    };
     const { allUsers = [] } = usePage<PageProps>().props;
+    const { chats} = usePage<PageProps>().props;
+    console.log(chats)
 
     const [chatGarneSathi, setChatGarneSathi] = useState<ChatGarneSathi | null>(null);
 
@@ -50,12 +62,6 @@ const ChatUi = () => {
     const [noteWalaSathi,setNoteWalaSathi] = useState<noteWalaSathi | null>(null);
     const [showOthersNote,setShowOthersNote] = useState(false);
 
-    const showMessageHandle = (sathi:any)=>{
-        setShowMessage(true);
-        setChatGarneSathi(sathi)
-        post(route('startChat',sathi));
-        // console.log(sathi,"Sathi")
-    }
 
     const handleEditNote =() =>{
         setShowNoteEdit(true);
@@ -82,6 +88,20 @@ const ChatUi = () => {
     const [showSearchInput,setShowSearchInput] = useState(false);
 
     const [otherUsers, setOtherUsers] = useState([]);
+    const [fileURL, setFileURL] = useState<string | null>(null);
+
+    useEffect(() => {
+        if (data.media) {
+            setFileURL(URL.createObjectURL(data.media));
+        } else {
+            setFileURL(null);
+        }
+
+        // Cleanup URL object
+        return () => {
+            if (fileURL) URL.revokeObjectURL(fileURL);
+        };
+    }, [data.media]);
 
     useEffect(() => {
         if (user && allUsers.length > 0) {
@@ -89,20 +109,25 @@ const ChatUi = () => {
         }
     }, [user, allUsers]);
 
-    const handleMessage = (e:any)=>{
+    const handleChat = (e:any)=>{
         e.preventDefault();
 
-        post(route('message.send'), {
+        post(route('chat.send'), {
             onSuccess: () => {
-                // setData('message', '');
-                // setData('media', null);
-                // setData('like', '');
+                setData({
+                    text_field: '',
+                    media: null,
+                    like: '',
+                });
             },
             onError: (error) => {
                 setNoteError('title', error);
             },
         });
     }
+    const handleRemoveFile = () => {
+        setData('media', null);
+    };
     const storeNote = () => {
         postNote(route('note.store'), {
             onSuccess: () => {
@@ -313,8 +338,8 @@ const ChatUi = () => {
                             <div className="profile-image mt-1 w-32 h-32">
                                 <img className="rounded-full w-full h-full object-cover object-center" src={noteWalaSathi.profile_image} alt="" />
                             </div>
-                            <div className="send-message-to-note flex justify-center px-2 mt-5">
-                                <input className='text-sm w-full rounded-full' type="text" name="message_to_note" id="message_to_note" placeholder='Send message'/>
+                            <div className="send-text_field-to-note flex justify-center px-2 mt-5">
+                                <input className='text-sm w-full rounded-full' type="text" name="text_field_to_note" id="text_field_to_note" placeholder='Send text_field'/>
                             </div>
                         </div>
                     </div>
@@ -339,7 +364,7 @@ const ChatUi = () => {
                             <div className="serachmaa-action flex items-center gap-5">
                                 {showSearchInput && (
                                     <div className="search relative flex items-center">
-                                        <input className='rounded-full h-8 placeholder:text-sm' type="text" name="search_message" id="" placeholder='Search message'/>
+                                        <input className='rounded-full h-8 placeholder:text-sm' type="text" name="search_text_field" id="" placeholder='Search text_field'/>
                                         <i className="ri-close-fill absolute right-2 text-lg cursor-pointer rounded-full hover:text-black text-gray-600" onClick={()=>setShowSearchInput(false)}></i>
                                     </div>
                                 )}
@@ -348,8 +373,45 @@ const ChatUi = () => {
                             </div>
 
                         </div>
-                        <div className="footer rounded-b-lg absolute bottom-0 border-t border-b w-full px-10 py-2 ">
-                            <form onSubmit={handleMessage} className='flex items-center justify-between'>
+                        {chats.map((chat:any) => (
+                            <div key={chat.id} className="chat-message-haru h-20 w-full bg-gray-100 px-10 py-2">
+                                {/* Display chat details */}
+                                <div className="message-info">
+                                    {/* Conditionally show sender or receiver message based on who is sending */}
+                                    {chat.sender_id === user.id ? (
+                                        <div className="sender-message float-right">
+                                            <p>You: {chat.text_field}</p>
+                                            {chat.media && <img src={chat.media} alt="Media" className="media-image w-12 h-12" />}
+                                        </div>
+                                    ) : (
+                                        <div className="receiver-message float-left">
+                                            <p>{chat.receiver.username}: {chat.text_field}</p>
+                                            {chat.media && <img src={chat.media} alt="Media" className="media-image w-12 h-12" />}
+                                        </div>
+                                    )}
+                                </div>
+                            </div>
+                        ))}
+
+                        <div className="footer rounded-b-lg absolute bottom-0 border-t-[1.5px] border-b w-full px-10 py-2 ">
+                        {data.media && (
+                            <div className="div relative w-20 h-20 flex items-center justify-center">
+                                <i className="ri-close-fill absolute -right-[2px] -top-2.5 text-xl text-gray-700/90 cursor-pointer hover:text-red-500 rounded-full" onClick={handleRemoveFile}></i>
+                                <div className="show-media h-14 w-14">
+                                    {data.media?.type.startsWith('image/') ? (
+                                        <img src={fileURL} alt="Uploaded preview" className="w-full h-full rounded-md object-cover" />
+                                    ) : data.media?.type.startsWith('video/') ? (
+                                        <video controls className="w-full h-auto rounded-md">
+                                            <source src={fileURL} type={data.media.type} />
+                                            Your browser does not support the video tag.
+                                        </video>
+                                    ) : (
+                                        <p className="text-gray-500">Unsupported file type</p>
+                                    )}
+                                </div>
+                            </div>
+                            )}
+                            <form onSubmit={handleChat} className='flex items-center justify-between'>
                                 <div className="add flex items-center text-xl gap-4">
                                     <i className="ri-add-circle-fill hover:bg-gray-200 rounded-full px-2 py-1 cursor-pointer"></i>
                                     <label htmlFor="media">
@@ -366,16 +428,15 @@ const ChatUi = () => {
                                                     }}/>
                                         </label>
                                 </div>
-                                <div className="message flex items-center gap-5">
+                                <div className="text_field flex items-center gap-5">
                                     <div className="input">
-                                        <input
-                                        value={data.message} onChange={(e)=>setData('message',e.target.value)}
-                                        className='rounded-full placeholder:text-sm w-96' type="text" name="message" id="message" placeholder='Write a message'/>
+                                        <input onChange={(e)=>setData('text_field',e.target.value)} value={data.text_field}
+                                        className='rounded-full placeholder:text-sm w-96' type="text" name="text_field" id="text_field" placeholder='Write a text_field'/>
                                     </div>
                                     <div className="send-btn">
                                         <button type='submit'>
-                                            <i className={`ri-send-plane-fill text-xl rounded-full cursor-pointer px-2 py-1 hover:bg-gray-200 ${data.message?"block":'hidden'}`}></i>
-                                            <i className={`cursor-pointer hover:bg-gray-200 rounded-full px-2 py-1 ri-thumb-up-fill text-xl ${!data.message?"block":"hidden"}`}></i>
+                                            <i className={`ri-send-plane-fill text-xl rounded-full cursor-pointer px-2 py-1 hover:bg-gray-200 ${(data.text_field || data.media)?"block":'hidden'}`}></i>
+                                            <i className={`ri-thumb-up-fill cursor-pointer hover:bg-gray-200 rounded-full px-2 py-1 text-xl ${(!data.text_field && !data.media)?"block":"hidden"}`} onChange={()=>setData('like',true)}></i>
                                         </button>
                                     </div>
                                 </div>

@@ -8,13 +8,14 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use App\Http\Requests\Chat\StoreChatRequest;
 
 class ChatController extends Controller
 {
     public $user;
     public $sender_id;
     public $receiver_id;
-    public $message="";
+    public $text_field="";
 
     public function index()
     {
@@ -28,6 +29,8 @@ class ChatController extends Controller
             $query->latest()->take(1);
         }])->latest()->get();
         // dd($users);
+
+
         return Inertia::render('ChatUi',[
             'allUsers'=>$allUsers
         ]);
@@ -37,30 +40,48 @@ class ChatController extends Controller
      */
     public function startChat($sathiKoId)
     {
-        $this->sender_id = Auth::user()->id;
-        $this->receiver_id = User::whereId($sathiKoId)->first();
+        session([
+            'sender_id' => Auth::user()->id,
+            'receiver_id' => $sathiKoId
+        ]);
+        $chats = Chat::where(function($query){
+            $query->where('sender_id',session('sender_id'))
+                -> where('receiver_id',session('receiver_id'));
+        })->orWhere(function($query){
+            $query->where('sender_id',session('receiver_id'))
+                -> where('receiver_id',session('sender_id'));
+        })
+        ->with('sender:id,username','receiver:id,username')
+        ->get();
+
+        return response([
+            'chats'=>$chats
+        ]);
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function sendMessage(Request $request)
+    public function sendChat(StoreChatRequest $request)
     {
+        $validated = $request->validated();
 
-        // if ($request->hasFile('media')) {
-        //     $path = $request->file('media')->store('media', 'public');
-        //     $validated['media'] = $path;
-        // }
-        $chatMessage = new Chat();
-        $chatMessage->sender_id = $this->sender_id;
-        $chatMessage->receiver_id = $this->receiver_id;
-        $chatMessage->message = $request->message;
+        $sender_id = session('sender_id');
+        $receiver_id = session('receiver_id');
 
-        // Chat::create([
-        //     'message'=>$request->message,
-        //     'sender_id'=>$this->sender_id,
-        //     'receriver_id'=>$this->receiver_id
-        // ]);
+        // dd($validated);
+
+        if ($request->hasFile('media')) {
+            $path = $request->file('media')->store('media', 'public');
+            $validated['media'] = $path;
+        }
+
+        Chat::create([
+            'text_field' => $validated['text_field'],
+            'media' => $validated['media'] ?? null,
+            'like' => $validated['like'] ?? '',
+            'sender_id' => $sender_id,
+            'receiver_id' => $receiver_id
+        ]);
+
+        return back()->with('success','Message sent successfully');
     }
 
     /**

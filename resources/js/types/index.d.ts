@@ -25,4 +25,5 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     flash: any;
     allUsers:any;
     user:any;
+    chats:any
 };

@@ -18,20 +18,7 @@ const UploadMedia = () => {
 
     const [showPostAdd, setShowPostAdd] = useState(true);
     const [showEventAdd, setShowEventAdd] = useState(false);
-    const [fileURL, setFileURL] = useState<string | null>(null);
-
-    useEffect(() => {
-        if (data.media) {
-            setFileURL(URL.createObjectURL(data.media));
-        } else {
-            setFileURL(null);
-        }
-
-        // Cleanup URL object
-        return () => {
-            if (fileURL) URL.revokeObjectURL(fileURL);
-        };
-    }, [data.media]);
+0
 
     const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files?.[0] || null;

@@ -11,7 +11,7 @@ class StoreChatRequest extends FormRequest
      */
     public function authorize(): bool
     {
-        return false;
+        return true;
     }
 
     /**
@@ -22,7 +22,10 @@ class StoreChatRequest extends FormRequest
     public function rules(): array
     {
         return [
-            //
+            'document'=>['nullable','mimes:pdf,docx'],
+            'media'=>['nullable','mimes:png,jpg,jpeg,mp4'],
+            'text_field'=>['nullable','string','max:20000'],
+            'like'=>['nullable'],
         ];
     }
 }
