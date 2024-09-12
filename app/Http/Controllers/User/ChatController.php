@@ -22,41 +22,41 @@ class ChatController extends Controller
         $user = Auth::user(); // Get the currently authenticated user
 
         if ($user->username && !$user->profile_updated) {
-            return redirect()->route('showProfile',$user->username)->with('warning', "Must update your profile");
+            return redirect()->route('showProfile',$user->username)->with('warning', "Must update your username");
         }
 
-        $allUsers = User::with(['note' => function ($query) {
+        $otherUsers = User::with(['note' => function ($query) {
             $query->latest()->take(1);
-        }])->latest()->get();
-        // dd($users);
+        }])->where('id', '!=', $user->id)
+        ->latest()->get();
 
+        // dd($otherUsers->toArray());
 
-        return Inertia::render('ChatUi',[
-            'allUsers'=>$allUsers
+        return Inertia::render('StartChat',[
+            'otherUsers'=>$otherUsers
         ]);
     }
-    /**
-     * Show the form for creating a new resource.
-     */
+
     public function startChat($sathiKoId)
     {
+        $senderId = Auth::user()->id;
+        $receiverId = $sathiKoId;
+
         session([
-            'sender_id' => Auth::user()->id,
-            'receiver_id' => $sathiKoId
+            'sender_id' => $senderId,
+            'receiver_id' => $receiverId
         ]);
-        $chats = Chat::where(function($query){
-            $query->where('sender_id',session('sender_id'))
-                -> where('receiver_id',session('receiver_id'));
-        })->orWhere(function($query){
-            $query->where('sender_id',session('receiver_id'))
-                -> where('receiver_id',session('sender_id'));
-        })
-        ->with('sender:id,username','receiver:id,username')
+
+        $chats = Chat::where(function($query) use ($senderId, $receiverId) {
+            $query->where('sender_id', $senderId)
+                  ->where('receiver_id', $receiverId);
+        })->orWhere(function($query) use ($senderId, $receiverId) {
+            $query->where('sender_id', $receiverId)
+                  ->where('receiver_id', $senderId);
+        })->with('sender:id,username', 'receiver:id,username')
         ->get();
 
-        return response([
-            'chats'=>$chats
-        ]);
+        return response()->json(['chats' => $chats]);
     }
 
     public function sendChat(StoreChatRequest $request)
@@ -65,6 +65,7 @@ class ChatController extends Controller
 
         $sender_id = session('sender_id');
         $receiver_id = session('receiver_id');
+        // dd($sender_id,$receiver_id);
 
         // dd($validated);
 

@@ -65,3 +65,7 @@
 
 ## Day 6
 > storeNote updated
+
+## Day 7
+> StartChat component
+> fixing without note

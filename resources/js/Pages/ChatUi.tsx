@@ -10,7 +10,7 @@ interface noteData {
 interface FormData {
     text_field?:string;
     media?:File | null;
-    like?: string;
+    like?: boolean;
 }
 interface ChatGarneSathi {
     profile_image: string;
@@ -46,7 +46,7 @@ const ChatUi = () => {
         setData({
             text_field: '',
             media: null,
-            like: '',
+            like: false,
         });
     };
     const { allUsers = [] } = usePage<PageProps>().props;

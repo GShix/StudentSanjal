@@ -56,7 +56,9 @@ Route::middleware('auth')->group(function () {
     Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     Route::get('chat', [ChatController::class, 'index'])->name('chat');
-    Route::post('chat/{id}', [ChatController::class, 'startChat'])->name('startChat');
+
+    Route::get('/startChat/{sathiKoId}', [ChatController::class, 'startChat']);
+
     Route::post('sendChat', [ChatController::class, 'sendChat'])->name('chat.send');
 
     Route::post('note', [NoteController::class, 'store'])->name('note.store');
