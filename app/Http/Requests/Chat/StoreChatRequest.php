@@ -25,7 +25,7 @@ class StoreChatRequest extends FormRequest
             'document'=>['nullable','mimes:pdf,docx'],
             'media'=>['nullable','mimes:png,jpg,jpeg,mp4'],
             'text_field'=>['nullable','string','max:20000'],
-            'like'=>['nullable'],
+            'like'=>['nullable','string'],
         ];
     }
 }

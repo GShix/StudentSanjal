@@ -21,7 +21,7 @@ const ShowProfile = () => {
 
   return (
     <HomeLayout>
-      <div className="show-profile bg-gray-100 rounded-lg">
+      <div className="show-profile bg-gray-100 rounded-lg mb-10">
         <div className="image relative flex justify-start">
           <div className="banner_image rounded-t-lg h-24 w-full">
             <img

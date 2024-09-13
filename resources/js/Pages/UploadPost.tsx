@@ -31,6 +31,19 @@ const UploadMedia = () => {
         setShowPostAdd(!showPostAdd);
     };
 
+    const [fileURL, setFileURL] = useState<string | null>(null);
+    useEffect(() => {
+        if (data.media) {
+            setFileURL(URL.createObjectURL(data.media));
+        } else {
+            setFileURL(null);
+        }
+
+        return () => {
+            if (fileURL) URL.revokeObjectURL(fileURL);
+        };
+    }, [data.media]);
+
     const submit: FormEventHandler = async (e) => {
         e.preventDefault();
         const formData = new FormData();
@@ -117,10 +130,8 @@ const UploadMedia = () => {
                         <span className="text-sm font-medium text-gray-700">Select to add</span>
                         <div className="flex gap-5 items-center">
                             <div className="relative group flex justify-center">
-                                <i
-                                    className={`ri-image-add-fill px-2 py-1 rounded-md cursor-pointer ${showPostAdd ? "bg-[#c7ae6a]" : "bg-gray-200"}`}
-                                    onClick={() => setShowPostAdd(!showPostAdd)}
-                                ></i>
+                                <i className={`ri-image-add-fill px-2 py-1 rounded-md cursor-pointer ${showPostAdd ? "bg-[#c7ae6a]" : "bg-gray-200"}`}
+                                    onClick={() => setShowPostAdd(!showPostAdd)}></i>
                                 <div className="absolute bottom-full w-32 mb-1 hidden group-hover:block bg-black text-white text-xs rounded py-1 px-2">
                                     Add Photo/Video
                                 </div>
@@ -140,8 +151,7 @@ const UploadMedia = () => {
                         <button
                             className={`mt-4 w-full py-2 text-white rounded-lg ${data.post_description || data.media ? "bg-[#b99a45] hover:bg-blue-600" : "bg-gray-300 cursor-not-allowed"}`}
                             onClick={submit}
-                            disabled={!data.post_description && !data.media}
-                        >
+                            disabled={!data.post_description && !data.media}>
                             Post
                         </button>
                     </div>

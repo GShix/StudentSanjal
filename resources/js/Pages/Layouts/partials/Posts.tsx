@@ -21,7 +21,6 @@ const Posts = () => {
     const [removedPostId, setRemovedPostId] = useState<number | null>(null);
     const [showModal, setShowModal] = useState(false);
 
-console.log(latest_posts)
     const handlePostLoveCount = async (postId: number) => {
         try {
             const response = await axios.get(route('post.updatePostLoveCount', postId));
@@ -180,7 +179,7 @@ console.log(latest_posts)
                             closeable={true}
                         >
                             <div className="p-6">
-                                <img className="rounded-md cursor-pointer w-full object-cover" src={post.media ?? ''} alt="Post media" onClick={()=>setShowModal(false)} />
+                                <img className="rounded-md cursor-pointer w-full object-cover" src={post.media ?? post.media} alt="Post media" onClick={()=>setShowModal(false)} />
                                 <p className="mt-4">{post.post_description}</p>
                             </div>
                         </Modal>

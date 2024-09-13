@@ -8,8 +8,6 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.tsx',
-        'node_modules/preline/dist/*.js',
-        'node_modules/preline/dist/*.ts',
     ],
 
     theme: {
@@ -22,6 +20,5 @@ export default {
 
     plugins: [
         forms,
-        require('preline/plugin'),
     ],
 };

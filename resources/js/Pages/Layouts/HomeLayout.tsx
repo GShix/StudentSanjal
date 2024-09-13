@@ -145,12 +145,12 @@ const HomeLayout = ({
                 </div>
             </div>
         </div>
-        <div className="lastRow sm:gap-4 md:gap-8 mx-4 sm:mx-8 mt-6 mb-5 relative">
-            <div className="firstColumn max-sm:hidden rounded-lg">
+        <div className="lastRow sm:gap-4 md:gap-8 mx-4 sm:mx-8 mt-6 relative">
+            <div className="firstColumn max-sm:hidden rounded-lg ">
                 <div className="user-profile bg-gray-100 hover:bg-gray-100/80 rounded-xl  justify-center flex-col gap-3 leading-tight items-center pb-5 border border-gray-400/50">
                     <div className="banner-image h-16 w-full relative flex flex-col justify-center items-center border-b border-gray-400/20">
                         {/* <img className="h-full w-full object-cover object-center rounded-t-xl" src={user.banner_image} alt="" srcSet="" /> */}
-                        <BannerImage image={user.banner_image} className="h-full w-full object-cover object-center rounded-t-xl" />
+                        <BannerImage image={user.banner_image} className="h-full w-full object-fit object-center rounded-t-xl" />
                     <div className="profile-banner-image absolute top-[50%]">
                         <div className="chat-icon w-[70px] h-[70px] p-[2px] bg-[#c7ae6a] rounded-full">
                         <Link href={getProfileLink(user.username)}>

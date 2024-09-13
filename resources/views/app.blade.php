@@ -14,9 +14,6 @@
         <link rel="preconnect" href="https://fonts.bunny.net">
         <link href="https://fonts.bunny.net/css?family=figtree:400,500,600&display=swap" rel="stylesheet" />
 
-        <script src="./node_modules/preline/dist/preline.js"></script>
-        <script src="{{ asset('node_modules/preline/dist/preline.js') }}"></script>
-
         <!-- Scripts -->
         @routes
         @viteReactRefresh

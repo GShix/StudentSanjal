@@ -19,6 +19,7 @@ export interface User {
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
     auth: {
         user: User;
+        latest_chat:any;
         latest_note:any;
     };
     otherUsers:any;

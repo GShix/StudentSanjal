@@ -6,6 +6,7 @@ use App\Models\Chat;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Events\ChatSendEvent;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Chat\StoreChatRequest;
@@ -74,7 +75,7 @@ class ChatController extends Controller
             $validated['media'] = $path;
         }
 
-        Chat::create([
+       $chats =  Chat::create([
             'text_field' => $validated['text_field'],
             'media' => $validated['media'] ?? null,
             'like' => $validated['like'] ?? '',
@@ -82,7 +83,10 @@ class ChatController extends Controller
             'receiver_id' => $receiver_id
         ]);
 
-        return back()->with('success','Message sent successfully');
+        broadcast(new ChatSendEvent($chats))->toOthers();
+
+        // return response()->json(['success' => 'Message sent successfully']);
+        // return back()->with('success','Message sent successfully');
     }
 
     /**

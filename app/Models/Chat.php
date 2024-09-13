@@ -33,7 +33,7 @@ class Chat extends Model
 
     public function getMediaAttribute(): string
     {
-        return $this->attributes['media']
+        return isset($this->attributes['media']) && $this->attributes['media']
             ? Storage::url($this->attributes['media'])
             : '';
     }

@@ -2,6 +2,7 @@
 
 namespace App\Http\Middleware;
 
+use App\Models\Chat;
 use App\Models\Note;
 use App\Models\Post;
 use Inertia\Middleware;
@@ -38,9 +39,12 @@ class HandleInertiaRequests extends Middleware
             'auth' => [
                 'user' => $user,
                 // Fetch the latest note for the authenticated user
+                'latest_chat' => $user
+                                ? Chat::where('receiver_id', $user->id)->latest()->first() ?? null
+                                : null,
                 'latest_note' => $user
-                    ? Note::where('user_id', $user->id)->latest()->first()
-                    : null,
+                                ? Note::where('user_id', $user->id)->latest()->first()
+                                : null,
             ],
             'latest_posts'=>Post::with('user')->latest()->take(5)->get(),
             // 'his_posts'=>Post::with( 'user')->get(),

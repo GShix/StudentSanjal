@@ -9,8 +9,7 @@ export default function PrimaryButton({ className = '', disabled, children, ...p
                     disabled && 'opacity-25'
                 } ` + className
             }
-            disabled={disabled}
-        >
+            disabled={disabled}>
             {children}
         </button>
     );
