@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Skill;
 use Inertia\Response;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -30,6 +31,7 @@ class ProfileController extends Controller
      */
     public function update(ProfileUpdateRequest $request): RedirectResponse
     {
+        // dd($request);
         $user = $request->user();
 
         $user->fill($request->except(['profile_image', 'banner_image']));
@@ -51,8 +53,6 @@ class ProfileController extends Controller
 
         return to_route('profile.edit')->with('success','Profile is updated successfully');
     }
-
-
 
     /**
      * Delete the user's account.

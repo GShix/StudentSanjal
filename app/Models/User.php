@@ -3,7 +3,9 @@
 namespace App\Models;
 
 use App\Models\Post;
+use App\Models\Skill;
 use App\Models\PostInteraction;
+use App\Models\ConnectionCircle;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
@@ -36,6 +38,7 @@ class User extends Authenticatable
         'user_role',
         'active_status',
         'account_status',
+        'skill_id',
     ];
 
     public function post(): HasMany
@@ -51,6 +54,16 @@ class User extends Authenticatable
     public function note(): HasMany
     {
         return $this->hasMany(Note::class);
+    }
+
+    public function skills():HasMany
+    {
+        return $this->hasMany(Skill::class);
+    }
+
+    public function connectionCircle():HasMany
+    {
+        return $this->hasMany(ConnectionCircle::class);
     }
 
     /**
@@ -71,6 +84,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
+        'skill_id' => 'array',
     ];
 
     /**

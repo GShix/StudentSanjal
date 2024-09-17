@@ -69,3 +69,12 @@
 ## Day 7
 > StartChat component
 > fixing without note
+
+## Day 8
+> latest_chat on null
+> css fixing
+> Laravel Reverb
+
+
+## Day 9
+> Follower & Following mechanism

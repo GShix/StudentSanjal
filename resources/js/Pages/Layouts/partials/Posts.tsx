@@ -18,7 +18,7 @@ const Posts = () => {
         reason_to_remove_post: ""
     });
 
-    const [removedPostId, setRemovedPostId] = useState<number | null>(null);
+    const [postIdToRemove, setPostIdToRemove] = useState<number | null>(null);
     const [showModal, setShowModal] = useState(false);
 
     const handlePostLoveCount = async (postId: number) => {
@@ -50,18 +50,18 @@ const Posts = () => {
     };
 
     const handleRemovePost = (postId: number) => {
-        setRemovedPostId(postId);
+        setPostIdToRemove(postId);
     };
 
     const handleUndoRemove = () => {
-        setRemovedPostId(null);
+        setPostIdToRemove(null);
     };
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route('post.destroy', removedPostId), {
+        post(route('post.destroy', postIdToRemove), {
             onSuccess: () => {
-                setRemovedPostId(null);
+                setPostIdToRemove(null);
             }
         });
     };
@@ -74,7 +74,7 @@ const Posts = () => {
         <>
             {latest_posts.map((post: any) => (
                 <div key={post.id} className="post bg-gray-100 mt-4 rounded-xl px-3 py-3 border border-gray-400/50">
-                    {removedPostId === post.id ? (
+                    {postIdToRemove === post.id ? (
                         <div className="post-removal">
                             <div className="heading flex justify-between py-2 border-b border-gray-300/80">
                                 <h1 className="text-sm font-medium">Post removed from your feed</h1>

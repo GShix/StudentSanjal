@@ -38,6 +38,7 @@ class RegisterRequest extends FormRequest
             'user_role'=>['nullable'],
             'active_status'=>['nullable','boolean'],
             'account_status'=>['nullable'],
+            'skill_id'=>['nullable','array'],'exists:skills,id',
         ];
     }
 }

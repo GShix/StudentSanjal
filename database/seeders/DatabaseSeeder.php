@@ -3,6 +3,7 @@
 namespace Database\Seeders;
 
 use App\Models\User;
+use App\Models\Skill;
 // use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -14,7 +15,6 @@ class DatabaseSeeder extends Seeder
     public function run(): void
     {
         // User::factory(10)->create();
-
         User::factory()->create([
             'first_name' => 'Manish',
             'middle_name' => 'T',
@@ -44,5 +44,13 @@ class DatabaseSeeder extends Seeder
             'user_role' => 'user',
             'email' => 'amar@amar.com',
         ]);
+
+        $skills = ['PHP', 'Laravel', 'React', 'Tailwind CSS', 'Vue.js', 'JavaScript', 'Redis'];
+
+        foreach ($skills as $skill) {
+            Skill::create(['name' => $skill]);
+        }
+
+
     }
 }

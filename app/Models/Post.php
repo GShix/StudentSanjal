@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\ConnectionCircle;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
@@ -28,6 +29,11 @@ class Post extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+
+    public function connectionCircle(): BelongsTo
+    {
+        return $this->belongsTo(ConnectionCircle::class);
     }
 
     /**

@@ -6,6 +6,7 @@ use App\Models\Post;
 use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
+use App\Models\ConnectionCircle;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use RealRashid\SweetAlert\Facades\Alert;
@@ -18,7 +19,15 @@ class ShowProfileController extends Controller
      */
     public function showProfile($username)
     {
+        $auth = Auth::user()->id;
         $user = User::where('username', $username)->first();
+
+        $following = User::with('connectionCircle')->where('id',$auth)->get();
+
+        $followers = ConnectionCircle::whereJsonContains('followers', $user->id)
+        ->with('user')
+        ->get();
+        // dd($followers);
 
         if (!$user->profile_updated) {
             return redirect()->route('showProfile')->with('warning',"Must update your profile");
@@ -32,6 +41,8 @@ class ShowProfileController extends Controller
         return Inertia::render('ShowProfile', [
             'user' => $user,
             'his_posts' => $his_posts,
+            'following'=>$following,
+            'followers'=>$followers
         ]);
     }
 

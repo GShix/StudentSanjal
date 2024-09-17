@@ -7,6 +7,9 @@ import CleanHomeLayout from './Layouts/CleanHomeLayout';
 import UpdatePasswordForm from './Profile/Partials/UpdatePasswordForm';
 import DeleteUserForm from './Profile/Partials/DeleteUserForm';
 import PrimaryButton from '@/Components/PrimaryButton';
+import Skills from './Layouts/partials/Skills';
+import Multiselect from 'multiselect-react-dropdown';
+import axios from 'axios';
 
 
 interface FormData {
@@ -21,6 +24,7 @@ interface FormData {
   gender: string;
   email: string;
   active_status: boolean;
+  skill_id?:number[];
   _method: "PATCH";
 }
 const MIN_AGE = 14;
@@ -28,6 +32,8 @@ const MIN_AGE = 14;
 export default function UpdateProfileInformation({ mustVerifyEmail, status, className = '' }: { mustVerifyEmail: boolean, status?: string, className?: string }) {
   const user = usePage<PageProps>().props.auth.user;
   const {flash}= usePage<PageProps>().props;
+  const {skills =[]}= usePage<PageProps>().props;
+//   console.log(skills)
 
   const { data, setData, post, errors, processing, recentlySuccessful,setError } = useForm<FormData>({
     profile_image: null,
@@ -40,6 +46,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     dob: user?.dob || "",
     gender: user?.gender || "",
     email: user?.email || "",
+    skill_id: Array.isArray(user?.skill_id) ? user.skill_id : [],
     active_status: user?.active_status || false,
     _method: "PATCH"
   });
@@ -88,6 +95,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
 
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
+        const formData = { ...data, skill_id: JSON.stringify(data.skill_id) };
 
         if (!errors.dob) {
             post(route('profile.update'));
@@ -95,6 +103,31 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     };
 
   const [searchInput, setSearchInput] = useState(false);
+
+  const [selectedSkills, setSelectedSkills] = useState(
+    skills.filter((skill: { id: number }) => {
+      const skillIds = Array.isArray(user?.skill_id)
+        ? user.skill_id
+        : typeof user?.skill_id === 'number'
+          ? [user.skill_id] // If it's a single number, wrap it in an array
+          : [];  // If it's neither, return an empty array
+
+      return skillIds.includes(skill.id);  // Now skillIds is guaranteed to be an array of numbers
+    })
+  );
+
+  const [skillOptions] = useState(skills);
+
+  const onSelectSkills = (selectedList: { id: number }[]) => {
+    const selectedSkillIds = selectedList.map((skill) => skill.id);
+    setData('skill_id', selectedSkillIds); // Set the selected skill IDs to form data
+  };
+
+  const onRemoveSkill = (selectedList: { id: number }[]) => {
+    const selectedSkillIds = selectedList.map((skill) => skill.id);
+    setData('skill_id', selectedSkillIds); // Update the skill_id when a skill is removed
+  };
+
 
   return (
    <CleanHomeLayout>
@@ -335,6 +368,22 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         />
                     </div>
                     <InputError className="mt-2" message={errors.email} />
+                    </div>
+
+                    <div className="col-span-full">
+                        <div className="mt-2 md:mt-9 flex gap-x-3 items-center">
+                            <label htmlFor="active_status" className="text-sm font-medium leading-6 text-gray-900">
+                            Skills*
+                            </label>
+                            <Multiselect
+                                className='w-full'
+                                options={skills}
+                                displayValue="name"
+                                selectedValues={selectedSkills}
+                                onSelect={onSelectSkills}
+                                onRemove={onRemoveSkill}
+                                placeholder="Select your skills"/>
+                        </div>
                     </div>
 
                     {/* Active Status */}

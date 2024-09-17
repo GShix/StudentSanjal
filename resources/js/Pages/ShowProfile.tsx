@@ -1,26 +1,68 @@
-import { usePage } from "@inertiajs/react";
+import { Head, usePage } from "@inertiajs/react";
 import HomeLayout from "./Layouts/HomeLayout";
 import { PageProps } from "@/types";
 import { useEffect, useState } from "react";
 import TimeAgo from "./Layouts/TimeAgo";
 import ProfileImage from "./Layouts/partials/ProfileImage";
+import axios from "axios";
 
 const ShowProfile = () => {
-//   const user = usePage<PageProps>().props.auth.user;
-  const { his_posts,user} = usePage<PageProps>().props;
+  const authUser = usePage<PageProps>().props.auth.user;
+  const { his_posts,user,following,followers} = usePage<PageProps>().props;
 
-  console.log(his_posts)
+//   console.log(followers)
   const [hisPosts, setHisPosts] = useState<any[]>([]);
 
   useEffect(() => {
-    const userPosts = his_posts.filter(post => post.user_id === user.id);
-    setHisPosts(userPosts);
-  }, [his_posts, user.id]);
+    if (his_posts && user) {
+      const userPosts = his_posts.filter((post: any) => post.user_id === user.id);
+      setHisPosts(userPosts);
+    }
+  }, [his_posts, user]);
 
-//   console.log(hisPosts);
+//   const [followed,setFollowed] = useState(false);
+//   const [followedBy,setFollowedBy] = useState([]);
+//   const [followError,setFollowError] = useState('');
+
+//   useEffect(() => {
+//     if (followers && authUser) {
+//       const isFollowedBy = followers.filter((follower: any) => follower.user.id !== authUser.id);
+//       setFollowedBy(isFollowedBy);
+//     }
+//     console.log(followedBy)
+//   }, [followers, authUser]);
+
+//   const followerNames = followedBy.map((follower: any) => follower.user.first_name).join(' and ');
+
+//   useEffect(() => {
+//     if(authUser.id !==user.id || !following || !followers){
+//         if (following) {
+//         const connectionCircle = following[0]?.connection_circle?.[0];
+//         if (connectionCircle && connectionCircle.following.includes(user.id)) {
+//             setFollowed(true);
+//         }
+//         }
+//     }
+//   }, [following, user]);
+
+    // const handleFollowBtn = async (requestedId:number) => {
+    //     if (requestedId ==authUser.id && !followed) {
+    //         return setFollowError("You can't follow yourself");
+    //     }else{
+    //       try {
+    //         const response = await axios.get(`/follow/${requestedId}`);
+    //         // console.log(response)
+    //         setFollowed(response.data.userExist);
+    //         console.log(followed);
+    //       } catch (error) {
+    //         console.log("Error occurs", error);
+    //       }
+    //     }
+    //   };
 
   return (
     <HomeLayout>
+        <Head title={`${user.first_name}'s Profile`} />
       <div className="show-profile bg-gray-100 rounded-lg mb-10">
         <div className="image relative flex justify-start">
           <div className="banner_image rounded-t-lg h-24 w-full">
@@ -44,13 +86,21 @@ const ShowProfile = () => {
             <i className="ri-circle-fill text-[3px]"></i>
             <span className="inline-block text-gray-800/90 text-sm">500+ connection</span>
           </div>
-          <span className="text-sm text-gray-900/95">Followed by Amar Khadka</span>
+          {followers?.length > 0 && (
+            <span className="text-sm text-gray-900/95">Followed by</span>
+            )}
         </div>
-        <div className="cta-btn flex gap-3 px-3 py-2.5">
-          <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] rounded-full">+ Follow</button>
-          <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] rounded-full">Message</button>
-          <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] rounded-full">More</button>
-        </div>
+
+        {authUser.id !==user.id && ( <div className="cta-btn flex gap-3 px-3 py-2.5">
+            {/* <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full"
+            onClick={() => handleFollowBtn(user.id)}>
+            {followed ? "Following" : "+ Follow"}
+            </button> */}
+            <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">Follow
+            </button>
+            <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">Message</button>
+            <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">More</button>
+        </div>)}
         <div className="all-activities px-3 py-3 border-t-2">
           <div className="btn flex gap-3">
             <button className="bg-gray-200 hover:bg-black hover:text-white px-3 py-1 rounded-full">Posts</button>

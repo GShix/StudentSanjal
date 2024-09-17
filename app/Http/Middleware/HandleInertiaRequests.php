@@ -5,8 +5,11 @@ namespace App\Http\Middleware;
 use App\Models\Chat;
 use App\Models\Note;
 use App\Models\Post;
+use App\Models\User;
+use App\Models\Skill;
 use Inertia\Middleware;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class HandleInertiaRequests extends Middleware
 {
@@ -33,6 +36,14 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $user = $request->user();
+        $skills = Skill::latest()->get();
+
+        // $userSkills = $user->skill_id;
+        // $recommendingUsers = User::where('id', '!=', $user->id)
+        // ->whereHas('skills', function($query) use ($userSkills) {
+        //     $query->whereIn('skill_id', $userSkills);
+        // })
+        // ->get();
 
         return [
             ...parent::share($request),
@@ -45,10 +56,10 @@ class HandleInertiaRequests extends Middleware
                 'latest_note' => $user
                                 ? Note::where('user_id', $user->id)->latest()->first()
                                 : null,
+                'recommendingUsers' =>$user?User::all()->except($user->id):null,
             ],
+            'skills'=>$skills,
             'latest_posts'=>Post::with('user')->latest()->take(5)->get(),
-            // 'his_posts'=>Post::with( 'user')->get(),
-
 
             'flash' => [
             'success' => $request->session()->get('success'),

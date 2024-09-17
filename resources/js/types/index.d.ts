@@ -14,6 +14,7 @@ export interface User {
     user_role: string;
     active_status: boolean;
     account_status: string;
+    skill_id:number;
 }
 
 export type PageProps<T extends Record<string, unknown> = Record<string, unknown>> = T & {
@@ -21,7 +22,12 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         user: User;
         latest_chat:any;
         latest_note:any;
+        recommendingUsers:any;
     };
+    following:any;
+    followers:any;
+    his_posts:any;
+    skills:number[];
     otherUsers:any;
     latest_posts:any;
     flash: any;

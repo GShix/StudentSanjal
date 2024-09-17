@@ -29,6 +29,7 @@ class ProfileUpdateRequest extends FormRequest
             'password'=>['nullable','string'],
             'password_confirmation'=>['nullable','string','same:password'],
             'active_status'=>['nullable','boolean'],
+            'skill_id'=>['nullable','array','exists:skills,id'],
         ];
     }
 }
