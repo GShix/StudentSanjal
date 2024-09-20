@@ -13,12 +13,12 @@ return new class extends Migration
     {
         Schema::create('connection_circles', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->text('following')->nullable();
-            $table->text('followers')->nullable();
-            $table->text('friends')->nullable();
-            $table->text('unfollowed')->nullable();
-            $table->text('blocked')->nullable();
+            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->foreignId('following')->nullable()->constrained('users')->onDelete('cascade'); // The user being followed
+            $table->foreignId('followers')->nullable()->constrained('users')->onDelete('cascade'); // The follower
+            $table->boolean('friends')->default(false); // Whether they are friends (optional)
+            $table->boolean('unfollowed')->default(false); // To mark if unfollowed (optional)
+            $table->boolean('blocked')->default(false);
             $table->softDeletes();
             $table->timestamps();
         });

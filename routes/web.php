@@ -34,7 +34,7 @@ Route::middleware('auth')->group(function () {
     Route::get('showProfile/{username}',[ShowProfileController::class, 'showProfile'])->name('showProfile');
     Route::get('showProfile/{id}',[ShowProfileController::class, 'showProfileById'])->name('showProfileById');
 
-    route::get('/follow/{requestedId}', [ConnectionController::class, 'follow'])->name('followUser');
+    // route::get('/follow/{requestedId}', [ConnectionController::class, 'follow'])->name('followUser');
 });
 
 

@@ -8,9 +8,9 @@ import axios from "axios";
 
 const ShowProfile = () => {
   const authUser = usePage<PageProps>().props.auth.user;
-  const { his_posts,user,following,followers} = usePage<PageProps>().props;
+  const { his_posts,user,following,followers,followerText} = usePage<PageProps>().props;
 
-//   console.log(followers)
+  console.log(followers)
   const [hisPosts, setHisPosts] = useState<any[]>([]);
 
   useEffect(() => {
@@ -20,45 +20,31 @@ const ShowProfile = () => {
     }
   }, [his_posts, user]);
 
-//   const [followed,setFollowed] = useState(false);
-//   const [followedBy,setFollowedBy] = useState([]);
-//   const [followError,setFollowError] = useState('');
 
-//   useEffect(() => {
-//     if (followers && authUser) {
-//       const isFollowedBy = followers.filter((follower: any) => follower.user.id !== authUser.id);
-//       setFollowedBy(isFollowedBy);
-//     }
-//     console.log(followedBy)
-//   }, [followers, authUser]);
+const [isFollowing, setIsFollowing] = useState(false);
+const userId = user.id;
 
-//   const followerNames = followedBy.map((follower: any) => follower.user.first_name).join(' and ');
+useEffect(() => {
+    // Check if the current user is following this user
+    const checkFollowingStatus = async () => {
+    try {
+        const response = await axios.get(`/followStatus/${userId}`);
+        setIsFollowing(response.data.isFollowing);
+    } catch (error) {
+        console.log('Error checking follow status', error);
+    }
+    };
+    checkFollowingStatus();
+}, [userId]);
 
-//   useEffect(() => {
-//     if(authUser.id !==user.id || !following || !followers){
-//         if (following) {
-//         const connectionCircle = following[0]?.connection_circle?.[0];
-//         if (connectionCircle && connectionCircle.following.includes(user.id)) {
-//             setFollowed(true);
-//         }
-//         }
-//     }
-//   }, [following, user]);
-
-    // const handleFollowBtn = async (requestedId:number) => {
-    //     if (requestedId ==authUser.id && !followed) {
-    //         return setFollowError("You can't follow yourself");
-    //     }else{
-    //       try {
-    //         const response = await axios.get(`/follow/${requestedId}`);
-    //         // console.log(response)
-    //         setFollowed(response.data.userExist);
-    //         console.log(followed);
-    //       } catch (error) {
-    //         console.log("Error occurs", error);
-    //       }
-    //     }
-    //   };
+const toggleFollow = async () => {
+    try {
+    const response = await axios.get(`/toggleFollow/${userId}`);
+    setIsFollowing(response.data.isFollowing);
+    } catch (error) {
+    console.log('Error following/unfollowing user', error);
+    }
+}
 
   return (
     <HomeLayout>
@@ -87,7 +73,8 @@ const ShowProfile = () => {
             <span className="inline-block text-gray-800/90 text-sm">500+ connection</span>
           </div>
           {followers?.length > 0 && (
-            <span className="text-sm text-gray-900/95">Followed by</span>
+            // <span className="text-sm text-gray-900/95">Followed by</span>
+            <span className="text-sm text-gray-900/95">{followerText}</span>
             )}
         </div>
 
@@ -96,7 +83,8 @@ const ShowProfile = () => {
             onClick={() => handleFollowBtn(user.id)}>
             {followed ? "Following" : "+ Follow"}
             </button> */}
-            <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">Follow
+
+            <button onClick={toggleFollow} className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">{isFollowing ? "Following":"Follow"}
             </button>
             <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">Message</button>
             <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">More</button>

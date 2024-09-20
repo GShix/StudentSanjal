@@ -12,6 +12,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class User extends Authenticatable
 {
@@ -139,5 +140,30 @@ class User extends Authenticatable
         } elseif (is_string($value)) {
             $this->attributes['banner_image'] = $value;
         }
+    }
+
+    // public function following(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(User::class, 'followers', 'follower_id', 'user_id')
+    //                 ->withTimestamps();
+    // }
+
+    // // Relationship to get the users following this user
+    // public function followers(): BelongsToMany
+    // {
+    //     return $this->belongsToMany(User::class, 'followers', 'user_id', 'follower_id')
+    //                 ->withTimestamps();
+    // }
+    public function following()
+    {
+        return $this->hasMany(ConnectionCircle::class, 'user_id', 'id')
+                    ->whereNotNull('following');
+    }
+
+    // Relationship to handle users following this user
+    public function followers()
+    {
+        return $this->belongsToMany(User::class, 'connection_circles', 'user_id', 'followers')
+        ->whereNull('connection_circles.deleted_at');
     }
 }

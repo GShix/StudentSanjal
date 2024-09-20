@@ -78,3 +78,7 @@
 
 ## Day 9
 > Follower & Following mechanism
+
+
+## Day 10
+> Follower first_name implode

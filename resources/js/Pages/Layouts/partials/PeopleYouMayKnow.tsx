@@ -3,7 +3,7 @@ import { usePage } from "@inertiajs/react";
 
 const PeopleYouMayKnow = () => {
     const {recommendingUsers} = usePage<PageProps>().props.auth;
-    console.log(recommendingUsers);
+    // console.log(recommendingUsers);
   return (
     <div className="connection-recommendation bg-gray-100 rounded-xl border border-gray-400/50">
         <div className="title px-3 py-2.5 flex justify-between">
@@ -11,7 +11,7 @@ const PeopleYouMayKnow = () => {
             <a href="" className="text-sm font-medium px-2 py-1 hover:bg-gray-200 rounded-md">See all</a>
         </div>
         {recommendingUsers.map((user:any)=>(
-            <div className="recommendation-item pb-2 border-b-2 border-gray-200">
+            <div key={user.id} className="recommendation-item pb-2 border-b-2 border-gray-200">
             <div className="recommendation-profile px-2.5 py-2 bg-gray-100 rounded-xl flex gap-3 leading-tight items-center">
                 <div className="recommendation-icon w-16 h-16 p-[3px] bg-[#c7ae6a] rounded-full max-md:hidden">
                     <img className="object-cover object-center rounded-full w-full h-full" src={user.profile_image} alt="" />
