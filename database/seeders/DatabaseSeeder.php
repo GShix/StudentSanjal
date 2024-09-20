@@ -44,6 +44,16 @@ class DatabaseSeeder extends Seeder
             'user_role' => 'user',
             'email' => 'amar@amar.com',
         ]);
+        User::factory()->create([
+            'first_name' => 'Shishir',
+            'middle_name' => 'Singh',
+            'last_name' => 'Thakuree',
+            'headline' => 'Python Developer | Data Sceience | ML',
+            'active_status' => true,
+            'account_status' => 'verified',
+            'user_role' => 'user',
+            'email' => 'shishir@shishir.com',
+        ]);
 
         $skills = ['PHP', 'Laravel', 'React', 'Tailwind CSS', 'Vue.js', 'JavaScript', 'Redis'];
 

@@ -20,6 +20,21 @@ const Posts = () => {
 
     const [postIdToRemove, setPostIdToRemove] = useState<number | null>(null);
     const [showModal, setShowModal] = useState(false);
+    const [postMedia, setPostMedia] = useState();
+    const [postDescription, setPostDescription] = useState();
+
+    const handlePostShow = (media,description)=>{
+        console.log(media,description);
+        setShowModal(true);
+        setPostMedia(media);
+        setPostDescription(description);
+        // console.log(postMedia,postDescription)
+    }
+    const closePostShow =()=>{
+        setShowModal(false);
+        setPostMedia('');
+        setPostDescription('');
+    }
 
     const handlePostLoveCount = async (postId: number) => {
         try {
@@ -141,7 +156,8 @@ const Posts = () => {
                             </div>
                             <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px]">
                             {post.media && (
-                                <img className="rounded-md cursor-pointer" src={post.media} alt="Users post media" onClick={() => setShowModal(true)} aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-scale-animation-modal" data-hs-overlay="#hs-scale-animation-modal" /> )}
+                                <img className="rounded-md cursor-pointer" src={post.media} alt="Users post media"
+                                onClick={() => handlePostShow(post.media,post.post_description)} aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-scale-animation-modal" data-hs-overlay="#hs-scale-animation-modal" /> )}
                             </div>
                             <div className="post-interaction mt-1 px-2">
                                 <div className="interaction-counts flex justify-between">
@@ -176,11 +192,10 @@ const Posts = () => {
                             show={showModal}
                             onClose={() => setShowModal(false)} // Corrected function syntax
                             maxWidth="md"
-                            closeable={true}
-                        >
+                            closeable={true}>
                             <div className="p-6">
-                                <img className="rounded-md cursor-pointer w-full object-cover" src={post.media ?? post.media} alt="Post media" onClick={()=>setShowModal(false)} />
-                                <p className="mt-4">{post.post_description}</p>
+                                <img className="rounded-md cursor-pointer w-full object-cover" src={postMedia ?? postMedia} alt="Post media" onClick={closePostShow} />
+                                <p className="mt-4">{postDescription}</p>
                             </div>
                         </Modal>
                     </div>

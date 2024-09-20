@@ -82,3 +82,4 @@
 
 ## Day 10
 > Follower first_name implode
+> Followed user's post in Feed

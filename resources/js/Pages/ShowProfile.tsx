@@ -1,14 +1,14 @@
 import { Head, usePage } from "@inertiajs/react";
 import HomeLayout from "./Layouts/HomeLayout";
 import { PageProps } from "@/types";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import TimeAgo from "./Layouts/TimeAgo";
 import ProfileImage from "./Layouts/partials/ProfileImage";
 import axios from "axios";
 
 const ShowProfile = () => {
   const authUser = usePage<PageProps>().props.auth.user;
-  const { his_posts,user,following,followers,followerText} = usePage<PageProps>().props;
+  const { his_posts,user,following,followers,firstTwoFollowers,remainingCount} = usePage<PageProps>().props;
 
   console.log(followers)
   const [hisPosts, setHisPosts] = useState<any[]>([]);
@@ -25,7 +25,6 @@ const [isFollowing, setIsFollowing] = useState(false);
 const userId = user.id;
 
 useEffect(() => {
-    // Check if the current user is following this user
     const checkFollowingStatus = async () => {
     try {
         const response = await axios.get(`/followStatus/${userId}`);
@@ -68,13 +67,23 @@ const toggleFollow = async () => {
           <span className="block text-sm font-normal text-gray-800/90">{user.headline}</span>
           <span className="block text-[13px] font-normal leading-loose text-gray-800/70">{user.address}</span>
           <div className="flex items-center gap-2">
-            <span className="inline-block text-gray-800/90 text-sm">100 Followers</span>
+            <h1 className="inline-block text-gray-800/90 text-sm">100 Followers</h1>
             <i className="ri-circle-fill text-[3px]"></i>
-            <span className="inline-block text-gray-800/90 text-sm">500+ connection</span>
+            <h1 className="inline-block text-gray-800/90 text-sm">500+ connection</h1>
           </div>
           {followers?.length > 0 && (
-            // <span className="text-sm text-gray-900/95">Followed by</span>
-            <span className="text-sm text-gray-900/95">{followerText}</span>
+            // <span className="text-sm text-gray-900/95">{followerText}</span>
+            <h1 className="text-sm text-gray-900/95">
+                Followed by{' '}
+                {firstTwoFollowers.map((follower:any, index:number) => (
+                    <span key={follower.id}>
+                        <strong>{follower.first_name}</strong>
+                        {index < firstTwoFollowers.length - 1 ? ' and ' : ''}
+                    </span>
+                ))}
+                {remainingCount > 0 && ` and ${remainingCount} others`}
+            </h1>
+
             )}
         </div>
 

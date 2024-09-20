@@ -30,13 +30,13 @@ class ShowProfileController extends Controller
 
         $remainingCount = $followers->count() - $firstTwoFollowers->count();
 
-        // Format the follower names
-        $followerNames = $firstTwoFollowers->pluck('first_name')->toArray();
-        if ($remainingCount > 0) {
-            $followerNames[] = $remainingCount . ' others';
-        }
+        // // Format the follower names
+        // $followerNames = $firstTwoFollowers->pluck('first_name')->toArray();
+        // if ($remainingCount > 0) {
+        //     $followerNames[] = $remainingCount . ' others';
+        // }
 
-        $followerText = 'Followed by ' . implode(' and ', $followerNames);
+        // $followerText = 'Followed by ' . implode(' and ', $followerNames);
 
         // dd($followers);
         // $followers = User::whereIn('id', function ($query) use ($user) {
@@ -57,8 +57,9 @@ class ShowProfileController extends Controller
             'user' => $user,
             'his_posts' => $his_posts,
             'following'=>$following,
-            'followers'=>$firstTwoFollowers,
-            'followerText'=>$followerText
+            'followers'=>$followers,
+            'firstTwoFollowers'=>$firstTwoFollowers,
+            'remainingCount'=>$remainingCount
         ]);
     }
 
