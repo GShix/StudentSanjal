@@ -53,7 +53,7 @@ class HandleInertiaRequests extends Middleware
                     ->where('id', '!=', $user->id)
                     ->get():[];
 
-        $followingIds[] = $user->id;
+        $followingIds[] = $user?$user->id:'';
         $latestPosts = Post::with('user')
                     ->whereIn('user_id', $followingIds)
                     ->latest()

@@ -7,6 +7,7 @@ use App\Http\Controllers\NoteController;
 use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\ChatController;
 use App\Http\Controllers\User\PostController;
+use App\Http\Controllers\User\EventController;
 use App\Http\Controllers\User\FrontendController;
 use App\Http\Controllers\User\ConnectionController;
 use App\Http\Controllers\User\ShowProfileController;
@@ -67,6 +68,9 @@ Route::middleware('auth')->group(function () {
 
     Route::delete('/chat/note/{note:id}', [NoteController::class, 'destroy'])->name('note.destroy');
 
+    Route::get('events', [EventController::class,'index'])->name('event.index');
+
+    Route::post('events/store', [EventController::class,'store'])->name('event.store');
 });
 
 require __DIR__.'/auth.php';

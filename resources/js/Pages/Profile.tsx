@@ -209,22 +209,22 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 <div className="mt-10 max-sm:mt-2 grid grid-cols-1 gap-x-6 gap-y-4 lg:gap-y-8 sm:grid-cols-6">
                     {/* First Name */}
                     <div className="md:col-span-2 col-span-full">
-                    <label htmlFor="first_name" className="block text-sm font-medium leading-6 text-gray-900">
-                        First name
-                    </label>
-                    <div className="mt-2">
-                        <input
-                        id="first_name"
-                        name="first_name"
-                        type="text"
-                        value={data.first_name}
-                        onChange={(e) => setData('first_name', e.target.value)}
-                        autoComplete="given-name"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder='Set new first name'
-                        />
-                    </div>
-                    <InputError className="mt-2" message={errors.first_name} />
+                        <label htmlFor="first_name" className="block text-sm font-medium leading-6 text-gray-900">
+                            First name
+                        </label>
+                        <div className="mt-2">
+                            <input
+                            id="first_name"
+                            name="first_name"
+                            type="text"
+                            value={data.first_name}
+                            onChange={(e) => setData('first_name', e.target.value)}
+                            autoComplete="given-name"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            placeholder='Set new first name'
+                            />
+                        </div>
+                        <InputError className="mt-2" message={errors.first_name} />
                     </div>
 
                     {/* Middle Name */}

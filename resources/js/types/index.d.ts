@@ -36,4 +36,5 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     chats:any;
     firstTwoFollowers:any;
     remainingCount:number;
+    events:any;
 };

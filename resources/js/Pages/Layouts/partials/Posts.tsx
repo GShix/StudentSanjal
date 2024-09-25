@@ -20,10 +20,10 @@ const Posts = () => {
 
     const [postIdToRemove, setPostIdToRemove] = useState<number | null>(null);
     const [showModal, setShowModal] = useState(false);
-    const [postMedia, setPostMedia] = useState();
-    const [postDescription, setPostDescription] = useState();
+    const [postMedia, setPostMedia] = useState<string>();
+    const [postDescription, setPostDescription] = useState<string>();
 
-    const handlePostShow = (media,description)=>{
+    const handlePostShow = (media:string,description:string)=>{
         console.log(media,description);
         setShowModal(true);
         setPostMedia(media);
@@ -70,6 +70,14 @@ const Posts = () => {
 
     const handleUndoRemove = () => {
         setPostIdToRemove(null);
+    };
+
+    const isImage = (media: string) => {
+        return media.match(/\.(jpeg|jpg|gif|png|svg|webp)$/i);
+    };
+
+    const isVideo = (media: string) => {
+        return media.match(/\.(mp4|webm|ogg)$/i);
     };
 
     const submit: FormEventHandler = (e) => {
@@ -154,10 +162,34 @@ const Posts = () => {
                             <div className="post_description px-1 my-2">
                                 <span className="text-gray-700">{post.post_description}</span>
                             </div>
-                            <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px]">
+                            <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px] h-80">
                             {post.media && (
-                                <img className="rounded-md cursor-pointer" src={post.media} alt="Users post media"
-                                onClick={() => handlePostShow(post.media,post.post_description)} aria-haspopup="dialog" aria-expanded="false" aria-controls="hs-scale-animation-modal" data-hs-overlay="#hs-scale-animation-modal" /> )}
+                                <>
+                                    {isImage(post.media) ? (
+                                        <img
+                                            className="rounded-md cursor-pointer h-full"
+                                            src={post.media}
+                                            alt="Post media"
+                                            onClick={() => handlePostShow(post.media, post.post_description)}
+                                            aria-haspopup="dialog"
+                                            aria-expanded="false"
+                                            aria-controls="hs-scale-animation-modal"
+                                            data-hs-overlay="#hs-scale-animation-modal"
+                                        />
+                                    ) : isVideo(post.media) ? (
+                                        <video
+                                            className="rounded-t-lg cursor-pointer h-full"
+                                            src={post.media}
+                                            controls
+                                            onClick={() => handlePostShow(post.media, post.post_description)}
+                                            aria-haspopup="dialog"
+                                            aria-expanded="false"
+                                            aria-controls="hs-scale-animation-modal"
+                                            data-hs-overlay="#hs-scale-animation-modal"
+                                        />
+                                    ) : null}
+                                </>
+                                )}
                             </div>
                             <div className="post-interaction mt-1 px-2">
                                 <div className="interaction-counts flex justify-between">

@@ -120,7 +120,11 @@ const CleanHomeLayout = ({
                     <div className="user-icon p-1 rounded-full hover:bg-gray-700">
                     <Dropdown>
                         <Dropdown.Trigger>
-                        <div className="chat-icon w-10 h-10 p-[3px] bg-[#c7ae6a] rounded-full">
+                        <div className="chat-icon w-10 h-10 p-[3px] bg-[#c7ae6a] rounded-full relative">
+                        {user.active_status?(
+                            <div className="active-status p-[1.5px] bg-gray-100 absolute rounded-full bottom-0 right-1">
+                                <div className="active-status h-[6px] w-[6px] bg-green-500 rounded-full"></div>
+                            </div>):""}
                             <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" />
                         </div>
                         </Dropdown.Trigger>
@@ -165,7 +169,6 @@ const CleanHomeLayout = ({
 
                 {story}
 
-                {/* What's on your mind  */}
 
                 {/* posts  */}
                 <div className="main flex-grow">

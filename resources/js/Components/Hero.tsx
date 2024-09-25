@@ -5,7 +5,7 @@ export default function Hero() {
           <div className="px-2 sm:px-3 lg:px-4 flex justify-between items-center max-sm:flex-col-reverse">
             <div className="md:w-1/2 pt-6">
               <h1 className="text-2xl font-semibold tracking-tight text-gray-900 sm:text-5xl max-sm:text-center">
-                Join The Biggest <span className="text-[#c7ae6a] sm:text-[50px] text-3xl text-nowrap leading-normal">Student Community</span><br></br> in Nepal
+                Join The Largest <span className="text-[#c7ae6a] sm:text-[50px] text-3xl text-nowrap leading-normal">Student Community</span><br></br> in Nepal
               </h1>
               <p className="mt-4 text-base sm:text-xl text-gray-600 text-justify">
                 In today’s digital age, there is a growing need for platforms that connect Nepalese college students. Our platform offers tailored features for students to manage their accounts, verify their identities, and engage in activities like sharing posts and joining virtual events.

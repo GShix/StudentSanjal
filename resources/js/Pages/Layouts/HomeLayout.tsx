@@ -128,7 +128,11 @@ const HomeLayout = ({
                     <div className="user-icon p-1 rounded-full hover:bg-gray-700">
                     <Dropdown>
                         <Dropdown.Trigger>
-                        <div className="chat-icon w-10 h-10 p-[3px] bg-[#c7ae6a] rounded-full">
+                        <div className="chat-icon w-10 h-10 p-[3px] bg-[#c7ae6a] rounded-full relative">
+                        {user.active_status?(
+                            <div className="active-status p-[1.5px] bg-gray-100 absolute rounded-full bottom-0 right-1">
+                                <div className="active-status h-[6px] w-[6px] bg-green-500 rounded-full"></div>
+                            </div>):""}
                             <ProfileImage image={user.profile_image} />
                             {/* <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" /> */}
                         </div>
@@ -178,7 +182,7 @@ const HomeLayout = ({
                 <div className="siderbar bg-gray-100 px-2.5 py-2 rounded-xl mt-3 border border-gray-400/50">
                     <ul className="flex flex-col">
                         <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/trending.png" alt="" />Trending</a></li>
-                        <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/events.png" alt="" />Events</a></li>
+                        <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href={route('event.index')}><img className="h-7 w-7 mr-2" src="/img/events.png" alt="" />Events</a></li>
                         <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-6 w-6 mr-2" src="/img/saved.png" alt="" />Saved</a></li>
                     </ul>
                 </div>

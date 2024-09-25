@@ -203,9 +203,10 @@ const StartChat = () => {
                         <div key={otherUser.id} className="chat-item mt-2" onClick={()=>showMessageHandle(otherUser)}>
                             <div className="chat-profile cursor-pointer px-2 py-2 bg-gray-100 hover:bg-[#e3d6b4] rounded-xl flex gap-2 leading-tight items-center">
                                 <div className="chat-icon w-11 h-11 p-[2px] bg-[#c7ae6a] rounded-full relative">
+                                    {otherUser.active_status?(
                                     <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
                                         <div className="active-status h-[6px] w-[6px] bg-green-500 rounded-full"></div>
-                                    </div>
+                                    </div>):""}
                                     <img className="object-cover object-center rounded-full w-full h-full" src={otherUser.profile_image} alt="" />
                                 </div>
                                 <div className="chat-details">
@@ -232,9 +233,10 @@ const StartChat = () => {
                         <div className="header border-b-2 rounded-t-lg bg-gray-100 border-gray-200 flex items-center justify-between sticky top-16">
                             <div className="chat-profile cursor-pointer px-4 py-2 rounded-t-lg flex gap-2 leading-tight items-center">
                                 <div className="chat-icon w-11 h-11 p-[2px] bg-[#c7ae6a] rounded-full relative">
+                                    {chatGarneSathi.active_status?(
                                     <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
                                         <div className="active-status h-[6px] w-[6px] bg-green-500 rounded-full"></div>
-                                    </div>
+                                    </div>):""}
                                     <img className="object-cover object-center rounded-full w-full h-full" src={chatGarneSathi.profile_image} alt="" />
                                 </div>
                                 <div className="chat-details">

@@ -83,3 +83,8 @@
 ## Day 10
 > Follower first_name implode
 > Followed user's post in Feed
+
+## Day 11
+> Event page
+> CSS fixed
+> Post page: for video file also

@@ -1,10 +1,11 @@
-import { Head, usePage } from "@inertiajs/react";
+import { Head, Link, usePage } from "@inertiajs/react";
 import HomeLayout from "./Layouts/HomeLayout";
 import { PageProps } from "@/types";
 import React, { useEffect, useState } from "react";
 import TimeAgo from "./Layouts/TimeAgo";
 import ProfileImage from "./Layouts/partials/ProfileImage";
 import axios from "axios";
+import Modal from "@/Components/Modal";
 
 const ShowProfile = () => {
   const authUser = usePage<PageProps>().props.auth.user;
@@ -44,6 +45,30 @@ const toggleFollow = async () => {
     console.log('Error following/unfollowing user', error);
     }
 }
+const isImage = (media: string) => {
+    return media.match(/\.(jpeg|jpg|gif|png|svg|webp)$/i);
+};
+
+const isVideo = (media: string) => {
+    return media.match(/\.(mp4|webm|ogg)$/i);
+};
+
+const [showModal, setShowModal] = useState(false);
+const [postMedia, setPostMedia] = useState<string>();
+const [postDescription, setPostDescription] = useState<string>();
+
+const handlePostShow = (media:string,description:string)=>{
+    console.log(media,description);
+    setShowModal(true);
+    setPostMedia(media);
+    setPostDescription(description);
+    // console.log(postMedia,postDescription)
+}
+const closePostShow =()=>{
+    setShowModal(false);
+    setPostMedia('');
+    setPostDescription('');
+}
 
   return (
     <HomeLayout>
@@ -75,13 +100,24 @@ const toggleFollow = async () => {
             // <span className="text-sm text-gray-900/95">{followerText}</span>
             <h1 className="text-sm text-gray-900/95">
                 Followed by{' '}
-                {firstTwoFollowers.map((follower:any, index:number) => (
-                    <span key={follower.id}>
-                        <strong>{follower.first_name}</strong>
-                        {index < firstTwoFollowers.length - 1 ? ' and ' : ''}
-                    </span>
-                ))}
-                {remainingCount > 0 && ` and ${remainingCount} others`}
+                {remainingCount <=0 ? (
+                <>
+                    {firstTwoFollowers.map((follower:any, index:number) => (
+                        <span key={follower.id}>
+                            <Link href={follower.username} className="font-medium">{follower.first_name}</Link>
+                            {index < firstTwoFollowers.length - 1 ? ' and ' : ''}
+                        </span>
+                    ))}
+                </>):
+                (<>
+                    {firstTwoFollowers.map((follower:any, index:number) => (
+                        <span key={follower.id}>
+                            <Link href={follower.username} className="font-medium">{follower.first_name}</Link>
+                            {index < firstTwoFollowers.length - 1 ? ', ' : ''}
+                        </span>
+                    ))}
+                    {` and ${remainingCount} others`}
+                </>)}
             </h1>
 
             )}
@@ -143,8 +179,35 @@ const toggleFollow = async () => {
               <div className="post_description px-1 my-2">
                 <span className="text-gray-700">{post.post_description}</span>
               </div>
-              <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px]">
-                <img className="rounded-md cursor-pointer" src={post.media} alt="Users post media" />
+              <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px] h-80">
+              {post.media && (
+                <>
+                    {isImage(post.media) ? (
+                        <img
+                            className="rounded-md cursor-pointer h-full w-fit"
+                            src={post.media}
+                            alt="Post media"
+                            onClick={() => handlePostShow(post.media, post.post_description)}
+                            aria-haspopup="dialog"
+                            aria-expanded="false"
+                            aria-controls="hs-scale-animation-modal"
+                            data-hs-overlay="#hs-scale-animation-modal"
+                        />
+                    ) : isVideo(post.media) ? (
+                        <video
+                            className="rounded-md cursor-pointer h-full w-fit"
+                            src={post.media}
+                            controls
+                            onClick={() => handlePostShow(post.media, post.post_description)}
+                            aria-haspopup="dialog"
+                            aria-expanded="false"
+                            aria-controls="hs-scale-animation-modal"
+                            data-hs-overlay="#hs-scale-animation-modal"
+                        />
+                    ) : null}
+                </>
+                )}
+                {/* <img className="rounded-md cursor-pointer" src={post.media} alt="Users post media" /> */}
               </div>
               <div className="post-interaction mt-1 px-2">
                 <div className="interaction-counts flex justify-between">
@@ -169,7 +232,22 @@ const toggleFollow = async () => {
                   </div>
                 </div>
               </div>
+              {showModal && (
+                  <div className="modal top-10">
+                      <Modal
+                          show={showModal}
+                          onClose={() => setShowModal(false)} // Corrected function syntax
+                          maxWidth="md"
+                          closeable={true}>
+                          <div className="p-6">
+                              <img className="rounded-md cursor-pointer w-full object-cover" src={postMedia ?? postMedia} alt="Post media" onClick={closePostShow} />
+                              <p className="mt-4">{postDescription}</p>
+                          </div>
+                      </Modal>
+                  </div>
+                  )}
             </div>
+
           ))}
         </div>
       </div>
