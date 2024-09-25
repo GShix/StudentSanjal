@@ -28,6 +28,10 @@ class ConnectionCircle extends Model
     {
         return $this->belongsToMany(User::class, 'connection_circles', 'user_id','followers');
     }
+    public function following()
+    {
+        return $this->belongsToMany(User::class, 'connection_circles', 'user_id','following');
+    }
 
     // Relationship to the user being followed
     public function followedUser(): BelongsTo

@@ -7,6 +7,7 @@ use App\Models\User;
 use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Events\ChatSendEvent;
+use App\Models\ConnectionCircle;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Chat\StoreChatRequest;
@@ -31,10 +32,13 @@ class ChatController extends Controller
         }])->where('id', '!=', $user->id)
         ->latest()->get();
 
+        // $iFollowedUsers = User::with('following')
+        // ->where('user_id',$user->id)->get();
+
         // dd($otherUsers->toArray());
 
         return Inertia::render('StartChat',[
-            'otherUsers'=>$otherUsers
+            'otherUsers'=>$otherUsers,
         ]);
     }
 

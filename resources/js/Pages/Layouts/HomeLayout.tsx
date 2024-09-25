@@ -87,7 +87,7 @@ const HomeLayout = ({
                         </a>
                     </div>
                     <div className="Mynetwork-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
-                        <a href="/" className="flex flex-col items-center">
+                        <a href={route('myNetwork')} className="flex flex-col items-center">
                             <i className="ri-group-3-fill text-base"></i>
                             <span className="block text-xs leading-none">My Network</span>
                         </a>
@@ -214,7 +214,7 @@ const HomeLayout = ({
                         </a>
                     </div>
                     <div className="Mynetwork-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
-                        <a href="/" className="flex flex-col items-center">
+                        <a href={route('myNetwork')} className="flex flex-col items-center">
                             <i className="ri-group-3-fill text-[20px] hover:text-2xl"></i>
                         </a>
                     </div>

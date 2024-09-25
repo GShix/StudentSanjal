@@ -22,7 +22,6 @@ interface ChatGarneSathi {
     username: string;
     active_status: string;
     id: any;
-    // Add other properties that you expect to exist in chatGarneSathi
 }
 interface ChatsData {
     id: number;
@@ -44,8 +43,9 @@ interface ChatsData {
 
 const StartChat = () => {
 
-    const { user,latest_chat } = usePage<PageProps>().props.auth;
-    const { otherUsers } = usePage<PageProps>().props;
+    const { user,latest_chat,usersYouFollowed } = usePage<PageProps>().props.auth;
+    const { otherUsers} = usePage<PageProps>().props;
+    console.log(usersYouFollowed);
 
     const [chatGarneSathi,setChatGarneSathi] = useState<ChatGarneSathi | null>(null);
     const [showMessage,setShowMessage] = useState(false);
@@ -199,7 +199,7 @@ const StartChat = () => {
                         </div>
 
                         {/* Chat Item */}
-                        {otherUsers.map((otherUser:any)=>(
+                        {usersYouFollowed.map((otherUser:any)=>(
                         <div key={otherUser.id} className="chat-item mt-2" onClick={()=>showMessageHandle(otherUser)}>
                             <div className="chat-profile cursor-pointer px-2 py-2 bg-gray-100 hover:bg-[#e3d6b4] rounded-xl flex gap-2 leading-tight items-center">
                                 <div className="chat-icon w-11 h-11 p-[2px] bg-[#c7ae6a] rounded-full relative">

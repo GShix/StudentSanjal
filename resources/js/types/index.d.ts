@@ -23,6 +23,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         latest_chat:any;
         latest_note:any;
         recommendingUsers:any;
+        usersYouFollowed:any;
     };
     following:any;
     followers:any;

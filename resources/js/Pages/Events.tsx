@@ -76,9 +76,11 @@ const Events = () => {
     <CleanHomeLayout>
         <Head title="Events"/>
         <div className="events-page grid grid-cols-1 md:grid-cols-[repeat(1,.6fr),2fr] gap-5 min-h-screen pb-5">
-            <Sidebar/>
-            <div className="events bg-gray-100 rounded-lg p-2 h-full">
-                <h1 className="text-4xl text-gray-800 text-center mt-1">Events</h1>
+            <div className="sidebar md:col-span-1 md:block hidden">
+                <Sidebar/>
+            </div>
+            <div className="events bg-gray-100 rounded-lg p-2 h-full col-span-2 md:col-span-1">
+                <h1 className="text-4xl text-gray-800 text-center mt-1 border-b-2 pb-2 border-gray-300 mb-1">Events</h1>
                 <div className="add-your-event w-full flex justify-end px-2">
                     {createBtn && (
                     <div className="bg-gray-300 px-3 py-2 rounded-md cursor-pointer hover:bg-[#c7ae6a]" onClick={handleCreateBtn}>

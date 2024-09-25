@@ -49,6 +49,10 @@ class HandleInertiaRequests extends Middleware
                     ->pluck('following')
                     ->toArray():[];
 
+        $usersYouFollowed =$user? User::whereIn('id', $followingIds)
+                                ->where('id', '!=', $user->id)
+                                ->get():[];
+
         $usersNotFollowed =$user? User::whereNotIn('id', $followingIds)
                     ->where('id', '!=', $user->id)
                     ->get():[];
@@ -59,8 +63,6 @@ class HandleInertiaRequests extends Middleware
                     ->latest()
                     ->take(5)
                     ->get();
-
-
 
         return [
             ...parent::share($request),
@@ -74,6 +76,7 @@ class HandleInertiaRequests extends Middleware
                                 ? Note::where('user_id', $user->id)->latest()->first()
                                 : null,
                 'recommendingUsers' =>$usersNotFollowed,
+                'usersYouFollowed'=>$usersYouFollowed
             ],
             'skills'=>$skills,
             'latest_posts'=>$latestPosts,

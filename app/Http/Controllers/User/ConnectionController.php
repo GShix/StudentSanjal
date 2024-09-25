@@ -14,6 +14,9 @@ class ConnectionController extends Controller
     /**
      * Display a listing of the resource.
      */
+    public function myNetwork(){
+        return Inertia::render("MyNetwork");
+    }
     public function follow($requestedId)
     {
         $user = Auth::user();
@@ -26,7 +29,7 @@ class ConnectionController extends Controller
                             ->where('followers', $user->id)
                             ->first();
 
-        if ($userExist && $requestedUserExist) {
+        if($userExist && $requestedUserExist) {
             // If both relations exist, delete them (unfollow)
             $userExist->delete();
             $requestedUserExist->delete();
