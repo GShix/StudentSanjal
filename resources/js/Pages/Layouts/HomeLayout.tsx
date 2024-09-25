@@ -92,15 +92,21 @@ const HomeLayout = ({
                             <span className="block text-xs leading-none">My Network</span>
                         </a>
                     </div>
-                    <div className="Job-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
+                    {/* <div className="Job-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
                         <a href="/" className="flex flex-col items-center">
                             <i className="ri-group-line text-base"></i>
                             <span className="block text-xs leading-none">Jobs</span>
                         </a>
+                    </div> */}
+                    <div className="Events-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
+                        <a href={route('event.index')} className="flex flex-col items-center">
+                        <i className="ri-calendar-event-fill text-base"></i>
+                            <span className="block text-xs leading-none">Events</span>
+                        </a>
                     </div>
                     <div className="Mynetwork-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
                         <a href={route('chat')} className="flex flex-col items-center">
-                            <i className="ri-chat-private-line text-base "></i>
+                            <i className="ri-chat-private-line  "></i>
                             <span className="block text-xs leading-none">Chat</span>
                         </a>
                     </div>
@@ -215,6 +221,12 @@ const HomeLayout = ({
                     <div className="Job-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
                         <a href="/" className="flex flex-col items-center">
                             <i className="ri-group-line text-[20px] hover:text-2xl"></i>
+                        </a>
+                    </div>
+                    <div className="Events-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
+                        <a href={route('event.index')} className="flex flex-col items-center">
+                            {/* <i className="ri-group-line text-[20px] hover:text-2xl"></i> */}
+                            <i className="ri-calendar-event-fill text-[20px] hover:text-2xl"></i>
                         </a>
                     </div>
                     <div className="Notification-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">

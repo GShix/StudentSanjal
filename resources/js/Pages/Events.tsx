@@ -75,7 +75,7 @@ const Events = () => {
   return (
     <CleanHomeLayout>
         <Head title="Events"/>
-        <div className="events-page grid grid-cols-[repeat(1,.6fr),2fr] gap-5 min-h-screen pb-5">
+        <div className="events-page grid grid-cols-1 md:grid-cols-[repeat(1,.6fr),2fr] gap-5 min-h-screen pb-5">
             <Sidebar/>
             <div className="events bg-gray-100 rounded-lg p-2 h-full">
                 <h1 className="text-4xl text-gray-800 text-center mt-1">Events</h1>

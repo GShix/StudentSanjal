@@ -88,3 +88,4 @@
 > Event page
 > CSS fixed
 > Post page: for video file also
+> Events in Navbar
