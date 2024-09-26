@@ -18,7 +18,7 @@ interface FormData {
 }
 const Events = () => {
     const {events} = usePage<PageProps>().props;
-    console.log(events)
+
     const { data, setData, post,reset, errors, processing, recentlySuccessful,setError } = useForm<FormData>({
         event_image: null,
         title:"",
@@ -83,7 +83,7 @@ const Events = () => {
                 <h1 className="text-4xl text-gray-800 text-center mt-1 border-b-2 pb-2 border-gray-300 mb-1">Events</h1>
                 <div className="add-your-event w-full flex justify-end px-2">
                     {createBtn && (
-                    <div className="bg-gray-300 px-3 py-2 rounded-md cursor-pointer hover:bg-[#c7ae6a]" onClick={handleCreateBtn}>
+                    <div className="bg-gray-300 px-3 py-2 max-sm:mb-2 rounded-md cursor-pointer hover:bg-[#c7ae6a]" onClick={handleCreateBtn}>
                         <i className="ri-add-circle-fill mr-1"></i>
                         <span>Create</span>
                     </div>)}
@@ -139,7 +139,7 @@ const Events = () => {
                                     value={data.end_date}
                                     onChange={(e)=>setData('end_date',e.target.value)}/>
                                 </div>
-                                <div className="entry_type md:col-span-1 col-span-full flex gap-2">
+                                <div className="entry_type md:col-span-1 col-span-full flex gap-2 items-center">
                                     <label className='text-sm font-medium' htmlFor="entry_type">Entry Type:<sup className="text-red-500">*</sup></label>
                                     <div className="entry-type flex gap-2">
                                         <div className="free">
@@ -164,7 +164,7 @@ const Events = () => {
                                         onChange={(e)=>setData('entry_fee',parseFloat(e.target.value))}/>
                                     </div>
                                 ):""}
-                                <div className="event_type md:col-span-1 col-span-full flex gap-2">
+                                <div className="event_type md:col-span-1 col-span-full flex gap-2 items-center">
                                     <label className="font-medium text-sm" htmlFor="event_type">Event Type:<sup className="text-red-500">*</sup></label>
                                     <div className="event-type flex gap-2">
                                         <div className="virtual">
@@ -181,14 +181,15 @@ const Events = () => {
                                         </div>
                                     </div>
                                 </div>
+                                {data.event_type && (
                                 <div className="venue">
                                     <label className="font-medium text-sm" htmlFor="venue">Venue:<sup className="text-red-500">*</sup></label>
                                     <input className="ml-2  h-9 rounded-md text-sm" type="text" name="venue" id="venue" placeholder="Venue"
                                     value={data.venue}
                                     onChange={(e)=>setData('venue',e.target.value)}/>
-                                </div>
+                                </div>)}
                                 <div className="submit-btn col-span-full flex justify-end">
-                                    <button type="submit" className="px-4 py-2 bg-[#c7ae6a] rounded-md hover:text-white hover:bg-[#b99a45] font-medium">Create event</button>
+                                    <button type="submit" className="px-4 py-2 bg-[#c7ae6a] text-gray-900 rounded-md hover:text-white hover:bg-[#b99a45] font-medium">Create event</button>
                                 </div>
                             </div>
                         </form>
@@ -196,10 +197,10 @@ const Events = () => {
                 )}
                 {showEvents && !createEvent && (
                 <div className="flex gap-10 items-center text-gray-700 px-2">
-                    <div className="filter w-1/5 relative px-2">
+                    <div className="filter md:w-1/5 relative px-2">
                         <span>Filter</span>
                     </div>
-                    <div className="tabs flex float-right items-center justify-between gap-10">
+                    <div className="tabs flex float-right items-center justify-between gap-3 lg:gap-10">
                         <button className="px-3 py-1 hover:text-white bg-[#c7ae6a] rounded-full">All</button>
                         <button className="px-3 py-1 hover:text-white bg-[#c7ae6a] rounded-full">Upcoming</button>
                         <button className="px-3 py-1 hover:text-white bg-[#c7ae6a] rounded-full">Completed</button>
@@ -208,12 +209,14 @@ const Events = () => {
                 {showEvents && (
                 <div className="sm:px-2 grid grid-cols-1 gap-5 mt-4 sm:grid-cols-3 lg:mt-10 lg:gap-x-5 overflow-hidden">
                     {events.map((event:any, index:number) => (
-                    <div key={index} className="card w-full hover:bg-[#e3d6b4] rounded-md px-1 pt-1 pb-2 cursor-pointer max-sm:flex max-sm:flex-row-reverse items-center justify-between border-2 border-[#C7AE6A] max-sm:mb-3">
-                        <div className="card-img max-sm:w-1/4 max-sm:h-full">
-                            <img className='w-full h-40 rounded-sm mb-2 object-cover object-fit max-sm:h-[70%]' src={event.event_image} alt="" sizes="" srcSet="" />
+                    <div key={index} className="card w-full hover:bg-[#e3d6b4] rounded-md px-1 pt-1 pb-2 max-sm:flex max-sm:flex-row-reverse items-center justify-between border-2 border-[#C7AE6A] max-sm:mb-3">
+                        <div className="card-img max-sm:w-1/4 h-36 overflow-hidden rounded-sm mb-1">
+                            <img className='w-full h-full rounded-sm mb-2 object-cover object-fit max-sm:h-[70%] transition-transform hover:scale-105 cursor-pointer' src={event.event_image} alt="" sizes="" srcSet="" />
                         </div>
                         <div className="card-details max-sm:w-[70%]">
+                            <Link href={route('event.detail',event.title)}>
                             <h1 className='font-bold text-lg hover:underline flex flex-wrap'>{event.title}</h1>
+                            </Link>
                             <p className='font-bold text-sm mt-1 text-gray-600'>Hosted By: {event.host}</p>
                             <div className="date mt-2 text-base px-1">
                                 <i className="ri-calendar-schedule-fill mr-2"></i>
@@ -230,7 +233,7 @@ const Events = () => {
                                 <div className="entry">
                                     <i className="ri-ticket-2-fill mr-2"></i>
                                     {event.entry_type==="paid" ? (
-                                        <span className="text-sm">Entry fee: ${event.entry_fee}</span>
+                                        <span className="text-sm">Entry fee: Rs.{event.entry_fee}</span>
                                     ):(
                                         <span>{event.entry_type}</span>
                                     )}

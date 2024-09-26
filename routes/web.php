@@ -71,6 +71,7 @@ Route::middleware('auth')->group(function () {
     Route::get('events', [EventController::class,'index'])->name('event.index');
 
     Route::post('events/store', [EventController::class,'store'])->name('event.store');
+    Route::get('event-detail/{event:title}', [EventController::class,'eventDetail'])->name('event.detail');
 });
 
 require __DIR__.'/auth.php';

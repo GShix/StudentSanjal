@@ -92,3 +92,4 @@
 
 ## Day 12
 > My Network max-sm: css fixing
+> EventDetail

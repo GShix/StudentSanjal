@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\User;
 use Inertia\Inertia;
 use App\Models\Event;
 use Illuminate\Http\Request;
@@ -35,9 +36,14 @@ class EventController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Event $event)
+    public function eventDetail(Event $event)
     {
-        //
+        $host = User::where('id',$event->user_id)->first();
+        // dd($host);
+        return Inertia::render("EventDetail",[
+            'event'=>$event,
+            'host'=>$host
+        ]);
     }
 
     /**

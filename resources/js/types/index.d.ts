@@ -25,6 +25,8 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         recommendingUsers:any;
         usersYouFollowed:any;
     };
+    event:any;
+    host:any;
     following:any;
     followers:any;
     his_posts:any;
