@@ -89,3 +89,6 @@
 > CSS fixed
 > Post page: for video file also
 > Events in Navbar
+
+## Day 12
+> My Network max-sm: css fixing
