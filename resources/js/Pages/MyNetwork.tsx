@@ -3,9 +3,33 @@ import CleanHomeLayout from "./Layouts/CleanHomeLayout"
 import Sidebar from "./Layouts/partials/FullSidebar"
 import { PageProps } from "@/types";
 import ProfileImage from "./Layouts/partials/ProfileImage";
+import TimeAgo from "./Layouts/TimeAgo";
 
 const MyNetwork = () => {
     const {user,usersYouFollowed} = usePage<PageProps>().props.auth;
+    console.log(usersYouFollowed)
+    const getTimeAgo = (date: string) => {
+        const now = new Date();
+        const connectedTime = new Date(date);
+        const diffInSeconds = Math.floor((now.getTime() - connectedTime.getTime()) / 1000);
+
+        const minutes = Math.floor(diffInSeconds / 60);
+        const hours = Math.floor(diffInSeconds / 3600);
+        const days = Math.floor(diffInSeconds / 86400);
+        const weeks = Math.floor(days / 7);
+
+        if (minutes < 60) {
+            return `Connected ${minutes} ${minutes === 1 ? 'minute' : 'minutes'} ago`;
+        } else if (hours < 24) {
+            return `Connected ${hours} ${hours === 1 ? 'hour' : 'hours'} ago`;
+        } else if (days < 7) {
+            return `Connected ${days} ${days === 1 ? 'day' : 'days'} ago`;
+        } else {
+            return `Connected ${weeks} ${weeks === 1 ? 'week' : 'weeks'} ago`;
+        }
+    };
+
+
   return (
     <CleanHomeLayout>
         <Head title="My Network"/>
@@ -18,9 +42,13 @@ const MyNetwork = () => {
                 <div className="connections  px-2 pt-4 pb-2">
                     {usersYouFollowed.map((user:any)=>(
                         <div key={user.id} className="user flex items-center justify-between max-sm:flex-col mb-2 border-b border-gray-300 pb-2 max-sm:pt-2 px-2 rounded-md hover:bg-gray-200">
-                            <div className="user-profile flex max-md:flex-col items-center">
+                            <div className="user-profile flex max-md:flex-col items-center gap-3">
                                 <ProfileImage image={user.profile_image} className="h-20 w-20 rounded-full p-1"/>
-                                <h1 className="font-mono">{user.first_name} {user.middle_name} {user.last_name}</h1>
+                                <div className="profile-details">
+                                    <h1 className="font-mono">{user.first_name} {user.middle_name} {user.last_name}</h1>
+                                    <p className="text-sm text-gray-600 leading-snug">{user.headline}</p>
+                                    <p className="text-xs text-gray-600">{getTimeAgo(user.created_at)}</p>
+                                </div>
                             </div>
                             <div className="profile-action flex items-center lg:w-1/4 gap-8 lg:gap-5 max-sm:mt-1">
                                 <span className="px-3 py-1 md:py-2 bg-[#c7ae6a] hover:bg-[#b99a45] rounded-md text-gray-900 hover:text-gray-200 font-medium cursor-pointer">Unfollow</span>
