@@ -53,7 +53,7 @@ const HomeLayout = ({
     // <h1 className="bg-black h-100px">ljkfsflsj</h1>
     <div className="home bg-gray-400/45">
         <ToastContainer/>
-        <div className="fistRow bg-black flex items-center justify-between max-sm:py-2 px-4 sm:px-8"style={{boxShadow:"0px 0px 10px 4px #c7ae6a",position: "sticky",
+        <div className="fistRow bg-black flex items-center justify-between max-sm:py-2 px-4 sm:px-8"style={{position: "sticky",
             top: 0,
             zIndex: 1000}}>
             <div className="col1 flex max-sm:gap-1 max-md:gap-5 gap-12">

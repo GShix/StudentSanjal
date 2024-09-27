@@ -181,7 +181,7 @@ const StartChat = () => {
                                     <ProfileImage image={user.profile_image} />
                                     {/* <img className="object-cover object-bottom rounded-full w-10 h-full" src={user.profile_image} alt="" /> */}
                                 </Link>
-                                {user.active_status && <div className="bg-green-500 w-[10px] h-[10px] border-[1.5px] border-white rounded-full absolute bottom-[2px] right-[1px]"></div>}
+                                {user.active_status ?(<div className="bg-green-500 w-[10px] h-[10px] border-[1.5px] border-white rounded-full absolute bottom-[2px] right-[1px]"></div>):""}
                             </div>
                             <div className="username flex items-center gap-1">
                                 {(user.username)?user.username:`${user.first_name} ${user.middle_name?user.middle_name:""} ${user.last_name}`}

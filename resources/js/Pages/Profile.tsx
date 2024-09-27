@@ -128,6 +128,38 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
     setData('skill_id', selectedSkillIds); // Update the skill_id when a skill is removed
   };
 
+  const [bannerUrl, setBannerUrl] = useState<string | null>(null);
+  const [profileUrl, setProfileUrl] = useState<string | null>(null);
+
+  useEffect(() => {
+      let bannerObjectUrl: string | null = null;
+      let profileObjectUrl: string | null = null;
+
+      if (data.banner_image instanceof File) {
+          bannerObjectUrl = URL.createObjectURL(data.banner_image);
+          setBannerUrl(bannerObjectUrl);
+      } else if (typeof data.banner_image === 'string') {
+          setBannerUrl(data.banner_image); // Use as URL if it's a string
+      } else {
+          setBannerUrl(null);
+      }
+
+      if (data.profile_image instanceof File) {
+          profileObjectUrl = URL.createObjectURL(data.profile_image);
+          setProfileUrl(profileObjectUrl);
+      } else if (typeof data.profile_image === 'string') {
+          setProfileUrl(data.profile_image); // Use as URL if it's a string
+      } else {
+          setProfileUrl(null);
+      }
+
+      // Cleanup function to revoke object URLs
+      return () => {
+          if (bannerObjectUrl) URL.revokeObjectURL(bannerObjectUrl);
+          if (profileObjectUrl) URL.revokeObjectURL(profileObjectUrl);
+      };
+  }, [data.banner_image, data.profile_image]);
+
 
   return (
    <CleanHomeLayout>
@@ -221,8 +253,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                             onChange={(e) => setData('first_name', e.target.value)}
                             autoComplete="given-name"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            placeholder='Set new first name'
-                            />
+                            placeholder='Set new first name'/>
                         </div>
                         <InputError className="mt-2" message={errors.first_name} />
                     </div>
@@ -241,8 +272,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         onChange={(e) => setData('middle_name', e.target.value)}
                         autoComplete="additional-name"
                         className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder='Set new middle name'
-                        />
+                        placeholder='Set new middle name'/>
                     </div>
                     <InputError className="mt-2" message={errors.middle_name} />
                     </div>
@@ -339,8 +369,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         value={data.gender}
                         onChange={(e) => setData('gender', e.target.value)}
                         autoComplete="sex"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6"
-                        >
+                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
                         <option value='' disabled>Select</option>
                         <option value="M">Male</option>
                         <option value="F">Female</option>

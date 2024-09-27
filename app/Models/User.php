@@ -122,9 +122,11 @@ class User extends Authenticatable
      */
     public function getBannerImageAttribute(): string
     {
-        return $this->attributes['banner_image']
-            ? asset('storage/' . $this->attributes['banner_image'])
-            : asset('assets/img/default_banner.png');
+        return isset($this->attributes['banner_image']) && !empty($this->attributes['banner_image'])
+        ? asset('storage/' . $this->attributes['banner_image'])
+        // : 'No Image';
+        : asset('assets/img/default_banner.png');
+        // return asset('storage/' . $this->attributes['banner_image']);
     }
 
     /**

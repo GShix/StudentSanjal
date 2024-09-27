@@ -223,9 +223,12 @@ const Events = () => {
                                 <span>{event.start_date}</span>
                             </div>
                             <div className="flex gap-6 mt-2 px-1">
-                                <div className="attendees">
+                                <div className="attendees relative group">
                                     <i className="ri-user-heart-fill mr-2"></i>
                                     <span>{event.attendees?event.attendees:0}</span>
+                                    <div className="absolute bottom-full text-nowrap hidden group-hover:block bg-gray-300 bg-opacity-95 text-gray-800 text-xs rounded py-1 px-2">
+                                    {event.attendees?event.attendees:0} Attendees
+                                    </div>
                                 </div>
                                 {/* <div className="entry">
                                     <i className="ri-ticket-2-fill mr-2"></i>

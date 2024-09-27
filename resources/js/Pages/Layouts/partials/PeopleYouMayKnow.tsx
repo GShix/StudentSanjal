@@ -32,10 +32,10 @@ const PeopleYouMayKnow = () => {
                         <img className="object-cover object-center rounded-full w-full h-full" src={user.profile_image} alt="" />
                     </div>
                     <div className="recommendation-details">
-                        <span className="recommendation-person-name text-base font-semibold block">
+                        <p className="recommendation-person-name text-base font-semibold">
                             {user.first_name} {user.middle_name} {user.last_name}
-                        </span>
-                        <span className="recommendation-person-headline block text-sm text-gray-700/80">{user.headline}</span>
+                        </p>
+                        <p className="recommendation-person-headline text-sm text-gray-700/80">{user.headline}</p>
                         <p className="text-xs text-gray-700/80">4 mutual connections</p>
                     </div>
                 </div>

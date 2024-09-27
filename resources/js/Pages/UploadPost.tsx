@@ -61,7 +61,7 @@ const UploadMedia = () => {
     return (
         <HomeLayout>
             <Head title="Post" />
-            <div className="post bg-gray-100 px-4 py-3 rounded-xl min-h-screen h-[1000px]">
+            <div className="post bg-gray-100 px-4 py-3 rounded-xl min-h-screen">
                 <div className="h1 text-center font-semibold hover:underline">Create your Post</div>
                 <div className="w-full max-w-md mx-auto my-4 p-4 bg-white rounded-lg shadow-md border border-gray-100">
                     <div className="flex items-center mb-4">

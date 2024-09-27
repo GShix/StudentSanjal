@@ -36,7 +36,7 @@ const EventDetail = () => {
                         </div>
                     </div>
                     <div className="event-details bg-gray-50 mt-3 px-3 py-4 rounded-md">
-                        <div className="date">
+                        <div className="date flex items-center">
                             <i className="ri-time-fill text-lg mr-2"></i>
                             <span className="text-sm">{new Date(event.start_date).toDateString()}</span>
                         </div>
@@ -50,11 +50,11 @@ const EventDetail = () => {
                             </div>
                         ):(
                         <div className="">
-                            <div className="physical-event text-sm gap-2">
-                                <i className="ri-ticket-2-fill text-lg mr-2"></i>
+                            <div className="physical-event text-sm gap-2 flex items-center">
+                                <i className="ri-ticket-2-fill text-lg"></i>
                                 <span>Physical event</span>
                             </div>
-                            <div className="type">
+                            <div className="type flex items-center">
                                 <i className="ri-map-pin-fill text-lg mr-2"></i>
                                 <span className="text-sm">{event.venue}</span>
                             </div>

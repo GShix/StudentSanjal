@@ -96,7 +96,7 @@ const Posts = () => {
     return (
         <>
             {latest_posts.map((post: any) => (
-                <div key={post.id} className="post bg-gray-100 mt-4 rounded-xl px-3 py-3 border border-gray-400/50">
+                <div key={post.id} className="post bg-gray-100 mt-3 rounded-xl px-3 py-3 border border-gray-400/50">
                     {postIdToRemove === post.id ? (
                         <div className="post-removal">
                             <div className="heading flex justify-between py-2 border-b border-gray-300/80">

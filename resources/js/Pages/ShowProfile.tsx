@@ -8,67 +8,68 @@ import axios from "axios";
 import Modal from "@/Components/Modal";
 
 const ShowProfile = () => {
-  const authUser = usePage<PageProps>().props.auth.user;
-  const { his_posts,user,following,followers,firstTwoFollowers,remainingCount} = usePage<PageProps>().props;
 
-  console.log(followers)
-  const [hisPosts, setHisPosts] = useState<any[]>([]);
+    const authUser = usePage<PageProps>().props.auth.user;
+    const { his_posts,user,following,followers,firstTwoFollowers,remainingCount} = usePage<PageProps>().props;
 
-  useEffect(() => {
+    console.log(followers)
+    const [hisPosts, setHisPosts] = useState<any[]>([]);
+
+    useEffect(() => {
     if (his_posts && user) {
-      const userPosts = his_posts.filter((post: any) => post.user_id === user.id);
-      setHisPosts(userPosts);
+        const userPosts = his_posts.filter((post: any) => post.user_id === user.id);
+        setHisPosts(userPosts);
     }
-  }, [his_posts, user]);
+    }, [his_posts, user]);
 
 
-const [isFollowing, setIsFollowing] = useState(false);
-const userId = user.id;
+    const [isFollowing, setIsFollowing] = useState(false);
+    const userId = user.id;
 
-useEffect(() => {
-    const checkFollowingStatus = async () => {
-    try {
-        const response = await axios.get(`/followStatus/${userId}`);
+    useEffect(() => {
+        const checkFollowingStatus = async () => {
+        try {
+            const response = await axios.get(`/followStatus/${userId}`);
+            setIsFollowing(response.data.isFollowing);
+        } catch (error) {
+            console.log('Error checking follow status', error);
+        }
+        };
+        checkFollowingStatus();
+    }, [userId]);
+
+    const toggleFollow = async () => {
+        try {
+        const response = await axios.get(`/toggleFollow/${userId}`);
         setIsFollowing(response.data.isFollowing);
-    } catch (error) {
-        console.log('Error checking follow status', error);
+        } catch (error) {
+        console.log('Error following/unfollowing user', error);
+        }
     }
+    const isImage = (media: string) => {
+        return media.match(/\.(jpeg|jpg|gif|png|svg|webp)$/i);
     };
-    checkFollowingStatus();
-}, [userId]);
 
-const toggleFollow = async () => {
-    try {
-    const response = await axios.get(`/toggleFollow/${userId}`);
-    setIsFollowing(response.data.isFollowing);
-    } catch (error) {
-    console.log('Error following/unfollowing user', error);
+    const isVideo = (media: string) => {
+        return media.match(/\.(mp4|webm|ogg)$/i);
+    };
+
+    const [showModal, setShowModal] = useState(false);
+    const [postMedia, setPostMedia] = useState<string>();
+    const [postDescription, setPostDescription] = useState<string>();
+
+    const handlePostShow = (media:string,description:string)=>{
+        console.log(media,description);
+        setShowModal(true);
+        setPostMedia(media);
+        setPostDescription(description);
+        // console.log(postMedia,postDescription)
     }
-}
-const isImage = (media: string) => {
-    return media.match(/\.(jpeg|jpg|gif|png|svg|webp)$/i);
-};
-
-const isVideo = (media: string) => {
-    return media.match(/\.(mp4|webm|ogg)$/i);
-};
-
-const [showModal, setShowModal] = useState(false);
-const [postMedia, setPostMedia] = useState<string>();
-const [postDescription, setPostDescription] = useState<string>();
-
-const handlePostShow = (media:string,description:string)=>{
-    console.log(media,description);
-    setShowModal(true);
-    setPostMedia(media);
-    setPostDescription(description);
-    // console.log(postMedia,postDescription)
-}
-const closePostShow =()=>{
-    setShowModal(false);
-    setPostMedia('');
-    setPostDescription('');
-}
+    const closePostShow =()=>{
+        setShowModal(false);
+        setPostMedia('');
+        setPostDescription('');
+    }
 
   return (
     <HomeLayout>
@@ -191,8 +192,7 @@ const closePostShow =()=>{
                             aria-haspopup="dialog"
                             aria-expanded="false"
                             aria-controls="hs-scale-animation-modal"
-                            data-hs-overlay="#hs-scale-animation-modal"
-                        />
+                            data-hs-overlay="#hs-scale-animation-modal"/>
                     ) : isVideo(post.media) ? (
                         <video
                             className="rounded-md cursor-pointer h-full w-fit"
@@ -202,8 +202,7 @@ const closePostShow =()=>{
                             aria-haspopup="dialog"
                             aria-expanded="false"
                             aria-controls="hs-scale-animation-modal"
-                            data-hs-overlay="#hs-scale-animation-modal"
-                        />
+                            data-hs-overlay="#hs-scale-animation-modal"/>
                     ) : null}
                 </>
                 )}

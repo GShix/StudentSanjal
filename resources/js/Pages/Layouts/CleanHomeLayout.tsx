@@ -45,7 +45,7 @@ const CleanHomeLayout = ({
   return (
     <div className="home bg-gray-400/45 min-h-screen">
         <ToastContainer/>
-        <div className="clean-fistRow bg-black flex items-center justify-between max-sm:py-2 px-4 sm:px-8"style={{boxShadow:"0px 0px 10px 4px #c7ae6a",position: "sticky",
+        <div className="clean-fistRow bg-black flex items-center justify-between max-sm:py-2 px-4 sm:px-8"style={{position: "sticky",
             top: 0,
             zIndex: 1000}}>
             <div className="clean-col1 flex max-sm:gap-1 max-md:gap-5 gap-12">
@@ -148,7 +148,7 @@ const CleanHomeLayout = ({
         </div>
         <div className="clean-lastRow mx-6 sm:mx-8 mt-5 relative">
             <div className="clean-Column rounded-lg">
-                <div className="mobile-down-navbar flex gap-14 md:hidden bg-gray-100 justify-center rounded-xl px-2.5 py-3 mb-4 h-14">
+                <div className="mobile-down-navbar flex gap-14 md:hidden bg-gray-100 justify-center rounded-xl px-2.5 py-3 mb-3 h-14">
                     <div className="Home-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
                         <a href="/" className="flex flex-col items-center">
                             <i className="ri-home-7-fill text-[20px] hover:scale-110"></i>
