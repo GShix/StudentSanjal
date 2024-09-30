@@ -16,6 +16,7 @@ return new class extends Migration
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
             $table->text('post_description')->nullable();
             $table->integer('post_love_count')->nullable();
+            $table->integer('post_comment_count')->nullable();
             $table->string('media')->nullable();
             $table->string('job')->nullable();
             $table->string('event')->nullable();

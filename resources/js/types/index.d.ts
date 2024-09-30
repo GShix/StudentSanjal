@@ -25,6 +25,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         recommendingUsers:any;
         usersYouFollowed:any;
     };
+    userSkills:Array<T>;
     event:any;
     host:any;
     following:any;

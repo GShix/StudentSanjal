@@ -5,6 +5,7 @@ namespace App\Http\Controllers\User;
 use App\Models\Post;
 use App\Models\User;
 use Inertia\Inertia;
+use App\Models\Skill;
 use Illuminate\Http\Request;
 use App\Models\ConnectionCircle;
 use App\Http\Controllers\Controller;
@@ -21,6 +22,11 @@ class ShowProfileController extends Controller
     {
         $auth = Auth::user()->id;
         $user = User::where('username', $username)->first();
+        $user_id = $user->skill_id;
+
+        // dd($user_id);
+        $userSkills = Skill::whereIn('id',$user_id)->get();
+        // dd($userSkills->toArray());
 
         $following = User::with('connectionCircle')->where('id',$auth)->get();
 
@@ -58,6 +64,7 @@ class ShowProfileController extends Controller
             'his_posts' => $his_posts,
             'following'=>$following,
             'followers'=>$followers,
+            'userSkills'=>$userSkills,
             'firstTwoFollowers'=>$firstTwoFollowers,
             'remainingCount'=>$remainingCount
         ]);

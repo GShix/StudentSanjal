@@ -14,10 +14,17 @@ class PostInteraction extends Model
     use HasFactory,SoftDeletes;
 
     protected $fillable = [
-        'post_id',
         'user_id',
-        'total_like'
+        'post_id',
+        'like_status',
+        'comment',
+        'total_like',
+        'total_comment',
+        'total_shares',
     ];
+    // protected $casts = [
+    //     'comments' => 'array',
+    // ];
 
     public function post():BelongsToMany
     {

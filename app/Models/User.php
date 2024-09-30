@@ -59,7 +59,7 @@ class User extends Authenticatable
 
     public function skills():HasMany
     {
-        return $this->hasMany(Skill::class);
+        return $this->hasMany(Skill::class,'id','skill_id[]');
     }
 
     public function connectionCircle():HasMany

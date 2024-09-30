@@ -13,9 +13,13 @@ return new class extends Migration
     {
         Schema::create('post_interactions', function (Blueprint $table) {
             $table->id();
-            $table->foreignId('post_id');
             $table->foreignId('user_id');
-            $table->integer('total_like');
+            $table->foreignId('post_id');
+            $table->string('comment');
+            $table->boolean('like_status');
+            $table->integer('total_likes');
+            $table->integer('total_comments');
+            $table->integer('total_shares');
             $table->softDeletes();
             $table->timestamps();
         });

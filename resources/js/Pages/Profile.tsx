@@ -238,200 +238,200 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 </div>
 
                 <div className="border-b border-gray-900/10 pb-10 max-sm:pb-5">
-                <div className="mt-10 max-sm:mt-2 grid grid-cols-1 gap-x-6 gap-y-4 lg:gap-y-8 sm:grid-cols-6">
-                    {/* First Name */}
-                    <div className="md:col-span-2 col-span-full">
-                        <label htmlFor="first_name" className="block text-sm font-medium leading-6 text-gray-900">
-                            First name
+                    <div className="mt-10 max-sm:mt-2 grid grid-cols-1 gap-x-6 gap-y-4 lg:gap-y-8 sm:grid-cols-6">
+                        {/* First Name */}
+                        <div className="md:col-span-2 col-span-full">
+                            <label htmlFor="first_name" className="block text-sm font-medium leading-6 text-gray-900">
+                                First name
+                            </label>
+                            <div className="mt-2">
+                                <input
+                                id="first_name"
+                                name="first_name"
+                                type="text"
+                                value={data.first_name}
+                                onChange={(e) => setData('first_name', e.target.value)}
+                                autoComplete="given-name"
+                                className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                                placeholder='Set new first name'/>
+                            </div>
+                            <InputError className="mt-2" message={errors.first_name} />
+                        </div>
+
+                        {/* Middle Name */}
+                        <div className="md:col-span-2 col-span-full">
+                        <label htmlFor="middle_name" className="block text-sm font-medium leading-6 text-gray-900">
+                            Middle name
                         </label>
                         <div className="mt-2">
                             <input
-                            id="first_name"
-                            name="first_name"
+                            id="middle_name"
+                            name="middle_name"
                             type="text"
-                            value={data.first_name}
-                            onChange={(e) => setData('first_name', e.target.value)}
-                            autoComplete="given-name"
+                            value={data.middle_name}
+                            onChange={(e) => setData('middle_name', e.target.value)}
+                            autoComplete="additional-name"
                             className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                            placeholder='Set new first name'/>
+                            placeholder='Set new middle name'/>
                         </div>
-                        <InputError className="mt-2" message={errors.first_name} />
-                    </div>
+                        <InputError className="mt-2" message={errors.middle_name} />
+                        </div>
 
-                    {/* Middle Name */}
-                    <div className="md:col-span-2 col-span-full">
-                    <label htmlFor="middle_name" className="block text-sm font-medium leading-6 text-gray-900">
-                        Middle name
-                    </label>
-                    <div className="mt-2">
-                        <input
-                        id="middle_name"
-                        name="middle_name"
-                        type="text"
-                        value={data.middle_name}
-                        onChange={(e) => setData('middle_name', e.target.value)}
-                        autoComplete="additional-name"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder='Set new middle name'/>
-                    </div>
-                    <InputError className="mt-2" message={errors.middle_name} />
-                    </div>
+                        {/* Last Name */}
+                        <div className="md:col-span-2 col-span-full">
+                        <label htmlFor="last_name" className="block text-sm font-medium leading-6 text-gray-900">
+                            Surname
+                        </label>
+                        <div className="mt-2">
+                            <input
+                            id="last_name"
+                            name="last_name"
+                            type="text"
+                            value={data.last_name}
+                            onChange={(e) => setData('last_name', e.target.value)}
+                            autoComplete="family-name"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            placeholder='Set new surname'
+                            />
+                        </div>
+                        <InputError className="mt-2" message={errors.last_name} />
+                        </div>
 
-                    {/* Last Name */}
-                    <div className="md:col-span-2 col-span-full">
-                    <label htmlFor="last_name" className="block text-sm font-medium leading-6 text-gray-900">
-                        Surname
-                    </label>
-                    <div className="mt-2">
-                        <input
-                        id="last_name"
-                        name="last_name"
-                        type="text"
-                        value={data.last_name}
-                        onChange={(e) => setData('last_name', e.target.value)}
-                        autoComplete="family-name"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder='Set new surname'
-                        />
-                    </div>
-                    <InputError className="mt-2" message={errors.last_name} />
-                    </div>
+                        {/* Username */}
+                        <div className="md:col-span-2 col-span-full">
+                        <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
+                            Username
+                        </label>
+                        <div className="mt-2">
+                            <input
+                            id="username"
+                            name="username"
+                            type="text"
+                            value={data.username}
+                            onChange={(e) => setData('username', e.target.value)}
+                            autoComplete="username"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            placeholder='Set new username' required
+                            />
+                        </div>
+                        <InputError className="mt-2" message={errors.username} />
+                        </div>
 
-                    {/* Username */}
-                    <div className="md:col-span-2 col-span-full">
-                    <label htmlFor="username" className="block text-sm font-medium leading-6 text-gray-900">
-                        Username
-                    </label>
-                    <div className="mt-2">
-                        <input
-                        id="username"
-                        name="username"
-                        type="text"
-                        value={data.username}
-                        onChange={(e) => setData('username', e.target.value)}
-                        autoComplete="username"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder='Set new username' required
-                        />
-                    </div>
-                    <InputError className="mt-2" message={errors.username} />
-                    </div>
+                        {/* Headline */}
+                        <div className="col-span-full md:col-span-2">
+                        <label htmlFor="headline" className="block text-sm font-medium leading-6 text-gray-900">
+                            Headline
+                        </label>
+                        <div className="mt-2">
+                            <input
+                            id="headline"
+                            name="headline"
+                            type="text"
+                            value={data.headline}
+                            onChange={(e) => setData('headline', e.target.value)}
+                            autoComplete="headline"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            placeholder='Set new headline'
+                            />
+                        </div>
+                        <InputError className="mt-2" message={errors.headline} />
+                        </div>
 
-                    {/* Headline */}
-                    <div className="col-span-full md:col-span-2">
-                    <label htmlFor="headline" className="block text-sm font-medium leading-6 text-gray-900">
-                        Headline
-                    </label>
-                    <div className="mt-2">
-                        <input
-                        id="headline"
-                        name="headline"
-                        type="text"
-                        value={data.headline}
-                        onChange={(e) => setData('headline', e.target.value)}
-                        autoComplete="headline"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder='Set new headline'
-                        />
-                    </div>
-                    <InputError className="mt-2" message={errors.headline} />
-                    </div>
+                        {/* Date of Birth */}
+                        <div className="col-span-full md:col-span-2">
+                        <label htmlFor="dob" className="block text-sm font-medium leading-6 text-gray-900">
+                            Date of birth
+                        </label>
+                        <div className="mt-2">
+                            <input
+                            id="dob"
+                            name="dob"
+                            type="date"
+                            value={data.dob}
+                            max={maxDate}
+                            onChange={(e) => setData('dob', e.target.value)}
+                            autoComplete="birthday"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            />
+                        </div>
+                        <InputError className="mt-2" message={errors.dob} />
+                        </div>
 
-                    {/* Date of Birth */}
-                    <div className="col-span-full md:col-span-2">
-                    <label htmlFor="dob" className="block text-sm font-medium leading-6 text-gray-900">
-                        Date of birth
-                    </label>
-                    <div className="mt-2">
-                        <input
-                        id="dob"
-                        name="dob"
-                        type="date"
-                        value={data.dob}
-                        max={maxDate}
-                        onChange={(e) => setData('dob', e.target.value)}
-                        autoComplete="birthday"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        />
-                    </div>
-                    <InputError className="mt-2" message={errors.dob} />
-                    </div>
+                        {/* Gender */}
+                        <div className="col-span-full md:col-span-2">
+                        <label htmlFor="gender" className="block text-sm font-medium leading-6 text-gray-900">
+                            Gender
+                        </label>
+                        <div className="mt-2">
+                            <select
+                            id="gender"
+                            name="gender"
+                            value={data.gender}
+                            onChange={(e) => setData('gender', e.target.value)}
+                            autoComplete="sex"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
+                            <option value='' disabled>Select</option>
+                            <option value="M">Male</option>
+                            <option value="F">Female</option>
+                            <option value="Other">Other</option>
+                            </select>
+                        </div>
+                        <InputError className="mt-2" message={errors.gender} />
+                        </div>
 
-                    {/* Gender */}
-                    <div className="col-span-full md:col-span-2">
-                    <label htmlFor="gender" className="block text-sm font-medium leading-6 text-gray-900">
-                        Gender
-                    </label>
-                    <div className="mt-2">
-                        <select
-                        id="gender"
-                        name="gender"
-                        value={data.gender}
-                        onChange={(e) => setData('gender', e.target.value)}
-                        autoComplete="sex"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:max-w-xs sm:text-sm sm:leading-6">
-                        <option value='' disabled>Select</option>
-                        <option value="M">Male</option>
-                        <option value="F">Female</option>
-                        <option value="Other">Other</option>
-                        </select>
-                    </div>
-                    <InputError className="mt-2" message={errors.gender} />
-                    </div>
+                        {/* Email */}
+                        <div className="md:col-span-2 col-span-full">
+                        <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                            Email address
+                        </label>
+                        <div className="mt-2">
+                            <input
+                            id="email"
+                            name="email"
+                            type="email"
+                            value={data.email}
+                            onChange={(e) => setData('email', e.target.value)}
+                            autoComplete="email"
+                            className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
+                            placeholder='Set new email'
+                            />
+                        </div>
+                        <InputError className="mt-2" message={errors.email} />
+                        </div>
 
-                    {/* Email */}
-                    <div className="md:col-span-2 col-span-full">
-                    <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
-                        Email address
-                    </label>
-                    <div className="mt-2">
-                        <input
-                        id="email"
-                        name="email"
-                        type="email"
-                        value={data.email}
-                        onChange={(e) => setData('email', e.target.value)}
-                        autoComplete="email"
-                        className="block w-full rounded-md border-0 py-1.5 text-gray-900 shadow-sm ring-1 ring-inset ring-gray-300 placeholder:text-gray-400 focus:ring-2 focus:ring-inset focus:ring-indigo-600 sm:text-sm sm:leading-6"
-                        placeholder='Set new email'
-                        />
-                    </div>
-                    <InputError className="mt-2" message={errors.email} />
-                    </div>
+                        <div className="col-span-full">
+                            <div className="mt-2 md:mt-9 flex gap-x-3 items-center">
+                                <label htmlFor="active_status" className="text-sm font-medium leading-6 text-gray-900">
+                                Skills*
+                                </label>
+                                <Multiselect
+                                    className='w-full'
+                                    options={skills}
+                                    displayValue="name"
+                                    selectedValues={selectedSkills}
+                                    onSelect={onSelectSkills}
+                                    onRemove={onRemoveSkill}
+                                    placeholder="Select your skills"/>
+                            </div>
+                        </div>
 
-                    <div className="col-span-full">
+                        {/* Active Status */}
+                        <div className="col-span-full md:col-span-2">
                         <div className="mt-2 md:mt-9 flex gap-x-3 items-center">
                             <label htmlFor="active_status" className="text-sm font-medium leading-6 text-gray-900">
-                            Skills*
+                            Active status
                             </label>
-                            <Multiselect
-                                className='w-full'
-                                options={skills}
-                                displayValue="name"
-                                selectedValues={selectedSkills}
-                                onSelect={onSelectSkills}
-                                onRemove={onRemoveSkill}
-                                placeholder="Select your skills"/>
+                            <input
+                            id="active_status"
+                            name="active_status"
+                            type="checkbox"
+                            checked={data.active_status}
+                            onChange={(e) => setData('active_status', e.target.checked)}
+                            className="h-4 w-4 rounded border-gray-300 text-[#b99a45] focus:ring-black"
+                            />
+                        </div>
                         </div>
                     </div>
-
-                    {/* Active Status */}
-                    <div className="col-span-full md:col-span-2">
-                    <div className="mt-2 md:mt-9 flex gap-x-3 items-center">
-                        <label htmlFor="active_status" className="text-sm font-medium leading-6 text-gray-900">
-                        Active status
-                        </label>
-                        <input
-                        id="active_status"
-                        name="active_status"
-                        type="checkbox"
-                        checked={data.active_status}
-                        onChange={(e) => setData('active_status', e.target.checked)}
-                        className="h-4 w-4 rounded border-gray-300 text-[#b99a45] focus:ring-black"
-                        />
-                    </div>
-                    </div>
-                </div>
                 </div>
             </div>
 

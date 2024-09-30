@@ -10,9 +10,9 @@ import Modal from "@/Components/Modal";
 const ShowProfile = () => {
 
     const authUser = usePage<PageProps>().props.auth.user;
-    const { his_posts,user,following,followers,firstTwoFollowers,remainingCount} = usePage<PageProps>().props;
+    const { his_posts,user,following,followers,firstTwoFollowers,remainingCount,userSkills} = usePage<PageProps>().props;
 
-    console.log(followers)
+    // console.log(userSkills)
     const [hisPosts, setHisPosts] = useState<any[]>([]);
 
     useEffect(() => {
@@ -135,6 +135,20 @@ const ShowProfile = () => {
             <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">Message</button>
             <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">More</button>
         </div>)}
+
+        {userSkills.length!==0 ? (
+        <div className="skills px-3 py-3 border-t-2">
+            <strong className="font-semibold leading-none text-base">{`${user.first_name}'s Skills:`}</strong>
+            <p className="flex gap-2 flex-wrap">
+                {userSkills.map((skill:any,index:number)=>(
+                    <div key={skill.id} >
+                        <span className="text-sm leading-tight">{skill.name}</span>
+                        {index < userSkills.length - 1 ? ', ' : ''}
+                    </div>
+                ))}
+            </p>
+        </div>):""}
+
         <div className="all-activities px-3 py-3 border-t-2">
           <div className="btn flex gap-3">
             <button className="bg-gray-200 hover:bg-black hover:text-white px-3 py-1 rounded-full">Posts</button>

@@ -18,6 +18,7 @@ class Post extends Model
         'user_id',
         'post_description',
         'post_love_count',
+        'post_comment_count',
         'media',
         'job',
         'event'
