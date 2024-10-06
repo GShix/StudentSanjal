@@ -11,6 +11,7 @@ use App\Http\Controllers\User\EventController;
 use App\Http\Controllers\User\FrontendController;
 use App\Http\Controllers\User\ConnectionController;
 use App\Http\Controllers\User\ShowProfileController;
+use App\Http\Controllers\User\PostInteractionController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -31,6 +32,8 @@ Route::middleware('auth')->group(function () {
     Route::post('post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 
     Route::get('post/{post}', [PostController::class, 'updatePostLoveCount'])->name('post.updatePostLoveCount');
+
+    Route::post('postInteraction/interacted',[PostInteractionController::class, 'likeThePost'])->name('post.like');
 
     Route::get('showProfile/{username}',[ShowProfileController::class, 'showProfile'])->name('showProfile');
     Route::get('showProfile/{id}',[ShowProfileController::class, 'showProfileById'])->name('showProfileById');

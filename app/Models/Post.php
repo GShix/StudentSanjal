@@ -7,6 +7,7 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 
@@ -17,8 +18,9 @@ class Post extends Model
     protected $fillable = [
         'user_id',
         'post_description',
-        'post_love_count',
+        'post_like_count',
         'post_comment_count',
+        'comments',
         'media',
         'job',
         'event'
@@ -30,6 +32,10 @@ class Post extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class);
+    }
+    public function postInteractions(): HasMany
+    {
+        return $this->hasMany(PostInteraction::class,'post_id','id');
     }
 
     public function connectionCircle(): BelongsTo

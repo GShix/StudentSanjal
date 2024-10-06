@@ -9,6 +9,7 @@ use App\Models\User;
 use App\Models\Skill;
 use Inertia\Middleware;
 use Illuminate\Http\Request;
+use App\Models\PostInteraction;
 use App\Models\ConnectionCircle;
 use Illuminate\Support\Facades\Auth;
 
@@ -38,6 +39,11 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
         $skills = Skill::latest()->get();
+
+        // $allPostId = Post::pluck('id')->toArray();
+        $postsLikedByYou = $user?PostInteraction::where('user_id', $user->id)
+                        ->pluck('post_id')
+                        ->toArray():[];
 
         // $userSkills = $user->skill_id;
         // $recommendingUsers = User::where('id', '!=', $user->id)
@@ -76,7 +82,8 @@ class HandleInertiaRequests extends Middleware
                                 ? Note::where('user_id', $user->id)->latest()->first()
                                 : null,
                 'recommendingUsers' =>$usersNotFollowed,
-                'usersYouFollowed'=>$usersYouFollowed
+                'usersYouFollowed'=>$usersYouFollowed,
+                'postsLikedByYou'=>$postsLikedByYou
             ],
             'skills'=>$skills,
             'latest_posts'=>$latestPosts,

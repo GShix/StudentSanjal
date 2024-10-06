@@ -16,22 +16,23 @@ class PostInteraction extends Model
     protected $fillable = [
         'user_id',
         'post_id',
-        'like_status',
         'comment',
-        'total_like',
-        'total_comment',
+        'like_status',
+        'total_likes',
+        'total_comments',
         'total_shares',
     ];
+
     // protected $casts = [
     //     'comments' => 'array',
     // ];
 
     public function post():BelongsToMany
     {
-        return $this->belongsToMany(Post::class);
+        return $this->belongsToMany(Post::class,'id','post_id');
     }
     public function user():BelongsToMany
     {
-        return $this->belongsToMany(User::class);
+        return $this->belongsToMany(User::class,'id','user_id');
     }
 }

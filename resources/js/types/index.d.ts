@@ -24,6 +24,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         latest_note:any;
         recommendingUsers:any;
         usersYouFollowed:any;
+        postsLikedByYou:any;
     };
     userSkills:Array<T>;
     event:any;

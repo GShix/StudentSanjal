@@ -36,7 +36,7 @@
 > Post user_id details
 
 ## Day 5
-> Handle post_love_count
+> Handle post_like_count
 
 > Day.js
 
@@ -93,3 +93,6 @@
 ## Day 12
 > My Network max-sm: css fixing
 > EventDetail
+
+## Day 13
+> Post Interaction :like
