@@ -33,7 +33,12 @@ Route::middleware('auth')->group(function () {
 
     Route::get('post/{post}', [PostController::class, 'updatePostLoveCount'])->name('post.updatePostLoveCount');
 
-    Route::post('postInteraction/interacted',[PostInteractionController::class, 'likeThePost'])->name('post.like');
+    Route::post('post/latestComment',[PostController::class, 'latestComment']);
+
+    Route::post('postInteraction/liked',[PostInteractionController::class, 'likeThePost'])->name('post.like');
+    Route::post('postInteraction/commented',[PostInteractionController::class, 'commentInThePost'])->name('post.comment');
+
+    Route::post('postInteraction/allComments',[PostInteractionController::class, 'allComments']);
 
     Route::get('showProfile/{username}',[ShowProfileController::class, 'showProfile'])->name('showProfile');
     Route::get('showProfile/{id}',[ShowProfileController::class, 'showProfileById'])->name('showProfileById');

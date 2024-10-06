@@ -5,16 +5,15 @@ import React, { FormEventHandler, useEffect, useState } from 'react';
 import { toast } from 'react-toastify';
 import TimeAgo from '../TimeAgo';
 import Modal from '@/Components/Modal';
+import ProfileImage from './ProfileImage';
 
 interface FormData {
     reason_to_remove_post: string;
 }
 
 const Posts = () => {
-    const { latest_posts, flash } = usePage<PageProps>().props;
+    const { latest_posts, flash ,latest_comment} = usePage<PageProps>().props;
     const { user,postsLikedByYou } = usePage<PageProps>().props.auth;
-    console.log(postsLikedByYou)
-
     const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({
         reason_to_remove_post: ""
     });
@@ -39,32 +38,53 @@ const Posts = () => {
 
     const [isLiked, setIsLiked] = useState(false);
 
-    // Check if any of the latest posts are liked by the user
-    useEffect(() => {
-        if (latest_posts.length > 0) {
-            const likedPost = latest_posts.some(post => postsLikedByYou.includes(post.id));
-            setIsLiked(likedPost);
-        }
-    }, [latest_posts, postsLikedByYou]);
-
-
-
     const handlePostLike = async (postId:number, userId:number) => {
         const data = {
             post_id: postId,
             user_id: userId,
         }
         try {
-            const response = await axios.post('/postInteraction/interacted',data);
+            const response = await axios.post('/postInteraction/liked',data);
             setIsLiked(response.data.liked);
         } catch (error) {
             console.error('Error liking the post', error);
         }
-        };
-console.log(isLiked)
-        useEffect(()=>{
-            postsLikedByYou
-        },[isLiked,handlePostLike])
+    };
+    const [allComments,setAllComments] = useState([]);
+    const showAllCommentHandler = async(postId:number)=>{
+        try {
+            // console.log(postId)
+            const data ={
+                post_id:postId
+            }
+            const response = await axios.post('/postInteraction/allComments',data)
+            setAllComments(response.data.allComments);
+            console.log(allComments)
+        } catch (error) {
+            console.log("Error",error)
+        }
+
+    }
+    const [createComment,setCreateComment] = useState(false);
+    const [comment,setComment] = useState('');
+    const [showAllComments,setShowAllComments] = useState(false);
+
+    const handleComment =async (postId:number, userId:number) => {
+        const data = {
+            post_id: postId,
+            user_id: userId,
+            comment
+        }
+        try {
+            const response = await axios.post('/postInteraction/commented',data);
+            if(response.data.success){
+                setCreateComment(false);
+                setComment('');
+            }
+        } catch (error) {
+            console.error('Error liking the post', error);
+        }
+    }
 
     const handleRemovePost = (postId: number) => {
         setPostIdToRemove(postId);
@@ -98,6 +118,7 @@ console.log(isLiked)
     return (
         <>
             {latest_posts.map((post: any) => {
+                const youLiked = postsLikedByYou.includes(post.id);
                 return (
                     <div key={post.id} className="post bg-gray-100 mt-3 rounded-xl px-3 py-3 border border-gray-400/50">
                         {postIdToRemove === post.id ? (
@@ -202,24 +223,61 @@ console.log(isLiked)
                                                 {post.post_like_count <= 0 ? "" : post.post_like_count}
                                             </span>
                                         </div>
-                                        <div className="comment-count">
-                                            <span className="cursor-pointer hover:underline text-sm">1{post.post_comment_count}</span>
-                                            <i className="ri-chat-2-line text-gray-800 ml-2 p-[2px] cursor-pointer"></i>
+                                        <div className="comment-count flex items-center cursor-pointer" onClick={()=>showAllCommentHandler(post.id)}>
+                                            <span className="cursor-pointer hover:underline text-sm">{post.post_comment_count}</span>
+                                            <i className="ri-chat-2-line text-gray-800 ml-2 p-[2px]"></i>
                                         </div>
                                     </div>
                                     <div className="interaction-btn flex justify-between mt-[2px] py-1 border-b-[1.6px] border-t-[1.6px]">
                                         <div className="like w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer"
                                         onClick={()=>handlePostLike(post.id,user.id)}>
                                             {/* <i className="ri-heart-3-line text-lg"></i> */}
-                                            <i className={`${isLiked?"ri-thumb-up-fill text-lg":"ri-thumb-up-line"}`}></i>
+                                            <i className={`${isLiked || youLiked?"ri-thumb-up-fill text-lg":"ri-thumb-up-line"}`}></i>
                                         </div>
-                                        <div className="comment w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
+                                        <div className="comment w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer" onClick={()=>setCreateComment(true)}>
                                             <i className="ri-chat-2-line text-lg"></i>
                                         </div>
                                         <div className="share w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
                                             <i className="ri-share-forward-line text-lg"></i>
                                         </div>
+
                                     </div>
+
+                                    {/* {showAllComments && ( */}
+                                    {allComments.map((item:any,index:number)=>(
+                                    <div key={index} className="create-comment flex items-center py-1">
+                                            <div className="create-comment flex items-center gap-1 lg:gap-4 py-1">
+                                                <div className="user-profile">
+                                                        <ProfileImage image={item?.user.profile_image} className='w-9 h-9 rounded-full object-cover object-fit'/>
+                                                </div>
+                                                <div className="comment-box relative border border-gray-200 rounded-full ">
+                                                    <p className='bg-gray-200 px-2 py-1 rounded-md text-sm text-gray-700'>{item?.comment}</p>
+                                                </div>
+                                                <div className="menu rotate-90">
+                                                    <i className="ri-more-2-fill cursor-pointer hover:bg-gray-200 py-1 px-[2px] rounded-md"></i>
+                                                </div>
+                                            </div>
+                                    </div>))}
+                                    {/* )} */}
+
+                                    {/* */}
+
+                                    {/* <div className="interaction-btn flex justify-center mt-[2px] py-1 border-b-[1.6px]"> */}
+                                        {createComment &&(
+                                            <div className="create-comment flex items-center gap-2 lg:gap-4 py-1">
+                                                <div className="user-profile w-10">
+                                                        <ProfileImage image={user.profile_image} className='w-10 h-10 rounded-full object-cover object-fit'/>
+                                                </div>
+                                                <div className="comment-box relative border border-gray-200 rounded-full w-86 lg:w-96 h-11">
+                                                    <input className='rounded-full w-full h-full' type="text" name="comment" id="comment"
+                                                    onChange={(e)=>setComment(e.target.value)}/>
+                                                    {comment && (
+                                                    <button className='bg-[#c7a36a] hover:bg-[#b99a45] text-gray-100 text-sm rounded-full px-2 py-[2px] absolute right-2 top-2.5 transition-transform ease-out duration-1000' type="submit" onClick={()=>handleComment(post.id,user.id)}>Comment</button>)}
+                                                </div>
+
+                                            </div>
+                                        )}
+                                    {/* </div> */}
                                 </div>
                             </>
                         )}

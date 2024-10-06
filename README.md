@@ -95,4 +95,5 @@
 > EventDetail
 
 ## Day 13
-> Post Interaction :like
+> Post Interaction: like
+> Post Interaction: comment 

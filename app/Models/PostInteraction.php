@@ -6,8 +6,8 @@ use App\Models\Post;
 use App\Models\User;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 
 class PostInteraction extends Model
 {
@@ -27,12 +27,12 @@ class PostInteraction extends Model
     //     'comments' => 'array',
     // ];
 
-    public function post():BelongsToMany
+    public function post():BelongsTo
     {
-        return $this->belongsToMany(Post::class,'id','post_id');
+        return $this->belongsTo(Post::class,'id','post_id');
     }
-    public function user():BelongsToMany
+    public function user():BelongsTo
     {
-        return $this->belongsToMany(User::class,'id','user_id');
+        return $this->belongsTo(User::class,'user_id','id');
     }
 }

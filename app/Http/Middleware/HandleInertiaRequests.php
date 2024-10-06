@@ -42,9 +42,12 @@ class HandleInertiaRequests extends Middleware
 
         // $allPostId = Post::pluck('id')->toArray();
         $postsLikedByYou = $user?PostInteraction::where('user_id', $user->id)
+                        ->where('like_status', true)
                         ->pluck('post_id')
                         ->toArray():[];
 
+        $latest_comment = PostInteraction::with('user')
+                        ->latest()->first();
         // $userSkills = $user->skill_id;
         // $recommendingUsers = User::where('id', '!=', $user->id)
         // ->whereHas('skills', function($query) use ($userSkills) {
@@ -87,7 +90,7 @@ class HandleInertiaRequests extends Middleware
             ],
             'skills'=>$skills,
             'latest_posts'=>$latestPosts,
-
+            'latest_comment'=>$latest_comment,
             'flash' => [
             'success' => $request->session()->get('success'),
             ],

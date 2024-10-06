@@ -35,7 +35,7 @@ class Post extends Model
     }
     public function postInteractions(): HasMany
     {
-        return $this->hasMany(PostInteraction::class,'post_id','id');
+        return $this->hasMany(PostInteraction::class,'post_id');
     }
 
     public function connectionCircle(): BelongsTo

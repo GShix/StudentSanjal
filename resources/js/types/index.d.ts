@@ -26,6 +26,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         usersYouFollowed:any;
         postsLikedByYou:any;
     };
+    latest_comment:any;
     userSkills:Array<T>;
     event:any;
     host:any;

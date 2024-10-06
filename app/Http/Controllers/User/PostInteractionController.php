@@ -58,6 +58,26 @@ class PostInteractionController extends Controller
     //         ]);
     //     }
     // }
+
+
+    public function allComments(Request $request){
+        $validatedData = $request->validate([
+            'post_id' => 'required',
+        ]);
+
+        // $allComments = PostInteraction::all();
+        $allComments = PostInteraction::with('user')
+                    ->whereNotNull('comment')
+                    ->where('post_id',$validatedData['post_id'])
+                    ->get()->toArray();
+        // ->pluck('comment');
+        // dd($latest_comment);
+
+        // dd($allComments->toArray());
+        return response()->json([
+            'allComments' =>$allComments
+        ]);
+    }
     public function likeThePost(Request $request){
         // Validate incoming request
         $validatedData = $request->validate([
@@ -111,6 +131,39 @@ class PostInteractionController extends Controller
                 'liked' => true,
             ]);
         }
+    }
+
+    public function commentInThePost(Request $request){
+
+        // dd($request);
+        $validatedData = $request->validate([
+            'post_id' => 'required|exists:posts,id',
+            'user_id' => 'required|exists:users,id',
+            'comment'=> 'required|string'
+        ]);
+
+        // Check if post exists
+        $post = Post::find($validatedData['post_id']);
+        if (!$post) {
+            return response()->json(['error' => 'Post not found'], 404);
+        }
+
+        // Create a new interaction with like_status set to true
+        PostInteraction::create([
+            'post_id' => $validatedData['post_id'],
+            'user_id' => $validatedData['user_id'],
+            'comment' => $validatedData['comment'],
+        ]);
+        // $interaction->total_comments = $interaction->total_comments+1;
+        // $interaction->save();
+        // Update post's like count
+        $post->post_comment_count++;
+        $post->save();
+
+        return response()->json([
+            'liked' => true,
+            'success'=>'Comment created successfully'
+        ]);
     }
 
 }
