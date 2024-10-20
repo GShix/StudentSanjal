@@ -78,6 +78,7 @@ class PostInteractionController extends Controller
             'allComments' =>$allComments
         ]);
     }
+
     public function likeThePost(Request $request){
         // Validate incoming request
         $validatedData = $request->validate([
@@ -94,6 +95,8 @@ class PostInteractionController extends Controller
         // Check if interaction already exists
         $interaction = PostInteraction::where('user_id', $validatedData['user_id'])
                         ->where('post_id', $validatedData['post_id'])
+                        ->whereNull('like_status')
+                        ->whereNull('comment')
                         ->first();
 
         if ($interaction) {

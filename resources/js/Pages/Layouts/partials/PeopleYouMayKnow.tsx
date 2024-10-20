@@ -3,7 +3,7 @@ import { Link, usePage } from "@inertiajs/react";
 
 const PeopleYouMayKnow = () => {
     const {recommendingUsers} = usePage<PageProps>().props.auth;
-    // console.log(recommendingUsers);
+    console.log(recommendingUsers);
 
 
     const getProfileLink:any = (username?: string, otherUsername?:string,otherId?:number) => {

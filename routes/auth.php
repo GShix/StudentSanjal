@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\Auth\NewPasswordController;
 use App\Http\Controllers\Auth\VerifyEmailController;
 use App\Http\Controllers\Auth\RegisteredUserController;
@@ -61,4 +62,8 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/toggleFollow/{id}',[FollowController::class,'toggleFollow'])->name('follow.toggle');
     Route::get('followStatus/{id}',[FollowController::class,'checkFollowStatus'])->name('follow.status');
+
+    // Route::get('')
+
+    Route::get('googleLogin',[SocialiteController::class,'googleLogin'])->name('google.login');
 });

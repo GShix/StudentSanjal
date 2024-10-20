@@ -3,9 +3,12 @@
 namespace App\Http\Controllers\User;
 
 use App\Models\Post;
+use App\Models\User;
 use Inertia\Inertia;
+use App\Models\PostLike;
 use Illuminate\Http\Request;
 use App\Models\PostInteraction;
+use App\Models\ConnectionCircle;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Post\StorePostRequest;
@@ -36,17 +39,73 @@ class PostController extends Controller
     /**
      * Display the specified resource.
      */
-    public function show(Post $post)
+    public function latestPosts(Request $request)
     {
-        //
+        $user = $request->user();
+        $followingIds =$user? ConnectionCircle::where('user_id', $user->id)
+        ->pluck('following')
+        ->toArray():[];
+
+        $latestPosts = Post::with('user','postInteractions')
+        ->whereIn('user_id', $followingIds)
+        // ->with('postInteractions')
+        ->latest()
+        ->take(5)
+        ->get();
+        // $comments
+
+        $latestPosts->each(function ($post) {
+            // Extract interactions that are likes/dislikes (no comments)
+            $likes = $post->postInteractions->whereNull('comment');
+
+            // Extract interactions that are comments (with a non-null comment)
+            $comments = $post->postInteractions->whereNotNull('comment');
+
+            // Add filtered likes/dislikes and comments as attributes to the post
+            $post->likes = $likes; // These include both likes and dislikes
+            $post->comments = $comments;
+        });
+
+        return response()->json([
+            'latestPosts' =>$latestPosts
+        ]);
     }
 
     /**
      * Show the form for editing the specified resource.
      */
-    public function edit(Post $post)
+    public function showPosts()
     {
-        //
+        $user = Auth::user();
+        $followingIds = $user ? ConnectionCircle::where('user_id', $user->id)
+        ->whereNotNull('following')
+        ->pluck('following')
+        ->toArray() : [];
+
+
+        $usersYouFollowed =$user? User::whereIn('id', $followingIds)
+                ->where('id', '!=', $user->id)
+                ->get():[];
+
+        $usersNotFollowed =$user? User::whereNotIn('id', $followingIds)
+            ->where('id', '!=', $user->id)
+            ->get():[];
+
+        $followingIds[] = $user?$user->id:'';
+        $latestPosts = Post::with('user')
+            ->whereIn('user_id', $followingIds)
+            ->latest()
+            ->take(5)
+            ->get();
+
+        $postLikedByUser = PostLike::where('user_id', $user->id)
+            ->whereIn('post_id', $latestPosts->pluck('id'))
+            ->get();
+
+        return response()->json([
+            'latestPosts' => $latestPosts,
+            'postLikedByUser'=>$postLikedByUser
+        ]);
     }
 
     /**

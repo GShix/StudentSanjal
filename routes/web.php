@@ -9,6 +9,8 @@ use App\Http\Controllers\User\ChatController;
 use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\EventController;
 use App\Http\Controllers\User\FrontendController;
+use App\Http\Controllers\User\PostLikeController;
+use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\User\ConnectionController;
 use App\Http\Controllers\User\ShowProfileController;
 use App\Http\Controllers\User\PostInteractionController;
@@ -16,6 +18,8 @@ use App\Http\Controllers\User\PostInteractionController;
 Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
+
+Route::get('/googleLogin', [SocialiteController::class,'googleLogin'])->name('google.login');
 
 Route::middleware('auth')->group(function () {
     Route::get('uploadMedia', function () {
@@ -29,6 +33,10 @@ Route::middleware('auth')->group(function () {
     // Route::get('post',[PostController::class,'index'])->name('createPost');
     Route::resource('post',PostController::class)->except('destroy');
 
+    Route::get('posts/latestPosts',[PostController::class,'latestPosts'])->name('latestPosts');
+
+    Route::get('posts/showPosts',[PostController::class,'showPosts'])->name('showPosts');
+
     Route::post('post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
 
     Route::get('post/{post}', [PostController::class, 'updatePostLoveCount'])->name('post.updatePostLoveCount');
@@ -36,6 +44,9 @@ Route::middleware('auth')->group(function () {
     Route::post('post/latestComment',[PostController::class, 'latestComment']);
 
     Route::post('postInteraction/liked',[PostInteractionController::class, 'likeThePost'])->name('post.like');
+
+    Route::post('postLike/isLiked',[PostLikeController::class,'isLiked']);
+
     Route::post('postInteraction/commented',[PostInteractionController::class, 'commentInThePost'])->name('post.comment');
 
     Route::post('postInteraction/allComments',[PostInteractionController::class, 'allComments']);

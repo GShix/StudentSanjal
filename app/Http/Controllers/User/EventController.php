@@ -38,11 +38,13 @@ class EventController extends Controller
      */
     public function eventDetail(Event $event)
     {
+        $user = Auth::user();
         $host = User::where('id',$event->user_id)->first();
         // dd($host);
         return Inertia::render("EventDetail",[
             'event'=>$event,
-            'host'=>$host
+            'host'=>$host,
+            'user'=>$user
         ]);
     }
 

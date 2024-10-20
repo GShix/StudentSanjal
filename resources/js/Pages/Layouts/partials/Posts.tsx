@@ -12,8 +12,9 @@ interface FormData {
 }
 
 const Posts = () => {
-    const { latest_posts, flash ,latest_comment} = usePage<PageProps>().props;
-    const { user,postsLikedByYou } = usePage<PageProps>().props.auth;
+    const { flash ,latest_comment} = usePage<PageProps>().props;
+    const { user } = usePage<PageProps>().props.auth;
+    // console.log(user)
     const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({
         reason_to_remove_post: ""
     });
@@ -36,6 +37,26 @@ const Posts = () => {
         setPostDescription('');
     }
 
+
+    let [latest_posts ,setLatestPosts] = useState([]);
+    const [postLikedByUser,setPostLikedByUser]=useState([]);
+    const loadLatestPost = async ()=>{
+        try {
+            const response = await axios.get('/posts/showPosts')
+            // console.log(first)
+            setLatestPosts(response.data.latestPosts);
+            setPostLikedByUser(response.data.postLikedByUser);
+            // console.log(response.data.postLikedByUser);
+
+        } catch (error) {
+
+        }
+    }
+
+    useEffect(()=>{
+        loadLatestPost();
+    },[]);
+
     const [isLiked, setIsLiked] = useState(false);
 
     const handlePostLike = async (postId:number, userId:number) => {
@@ -44,12 +65,14 @@ const Posts = () => {
             user_id: userId,
         }
         try {
-            const response = await axios.post('/postInteraction/liked',data);
-            setIsLiked(response.data.liked);
+            const response = await axios.post('/postLike/isLiked',data);
+            setIsLiked(response.data.isLiked);
+            loadLatestPost();
         } catch (error) {
             console.error('Error liking the post', error);
         }
     };
+
     const [allComments,setAllComments] = useState([]);
     const showAllCommentHandler = async(postId:number)=>{
         try {
@@ -86,6 +109,7 @@ const Posts = () => {
         }
     }
 
+
     const handleRemovePost = (postId: number) => {
         setPostIdToRemove(postId);
     };
@@ -118,7 +142,11 @@ const Posts = () => {
     return (
         <>
             {latest_posts.map((post: any) => {
-                const youLiked = postsLikedByYou.includes(post.id);
+
+                const isLiked = postLikedByUser.some(postLike =>
+                    postLike.post_id === post.id && postLike.like_status === 1
+                );
+
                 return (
                     <div key={post.id} className="post bg-gray-100 mt-3 rounded-xl px-3 py-3 border border-gray-400/50">
                         {postIdToRemove === post.id ? (
@@ -191,7 +219,7 @@ const Posts = () => {
                                     <>
                                         {isImage(post.media) ? (
                                             <img
-                                                className="rounded-md cursor-pointer h-full"
+                                                className="rounded-md cursor-pointer object-contain"
                                                 src={post.media}
                                                 alt="Post media"
                                                 onClick={() => handlePostShow(post.media, post.post_description)}
@@ -217,8 +245,8 @@ const Posts = () => {
                                 </div>
                                 <div className="post-interaction mt-1 px-2">
                                     <div className="interaction-counts flex justify-between">
-                                        <div className="like-count">
-                                            {post.post_like_count && (<i className="ri-heart-3-fill text-gray-100 p-[2px] bg-red-500 rounded-full mr-2 cursor-pointer"></i>)}
+                                        <div className="like-count cursor-pointer hover:bg-red-500">
+                                            {post.post_like_count ? (<i className="ri-heart-3-fill text-gray-100 p-[2px] bg-red-500 rounded-full mr-2 cursor-pointer"></i>):""}
                                             <span className="cursor-pointer hover:underline text-sm" id={`like-count-${post.id}`}>
                                                 {post.post_like_count <= 0 ? "" : post.post_like_count}
                                             </span>
@@ -232,7 +260,7 @@ const Posts = () => {
                                         <div className="like w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer"
                                         onClick={()=>handlePostLike(post.id,user.id)}>
                                             {/* <i className="ri-heart-3-line text-lg"></i> */}
-                                            <i className={`${isLiked || youLiked?"ri-thumb-up-fill text-lg":"ri-thumb-up-line"}`}></i>
+                                            <i className={`${isLiked || postLikedByUser.includes(post.id) ?"ri-thumb-up-fill text-lg":"ri-thumb-up-line"}`}></i>
                                         </div>
                                         <div className="comment w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer" onClick={()=>setCreateComment(true)}>
                                             <i className="ri-chat-2-line text-lg"></i>

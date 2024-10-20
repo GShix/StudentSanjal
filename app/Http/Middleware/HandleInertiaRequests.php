@@ -38,29 +38,32 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $user = $request->user();
+        $user = $user?User::with('postLike')->where('id',$user->id)->first():[];
         $skills = Skill::latest()->get();
 
         // $allPostId = Post::pluck('id')->toArray();
-        $postsLikedByYou = $user?PostInteraction::where('user_id', $user->id)
-                        ->where('like_status', true)
-                        ->pluck('post_id')
-                        ->toArray():[];
+        // $postsLikedByYou = $user?PostInteraction::where('user_id', $user->id)
+        //                 ->where('like_status', true)
+        //                 ->pluck('post_id')
+        //                 ->toArray():[];
 
-        $latest_comment = PostInteraction::with('user')
-                        ->latest()->first();
+        // $latest_comment = PostInteraction::with('user')
+        //                 ->latest()->first();
         // $userSkills = $user->skill_id;
         // $recommendingUsers = User::where('id', '!=', $user->id)
         // ->whereHas('skills', function($query) use ($userSkills) {
         //     $query->whereIn('skill_id', $userSkills);
         // })
         // ->get();
-        $followingIds =$user? ConnectionCircle::where('user_id', $user->id)
-                    ->pluck('following')
-                    ->toArray():[];
+        $followingIds = $user ? ConnectionCircle::where('user_id', $user->id)
+                        ->whereNotNull('following')
+                        ->pluck('following')
+                        ->toArray() : [];
+
 
         $usersYouFollowed =$user? User::whereIn('id', $followingIds)
-                                ->where('id', '!=', $user->id)
-                                ->get():[];
+                        ->where('id', '!=', $user->id)
+                        ->get():[];
 
         $usersNotFollowed =$user? User::whereNotIn('id', $followingIds)
                     ->where('id', '!=', $user->id)
@@ -77,7 +80,6 @@ class HandleInertiaRequests extends Middleware
             ...parent::share($request),
             'auth' => [
                 'user' => $user,
-                // Fetch the latest note for the authenticated user
                 'latest_chat' => $user
                                 ? Chat::where('receiver_id', $user->id)->latest()->first() ?? null
                                 : null,
@@ -86,11 +88,11 @@ class HandleInertiaRequests extends Middleware
                                 : null,
                 'recommendingUsers' =>$usersNotFollowed,
                 'usersYouFollowed'=>$usersYouFollowed,
-                'postsLikedByYou'=>$postsLikedByYou
+                // 'postsLikedByYou'=>$postsLikedByYou
             ],
             'skills'=>$skills,
             'latest_posts'=>$latestPosts,
-            'latest_comment'=>$latest_comment,
+            // 'latest_comment'=>$latest_comment,
             'flash' => [
             'success' => $request->session()->get('success'),
             ],

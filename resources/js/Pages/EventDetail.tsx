@@ -3,8 +3,8 @@ import CleanHomeLayout from "./Layouts/CleanHomeLayout"
 import { PageProps } from "@/types"
 
 const EventDetail = () => {
-    const {event,host} = usePage<PageProps>().props;
-    // console.log(host)
+    const {event,host,user} = usePage<PageProps>().props;
+    console.log(user,host.id)
   return (
     <CleanHomeLayout>
         <Head title={event.title}/>
@@ -41,11 +41,11 @@ const EventDetail = () => {
                             <span className="text-sm">{new Date(event.start_date).toDateString()}</span>
                         </div>
                         {event.event_type==="virtual"?(
-                            <div className="virtual-event text-sm">
-                                <i className="ri-live-fill text-lg"></i>
+                            <div className="virtual-event text-sm flex items-start">
+                                <i className="ri-live-fill text-lg mr-2"></i>
                                 <div className="type">
-                                    <h1>Virtual event</h1>
-                                    <p>Link visible for attendees</p>
+                                    <h1 className="">Virtual event</h1>
+                                    <p className="text-xs text-gray-600">Link visible for attendees</p>
                                 </div>
                             </div>
                         ):(
@@ -63,19 +63,25 @@ const EventDetail = () => {
                     </div>
                 </div>
             </div>
-            <div className="footer sticky bottom-0 h-20 bg-gray-50 px-6 py-2 border-t border-gray-300">
-                <div className="event-header flex justify-between items-center">
-                    <div className="header">
-                        <h1>{event.start_date}</h1>
-                        <h1 className="text-xl font-medium">{event.title}</h1>
+            <div className="footer sticky bottom-0 sm:h-20 bg-gray-50 px-6 py-2 border-t border-gray-300">
+                <div className="event-header sm:flex justify-between items-center">
+                    <div className="header max-sm:flex items-center gap-2">
+                        <h1 className="text-sm sm:text-lg">{event.start_date}</h1>
+                        <h1 className="sm:text-xl font-medium">{event.title}</h1>
                     </div>
-                    <div className="entry-type">
+                    <div className="entry-type max-sm:flex gap-3 items-center">
                         <p>{event.entry_type=='=free'?"Free":"Paid"}</p>
-                        <span>{event.entry_type==='paid'?`Rs. ${event.entry_fee}`:""}</span>
+                        <span className="text-sm">{event.entry_type==='paid'?`Rs. ${event.entry_fee}`:""}</span>
                     </div>
-                    <div className="footer-btn flex items-center gap-4">
-                        <button className="px-4 py-2 border-[2px] outline-[#c7ae6a] rounded-md hover:bg-gray-200">Share</button>
-                        <button className="px-4 py-2 bg-[#c7ae6a] rounded-md hover:bg-[#b99a45] tracking-wider">Join</button>
+                    <div className="footer-btn flex items-center gap-4 max-sm:mt-1">
+                        <button className="px-4 py-[6.1px] sm:py-2 max-sm:text-sm border-[2px] outline-[#c7ae6a] rounded-md hover:bg-gray-200">Share</button>
+                        <div className="div max-sm:text-sm">
+                            {(host.id===user.id)?
+                                <button className="px-4 py-2 bg-[#c7ae6a] rounded-md hover:bg-[#b99a45] tracking-wider">Edit</button>
+                            :(
+                                <button className="px-4 py-2 bg-[#c7ae6a] rounded-md hover:bg-[#b99a45] tracking-wider">Join</button>
+                            )}
+                        </div>
                     </div>
                 </div>
             </div>
