@@ -43,6 +43,11 @@ class Post extends Model
         return $this->hasMany(PostLike::class);
     }
 
+    public function postComment(): HasMany
+    {
+        return $this->hasMany(PostComment::class);
+    }
+
     public function connectionCircle(): BelongsTo
     {
         return $this->belongsTo(ConnectionCircle::class);

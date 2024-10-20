@@ -18,7 +18,7 @@ const  Welcome = ({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersi
 
     const { recentlySuccessful } = usePage().props;
 
-    const scroll = new LocomotiveScroll();
+    // const scroll = new LocomotiveScroll();
 
     const navLinks = [
         {

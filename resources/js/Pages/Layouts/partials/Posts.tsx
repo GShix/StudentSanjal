@@ -39,14 +39,13 @@ const Posts = () => {
 
 
     let [latest_posts ,setLatestPosts] = useState([]);
+    let [latest_comments,setLatestComments] = useState([]);
     const [postLikedByUser,setPostLikedByUser]=useState([]);
     const loadLatestPost = async ()=>{
         try {
             const response = await axios.get('/posts/showPosts')
-            // console.log(first)
             setLatestPosts(response.data.latestPosts);
             setPostLikedByUser(response.data.postLikedByUser);
-            // console.log(response.data.postLikedByUser);
 
         } catch (error) {
 
@@ -57,6 +56,7 @@ const Posts = () => {
         loadLatestPost();
     },[]);
 
+    // console.log(latest_posts)
     const [isLiked, setIsLiked] = useState(false);
 
     const handlePostLike = async (postId:number, userId:number) => {
@@ -73,24 +73,24 @@ const Posts = () => {
         }
     };
 
+    const [createComment,setCreateComment] = useState(false);
+    const [comment,setComment] = useState('');
     const [allComments,setAllComments] = useState([]);
+    const [showAllComments,setShowAllComments] = useState(false);
+
     const showAllCommentHandler = async(postId:number)=>{
+        setShowAllComments(!showAllComments);
         try {
-            // console.log(postId)
             const data ={
                 post_id:postId
             }
-            const response = await axios.post('/postInteraction/allComments',data)
-            setAllComments(response.data.allComments);
-            console.log(allComments)
+            const response = await axios.post('/postComment/allComments',data)
+           setAllComments(response.data.allComments);
         } catch (error) {
             console.log("Error",error)
         }
 
     }
-    const [createComment,setCreateComment] = useState(false);
-    const [comment,setComment] = useState('');
-    const [showAllComments,setShowAllComments] = useState(false);
 
     const handleComment =async (postId:number, userId:number) => {
         const data = {
@@ -99,8 +99,10 @@ const Posts = () => {
             comment
         }
         try {
-            const response = await axios.post('/postInteraction/commented',data);
+            const response = await axios.post('/postComment/commentOnThePost',data);
             if(response.data.success){
+                loadLatestPost();
+                setShowAllComments(true);
                 setCreateComment(false);
                 setComment('');
             }
@@ -108,7 +110,6 @@ const Posts = () => {
             console.error('Error liking the post', error);
         }
     }
-
 
     const handleRemovePost = (postId: number) => {
         setPostIdToRemove(postId);
@@ -253,7 +254,7 @@ const Posts = () => {
                                         </div>
                                         <div className="comment-count flex items-center cursor-pointer" onClick={()=>showAllCommentHandler(post.id)}>
                                             <span className="cursor-pointer hover:underline text-sm">{post.post_comment_count}</span>
-                                            <i className="ri-chat-2-line text-gray-800 ml-2 p-[2px]"></i>
+                                            <i className="ri-chat-2-line text-gray-800 ml-2"></i>
                                         </div>
                                     </div>
                                     <div className="interaction-btn flex justify-between mt-[2px] py-1 border-b-[1.6px] border-t-[1.6px]">
@@ -271,24 +272,25 @@ const Posts = () => {
 
                                     </div>
 
-                                    {/* {showAllComments && ( */}
-                                    {allComments.map((item:any,index:number)=>(
-                                    <div key={index} className="create-comment flex items-center py-1">
-                                            <div className="create-comment flex items-center gap-1 lg:gap-4 py-1">
-                                                <div className="user-profile">
-                                                        <ProfileImage image={item?.user.profile_image} className='w-9 h-9 rounded-full object-cover object-fit'/>
+                                    {showAllComments && (
+                                        <>
+                                        {allComments.map((item:any,index:number)=>(
+                                        <div key={index} className="create-comment flex items-center py-1">
+                                                <div className="create-comment flex items-center gap-1 lg:gap-4 py-1">
+                                                    <div className="user-profile">
+                                                            <ProfileImage image={item?.user.profile_image} className='w-9 h-9 rounded-full object-cover object-fit'/>
+                                                    </div>
+                                                    <div className="comment-box relative border border-gray-200 rounded-full ">
+                                                        <p className='bg-gray-200 px-2 py-1 rounded-md text-sm text-gray-700'>{item?.comment}</p>
+                                                    </div>
+                                                    <div className="menu rotate-90">
+                                                        <i className="ri-more-2-fill cursor-pointer hover:bg-gray-200 py-1 px-[2px] rounded-md"></i>
+                                                    </div>
                                                 </div>
-                                                <div className="comment-box relative border border-gray-200 rounded-full ">
-                                                    <p className='bg-gray-200 px-2 py-1 rounded-md text-sm text-gray-700'>{item?.comment}</p>
-                                                </div>
-                                                <div className="menu rotate-90">
-                                                    <i className="ri-more-2-fill cursor-pointer hover:bg-gray-200 py-1 px-[2px] rounded-md"></i>
-                                                </div>
-                                            </div>
-                                    </div>))}
-                                    {/* )} */}
+                                        </div>))}
+                                        </>
+                                    )}
 
-                                    {/* */}
 
                                     {/* <div className="interaction-btn flex justify-center mt-[2px] py-1 border-b-[1.6px]"> */}
                                         {createComment &&(

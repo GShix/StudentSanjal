@@ -25,7 +25,7 @@ class ShowProfileController extends Controller
         $user_id = $user->skill_id;
 
         // dd($user_id);
-        $userSkills = Skill::whereIn('id',$user_id)->get();
+        $userSkills = $user_id?Skill::whereIn('id',$user_id)->get():[];
         // dd($userSkills->toArray());
 
         $following = User::with('connectionCircle')->where('id',$auth)->get();

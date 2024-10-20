@@ -12,6 +12,7 @@ use App\Http\Controllers\User\FrontendController;
 use App\Http\Controllers\User\PostLikeController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\User\ConnectionController;
+use App\Http\Controllers\User\PostCommentController;
 use App\Http\Controllers\User\ShowProfileController;
 use App\Http\Controllers\User\PostInteractionController;
 
@@ -43,13 +44,13 @@ Route::middleware('auth')->group(function () {
 
     Route::post('post/latestComment',[PostController::class, 'latestComment']);
 
-    Route::post('postInteraction/liked',[PostInteractionController::class, 'likeThePost'])->name('post.like');
 
     Route::post('postLike/isLiked',[PostLikeController::class,'isLiked']);
+    Route::post('postComment/commentOnThePost',[PostCommentController::class,'commentOnThePost']);
+    Route::post('postComment/allComments',[PostCommentController::class, 'allComments']);
 
     Route::post('postInteraction/commented',[PostInteractionController::class, 'commentInThePost'])->name('post.comment');
 
-    Route::post('postInteraction/allComments',[PostInteractionController::class, 'allComments']);
 
     Route::get('showProfile/{username}',[ShowProfileController::class, 'showProfile'])->name('showProfile');
     Route::get('showProfile/{id}',[ShowProfileController::class, 'showProfileById'])->name('showProfileById');
