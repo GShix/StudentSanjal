@@ -150,29 +150,34 @@ const CleanHomeLayout = ({
             <div className="clean-Column rounded-lg">
                 <div className="mobile-down-navbar flex gap-14 md:hidden bg-gray-100 justify-center rounded-xl px-2.5 py-3 mb-3 h-14">
                     <div className="Home-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
-                        <a href="/" className="flex flex-col items-center">
+                        <a href="/" className="flex flex-col items-center group relative">
                             <i className="ri-home-7-fill text-[20px] hover:scale-110"></i>
+                            <p className="text-xs hidden group-hover:block absolute -top-2.5">Home</p>
                         </a>
                     </div>
                     <div className="Mynetwork-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
-                        <a href="/" className="flex flex-col items-center">
+                        <a href="/" className="flex flex-col items-center group relative">
                             <i className="ri-group-3-fill text-[20px] hover:scale-110"></i>
+                            <p className="text-xs hidden group-hover:block absolute -top-2.5 text-nowrap">My Network</p>
                         </a>
                     </div>
                     <div className="Job-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
-                        <a href="/" className="flex flex-col items-center">
+                        <a href="/" className="flex flex-col items-center group relative">
                             <i className="ri-group-line text-[20px] hover:scale-110"></i>
+                            <p className="text-xs hidden group-hover:block absolute -top-2.5">Groups</p>
                         </a>
                     </div>
                     <div className="Events-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
-                        <a href={route('event.index')} className="flex flex-col items-center">
+                        <a href={route('event.index')} className="flex flex-col items-center group relative">
                             {/* <i className="ri-group-line text-[20px] hover:scale-110"></i> */}
                             <i className="ri-calendar-event-fill text-[20px] hover:scale-110"></i>
+                            <p className="text-xs hidden group-hover:block absolute -top-2.5">Events</p>
                         </a>
                     </div>
                     <div className="Notification-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
-                        <a href="/" className="flex flex-col items-center">
+                        <a href="/" className="flex flex-col items-center group relative">
                             <i className="ri-notification-3-fill text-[20px] hover:scale-110"></i>
+                            <p className="text-xs hidden group-hover:block absolute -top-2.5">Notification</p>
                         </a>
                     </div>
                 </div>
