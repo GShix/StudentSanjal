@@ -7,6 +7,7 @@ import FilePreview from "./Layouts/partials/PreviewFile";
 import axios from "axios";
 import echo from '../echo'
 import Modal from "@/Components/Modal";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 interface FormData {
     text_field?:string;
@@ -58,6 +59,14 @@ const StartChat = () => {
         media:null,
         like: '',
     });
+
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+    const handleEmojiClick = (emojiData: EmojiClickData) => {
+        const newValue = (data.text_field || '') + emojiData.emoji; // Get current value or default to empty string
+        setData('text_field', newValue); // Set the new value
+        setShowEmojiPicker(false); // Close the emoji picker after selecting an emoji
+    };
 
     const chatContainerRef = useRef(null);
 
@@ -118,19 +127,6 @@ const StartChat = () => {
             };
         }
     }, [chatGarneSathi]);
-    const [allMessages, setAllMessages] = useState(messages);
-    useEffect(() => {
-        const channel = window.Echo.channel("chat");
-        channel.listen("SendMessageEvent", (newMessage) => {
-            setAllMessages((prevAllMessages) => [
-                ...prevAllMessages,
-                newMessage.newMessage,
-            ]);
-        });
-        return () => {
-            channel.unsubscribe();
-        };
-    }, []);
 
     const showMessageHandle = async(sathi: ChatGarneSathi) => {
         setChatGarneSathi(sathi);
@@ -179,6 +175,7 @@ const StartChat = () => {
             return otherId ?? route('showProfileById', otherId)
         }
     };
+
   return (
     <CleanHomeLayout>
         <Head title="Chat" />
@@ -269,7 +266,12 @@ const StartChat = () => {
                                 <i className="ri-close-fill mr-4 text-xl cursor-pointer rounded-full hover:text-gray-600" onClick={()=>setShowMessage(false)}></i>
                             </div>
                         </div>
-
+                        {showEmojiPicker && (
+                        <div className="emoji-picker fixed">
+                            {/* <EmojiPicker onEmojiClick={handleEmojiClick}/> */}
+                            <EmojiPicker height={300} width={300} onEmojiClick={handleEmojiClick}/>
+                        </div>
+                    )}
                         <div className="message-items py-2 min-h-96" ref={chatContainerRef}>
                             {chats.map((chat: any) => (
                                 <div key={chat.id} className="chat-message-haru px-8">
@@ -333,9 +335,12 @@ const StartChat = () => {
                                         </label>
                                 </div>
                                 <div className="text_field flex items-center gap-5">
-                                    <div className="input">
+                                    <div className="input relative flex items-center">
                                         <input onChange={(e)=>setData('text_field',e.target.value)} value={data.text_field}
                                         className='rounded-full placeholder:text-sm w-96' type="text" name="text_field" id="text_field" placeholder='Write a message'/>
+                                         <button type="button" className="emoji-button absolute right-3" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                                            😀
+                                        </button>
                                     </div>
                                     <div className="send-btn">
                                         <button type='submit'>

@@ -102,3 +102,6 @@
 > PostLike upgraded
 > PostComment upgraded
 > group-hover for mobile navbar 
+
+## Day 15
+> emoji-picker-react
