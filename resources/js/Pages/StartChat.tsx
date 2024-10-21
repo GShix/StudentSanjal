@@ -45,7 +45,6 @@ const StartChat = () => {
 
     const { user,latest_chat,usersYouFollowed } = usePage<PageProps>().props.auth;
     const { otherUsers} = usePage<PageProps>().props;
-    console.log(usersYouFollowed);
 
     const [chatGarneSathi,setChatGarneSathi] = useState<ChatGarneSathi | null>(null);
     const [showMessage,setShowMessage] = useState(false);
@@ -70,7 +69,39 @@ const StartChat = () => {
                 lastMessage.scrollIntoView({ behavior: 'smooth' });
             }
         }
-    }, [chats]);
+    }, []);
+
+    const fetchChats = async () => {
+        try {
+            const response = await axios.get(`startChat/${chatGarneSathi.id}`);
+            setChats(response.data.chats);
+        } catch (error) {
+            console.error("Error fetching chats:", error);
+        }
+    };
+    useEffect(() => {
+        if (chatGarneSathi) {
+            fetchChats();
+        }
+    }, [chatGarneSathi]);
+
+    const submitChat = (e:any)=>{
+        e.preventDefault();
+
+        post(route('chat.send'), {
+            onSuccess: () => {
+                setData({
+                    text_field: '',
+                    media: null,
+                    like: '',
+                });
+                fetchChats();
+            },
+            onError: (error) => {
+                setError('error', error);
+            },
+        });
+    }
 
     useEffect(() => {
         if (chatGarneSathi) {
@@ -87,20 +118,19 @@ const StartChat = () => {
             };
         }
     }, [chatGarneSathi]);
-
+    const [allMessages, setAllMessages] = useState(messages);
     useEffect(() => {
-        if (chatGarneSathi) {
-            const fetchChats = async () => {
-                try {
-                    const response = await axios.get(`startChat/${chatGarneSathi.id}`);
-                    setChats(response.data.chats);
-                } catch (error) {
-                    console.error("Error starting chat:", error);
-                }
-            };
-            fetchChats();
-        }
-    }, [chatGarneSathi]);
+        const channel = window.Echo.channel("chat");
+        channel.listen("SendMessageEvent", (newMessage) => {
+            setAllMessages((prevAllMessages) => [
+                ...prevAllMessages,
+                newMessage.newMessage,
+            ]);
+        });
+        return () => {
+            channel.unsubscribe();
+        };
+    }, []);
 
     const showMessageHandle = async(sathi: ChatGarneSathi) => {
         setChatGarneSathi(sathi);
@@ -126,23 +156,6 @@ const StartChat = () => {
     const handleRemoveFile = () => {
         setData('media', null);
     };
-
-    const submitChat = (e:any)=>{
-        e.preventDefault();
-
-        post(route('chat.send'), {
-            onSuccess: () => {
-                setData({
-                    text_field: '',
-                    media: null,
-                    like: '',
-                });
-            },
-            onError: (error) => {
-                setError('error', error);
-            },
-        });
-    }
 
     const [fileURL, setFileURL] = useState<string | null>(null);
     useEffect(() => {

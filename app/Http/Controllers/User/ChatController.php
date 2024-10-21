@@ -66,6 +66,7 @@ class ChatController extends Controller
 
     public function sendChat(StoreChatRequest $request)
     {
+        // dd($request->toArray());
         $validated = $request->validated();
 
         $sender_id = session('sender_id');
@@ -89,8 +90,9 @@ class ChatController extends Controller
 
         broadcast(new ChatSendEvent($chats))->toOthers();
 
+        // return response()->json(['chats' => $chats]);
         // return response()->json(['success' => 'Message sent successfully']);
-        // return back()->with('success','Message sent successfully');
+        return back()->with('success','Message sent successfully');
     }
 
     /**

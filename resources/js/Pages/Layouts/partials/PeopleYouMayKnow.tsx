@@ -40,9 +40,11 @@ const PeopleYouMayKnow = () => {
                     </div>
                 </div>
                 <div className="recommendation-options px-3 flex gap-4 my-1">
-                    <button className="bg-[#c7ae6a] px-6 py-2 rounded-full text-white font-semibold hover:bg-[#b99a45] flex items-center gap-2" type="submit">
-                        <i className="ri-user-add-fill"></i>
-                        <Link href={getProfileLink(user.username)}>Connect</Link>
+                    <button className="bg-[#c7ae6a] px-6 py-2 rounded-full text-white font-semibold hover:bg-[#b99a45] flex items-center" type="submit">
+                        <Link href={getProfileLink(user.username)}>
+                            <i className="ri-user-add-fill mr-1"></i>
+                            Connect
+                        </Link>
                     </button>
                 </div>
             </div>

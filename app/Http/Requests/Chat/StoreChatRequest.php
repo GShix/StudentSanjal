@@ -22,6 +22,8 @@ class StoreChatRequest extends FormRequest
     public function rules(): array
     {
         return [
+            // 'sender_id'=>['required'],
+            // 'receiver_id'=>['required'],
             'document'=>['nullable','mimes:pdf,docx'],
             'media'=>['nullable','mimes:png,jpg,jpeg,mp4'],
             'text_field'=>['nullable','string','max:20000'],

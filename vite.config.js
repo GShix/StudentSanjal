@@ -10,4 +10,13 @@ export default defineConfig({
         }),
         react(),
     ],
+    define: {
+        'process.env': {
+            VITE_PUSHER_APP_KEY: process.env.VITE_PUSHER_APP_KEY,
+            VITE_PUSHER_APP_SECRET: process.env.VITE_PUSHER_APP_SECRET,
+            VITE_PUSHER_APP_ID: process.env.VITE_PUSHER_APP_ID,
+            VITE_PUSHER_APP_CLUSTER: process.env.VITE_PUSHER_APP_CLUSTER,
+        }
+    }
 });
+

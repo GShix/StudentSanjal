@@ -38,23 +38,9 @@ class HandleInertiaRequests extends Middleware
     public function share(Request $request): array
     {
         $user = $request->user();
-        $user = $user?User::with('postLike')->where('id',$user->id)->first():[];
+
         $skills = Skill::latest()->get();
 
-        // $allPostId = Post::pluck('id')->toArray();
-        // $postsLikedByYou = $user?PostInteraction::where('user_id', $user->id)
-        //                 ->where('like_status', true)
-        //                 ->pluck('post_id')
-        //                 ->toArray():[];
-
-        // $latest_comment = PostInteraction::with('user')
-        //                 ->latest()->first();
-        // $userSkills = $user->skill_id;
-        // $recommendingUsers = User::where('id', '!=', $user->id)
-        // ->whereHas('skills', function($query) use ($userSkills) {
-        //     $query->whereIn('skill_id', $userSkills);
-        // })
-        // ->get();
         $followingIds = $user ? ConnectionCircle::where('user_id', $user->id)
                         ->whereNotNull('following')
                         ->pluck('following')

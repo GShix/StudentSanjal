@@ -13,7 +13,9 @@ import Dashboard from './Dashboard';
 import Home from './Home';
 
 
-const  Welcome = ({ auth, laravelVersion, phpVersion }: PageProps<{ laravelVersion: string, phpVersion: string }>)=> {
+const  Welcome = ({ laravelVersion, phpVersion }: PageProps<{ laravelVersion: string, phpVersion: string }>)=> {
+
+    const {auth} = usePage<PageProps>().props
     const [clickMenu, setClickMenu] = useState(false);
 
     const { recentlySuccessful } = usePage().props;

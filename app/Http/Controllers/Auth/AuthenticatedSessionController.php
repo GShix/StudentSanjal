@@ -45,7 +45,7 @@ class AuthenticatedSessionController extends Controller
             if ($user->profile_updated) {
                 return redirect()->route('home')->with('success',"Logged in successfully");
             } else {
-                return redirect()->route('updateProfile')->with('success',"Please update your profile");
+                return redirect()->route('updateProfile')->with('success',"Must update your username");
             }
         }
 

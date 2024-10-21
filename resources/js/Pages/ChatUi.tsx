@@ -19,7 +19,6 @@ interface ChatGarneSathi {
     last_name: string;
     username: string;
     active_status: string;
-    // Add other properties that you expect to exist in chatGarneSathi
 }
 interface noteWalaSathi{
     note:string;
@@ -58,7 +57,7 @@ const ChatUi = () => {
     const [showNoteCreate, setShowNoteCreate] = useState(false);
     const [showNoteEdit, setShowNoteEdit] = useState(false);
     const [showMessage, setShowMessage] = useState(false);
-    // const [chatGarneSathi,setChatGarneSathi] = useState({});
+
     const [noteWalaSathi,setNoteWalaSathi] = useState<noteWalaSathi | null>(null);
     const [showOthersNote,setShowOthersNote] = useState(false);
 
@@ -81,9 +80,6 @@ const ChatUi = () => {
         setShowNoteCreate(true);
         setShowMessage(false);
     }
-    // console.log("Note wala sathi",noteWalaSathi)
-    // console.log("Ma",user)
-    // console.log("Ma",noteWalaSathi.id === user.id )
 
     const [showSearchInput,setShowSearchInput] = useState(false);
 
