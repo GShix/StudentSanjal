@@ -19,10 +19,31 @@ const Posts = () => {
         reason_to_remove_post: ""
     });
 
+    const [showCommentSetting,setShowCommentSetting] = useState(false);
+    const [commentId,setCommentId] = useState();
+    const [commentOwnerId,setCommentOwnerId] = useState();
     const [postIdToRemove, setPostIdToRemove] = useState<number | null>(null);
     const [showModal, setShowModal] = useState(false);
     const [postMedia, setPostMedia] = useState<string>();
     const [postDescription, setPostDescription] = useState<string>();
+
+    const [activeCommentId, setActiveCommentId] = useState<number | null>(null); // State to track which comment's menu is active
+
+    const handleShowCommentSetting = (commentId: number) => {
+        setActiveCommentId(activeCommentId === commentId ? null : commentId); // Toggle menu visibility
+    };
+
+    const handleEditComment = (commentId: number) => {
+        console.log(`Edit comment ${commentId}`);
+    };
+
+    const handleDeleteComment = (commentId: number) => {
+        console.log(`Delete comment ${commentId}`);
+    };
+
+    const handleHideComment = (commentId: number) => {
+        console.log(`Hide comment ${commentId}`);
+    };
 
     const handlePostShow = (media:string,description:string)=>{
         console.log(media,description);
@@ -37,6 +58,11 @@ const Posts = () => {
         setPostDescription('');
     }
 
+    // const handleShowCommentSetting =(commentId:any,ownerId:any) =>{
+    //     setShowCommentSetting(!showCommentSetting);
+    //     setCommentId(commentId);
+    //     setCommentOwnerId(ownerId);
+    // }
 
     let [latest_posts ,setLatestPosts] = useState([]);
     let [latest_comments,setLatestComments] = useState([]);
@@ -271,23 +297,43 @@ const Posts = () => {
                                         </div>
 
                                     </div>
-
                                     {showAllComments && (
                                         <>
-                                        {allComments.map((item:any,index:number)=>(
-                                        <div key={index} className="create-comment flex items-center py-1">
-                                                <div className="create-comment flex items-center gap-1 lg:gap-4 py-1">
+                                        {allComments.map((item: any, index: number) => (
+                                            <div key={index} className="create-comment flex items-center py-1">
+                                                <div className="create-comment flex items-center gap-1 lg:gap-4 py-1 relative">
                                                     <div className="user-profile">
-                                                            <ProfileImage image={item?.user.profile_image} className='w-9 h-9 rounded-full object-cover object-fit'/>
+                                                        <ProfileImage image={item?.user.profile_image} className="w-9 h-9 rounded-full object-cover object-fit" />
                                                     </div>
-                                                    <div className="comment-box relative border border-gray-200 rounded-full ">
-                                                        <p className='bg-gray-200 px-2 py-1 rounded-md text-sm text-gray-700'>{item?.comment}</p>
+                                                    <div className="comment-box relative border border-gray-200 rounded-full">
+                                                        <p className="bg-gray-200 px-2 py-1 rounded-md text-sm text-gray-700">{item?.comment}</p>
                                                     </div>
-                                                    <div className="menu rotate-90">
-                                                        <i className="ri-more-2-fill cursor-pointer hover:bg-gray-200 py-1 px-[2px] rounded-md"></i>
+                                                    <div className="menu relative ml-3">
+                                                        <i
+                                                            className="ri-more-2-fill cursor-pointer block rotate-90 hover:bg-gray-200 py-1 px-[2px] rounded-md"
+                                                            onClick={() => handleShowCommentSetting(item.id)} // Toggle the menu for the clicked comment
+                                                        ></i>
                                                     </div>
+
+                                                    {/* Show menu only if activeCommentId matches the current comment */}
+                                                    {activeCommentId === item.id && (
+                                                        <div className="comment-setting absolute top-0 -right-24 bg-gray-200 py-2 z-50 rounded-md w-auto px-3">
+                                                            {/* <i className="ri-close-fill absolute right-1 top-0 hover:cursor-pointer" title='Close'></i> */}
+                                                            {item.user.id === user.id ? (
+                                                                <div className='flex gap-5'>
+                                                                    <i className="ri-edit-2-fill hover:text-[#b99a45] cursor-pointer" title='Edit' onClick={() => handleEditComment(item.id)}></i>
+                                                                    {/* <button className='hover:bg-gray-100 w-full px-2 py-1 text-start border-b border-gray-50 rounded-md' onClick={() => handleEditComment(item.id)}>Edit</button> */}
+                                                                    <i className="ri-delete-bin-2-fill hover:text-red-600 cursor-pointer" title='Delete' onClick={() => handleDeleteComment(item.id)}></i>
+                                                                    {/* <button className='hover:bg-gray-100 w-full px-2 py-1 text-start rounded-md' onClick={() => handleDeleteComment(item.id)}>Delete</button> */}
+                                                                </div>
+                                                            ) : (
+                                                                <button onClick={() => handleHideComment(item.id)}>Hide Comment</button>
+                                                            )}
+                                                        </div>
+                                                    )}
                                                 </div>
-                                        </div>))}
+                                            </div>
+                                        ))}
                                         </>
                                     )}
 
