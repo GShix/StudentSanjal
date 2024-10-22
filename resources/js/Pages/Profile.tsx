@@ -419,16 +419,27 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         <div className="col-span-full md:col-span-2">
                         <div className="mt-2 md:mt-9 flex gap-x-3 items-center">
                             <label htmlFor="active_status" className="text-sm font-medium leading-6 text-gray-900">
-                            Active status
+                            Active status:
                             </label>
-                            <input
+                            {/* <input
                             id="active_status"
                             name="active_status"
                             type="checkbox"
                             checked={data.active_status}
                             onChange={(e) => setData('active_status', e.target.checked)}
                             className="h-4 w-4 rounded border-gray-300 text-[#b99a45] focus:ring-black"
-                            />
+                            /> */}
+                              <label className="relative inline-flex cursor-pointer items-center">
+                                <input id="active_status" type="checkbox" className="peer sr-only" name='active_status'
+                                    checked={data.active_status}
+                                    onChange={(e) => setData('active_status', e.target.checked)}/>
+                                <label htmlFor="active_status" className="hidden"></label>
+                                <div className="w-11 h-6 bg-[#c7ae6a] peer-focus:outline-none peer-focus:ring-2 peer-focus:ring-gray-500 rounded-full peer dark:bg-[#b99a45] peer-checked:bg-blue-600"></div>
+                                <div className="absolute left-0.5 top-0.5 w-5 h-5 bg-white border border-gray-300 rounded-full transition-transform peer-checked:translate-x-full"></div>
+                                <span className="ml-3 text-gray-700">
+                                    {data.active_status ? 'ON' : 'OFF'}
+                                </span>
+                            </label>
                         </div>
                         </div>
                     </div>

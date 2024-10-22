@@ -72,9 +72,9 @@ Route::middleware('auth')->group(function () {
 // })->middleware(['auth', 'verified'])->name('dashboard');
 
 Route::middleware('auth')->group(function () {
-    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
-    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
-    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
+    Route::get('/profileSetting', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profileSetting', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profileSetting', [ProfileController::class, 'destroy'])->name('profile.destroy');
 
     // Route::patch('updateSkills/{id}',[ProfileController::class,'updateSkills'])->name('updateSkills');
 

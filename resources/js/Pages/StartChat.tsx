@@ -267,9 +267,9 @@ const StartChat = () => {
                             </div>
                         </div>
                         {showEmojiPicker && (
-                        <div className="emoji-picker fixed">
+                        <div className="emoji-picker fixed text-sm">
                             {/* <EmojiPicker onEmojiClick={handleEmojiClick}/> */}
-                            <EmojiPicker height={300} width={300} onEmojiClick={handleEmojiClick}/>
+                            <EmojiPicker height={300} width={300} onEmojiClick={handleEmojiClick} searchDisabled={true}/>
                         </div>
                     )}
                         <div className="message-items py-2 min-h-96" ref={chatContainerRef}>

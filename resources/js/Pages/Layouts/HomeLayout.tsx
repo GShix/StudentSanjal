@@ -145,10 +145,25 @@ const HomeLayout = ({
                         </Dropdown.Trigger>
 
                         <Dropdown.Content>
-                            <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                            <Dropdown.Link href={route('logout')} method="post" as="button">
-                                Log Out
-                            </Dropdown.Link>
+                            <div className="profile-modal">
+                                <div className="chat-icon flex items-center gap-2 mx-2.5 pt-[5px] pb-2 border-b border-gray-400 mb-1">
+                                    <div className="image w-10 h-10  rounded-full relative">
+                                        <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" />
+                                    </div>
+                                    <div className="fullname text-gray-900">
+                                        <p className="text-sm text-nowrap">{user.first_name} {user.middle_name} {user.last_name}</p>
+                                    </div>
+
+                                </div>
+                                <Dropdown.Link href={route('profile.edit')} className="mt-2">
+                                    <i className="ri-settings-4-fill mr-2 bg-gray-300 p-[6px] rounded-full"></i>
+                                    Profile Setting
+                                </Dropdown.Link>
+                                <Dropdown.Link href={route('logout')} method="post" as="button" className="mt-1">
+                                <i className="ri-logout-box-r-fill mr-2 bg-gray-300 p-[6px] rounded-full"></i>
+                                    Log Out
+                                </Dropdown.Link>
+                            </div>
                         </Dropdown.Content>
                     </Dropdown>
                     </div>
