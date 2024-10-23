@@ -61,11 +61,11 @@ const UploadMedia = () => {
     return (
         <HomeLayout>
             <Head title="Post" />
-            <div className="post bg-gray-100 px-4 py-3 rounded-xl min-h-screen">
+            <div className="post bg-gray-100 px-4 py-3 rounded-xl min-h-screen relative">
                 <div className="h1 text-center font-semibold hover:underline">Create your Post</div>
-                <button className="mt-2 w-full py-2 bg-gray-200/90 rounded-lg hover:bg-red-500 text-red-500 hover:text-white">
-                            <Link className="" href="/">Cancel</Link>
-                        </button>
+                <button className="mt-2 px-[4px] rounded-full bg-gray-200/90 hover:bg-red-500 text-red-500 hover:text-white absolute top-0 right-3">
+                    <Link className="" href="/"><i className="ri-close-fill text-xl"></i></Link>
+                </button>
                 <div className="w-full max-w-md mx-auto my-4 p-4 bg-white rounded-lg shadow-md border border-gray-100">
                     <div className="flex items-center mb-4">
                         <div className="user-profile_image h-[50px] w-[50px] bg-[#c7ae6a] rounded-full p-[2px]">

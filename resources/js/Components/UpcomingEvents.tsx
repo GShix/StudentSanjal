@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 
-function UpcomingEvents() {
+function UpcomingEvents(id:any) {
   const [events, setEvents] = useState([
     {
         img:"/img/event1.jpg",
@@ -47,7 +47,7 @@ function UpcomingEvents() {
 //   };
 
   return (
-    <div className="p-5 bg-white rounded shadow">
+    <div className="p-5 bg-white rounded shadow" id={id}>
       <div className="flex flex-col sm:flex-row justify-between items-start sm:px-4">
         <h1 className="text-3xl font-bold sm:mb-0">Upcoming Online Events</h1>
         {/* <input

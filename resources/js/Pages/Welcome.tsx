@@ -31,17 +31,17 @@ const  Welcome = ({ laravelVersion, phpVersion }: PageProps<{ laravelVersion: st
         {
             title:"Groups",
             icon:"ri-group-fill text-sm",
-            href:"/groups"
+            href:"/login"
         },
         {
             title:"Articles",
             icon:"ri-article-fill text-sm",
-            href:"/article"
+            href:"/login"
         },
         {
             title:"Events",
             icon:"ri-calendar-event-fill text-sm",
-            href:"/events"
+            href:"#events"
         },
 
     ]
@@ -102,7 +102,9 @@ const  Welcome = ({ laravelVersion, phpVersion }: PageProps<{ laravelVersion: st
 
                 <Hero/>
                 <Banner/>
-                <UpcomingEvents/>
+                <div className="events" id='events'>
+                    <UpcomingEvents/>
+                </div>
                 {/* <TrustedBy/> */}
                 <Feature/>
                 <FAQ/>
@@ -123,7 +125,7 @@ const  Welcome = ({ laravelVersion, phpVersion }: PageProps<{ laravelVersion: st
 
                             <li><a className="text-gray-300 transition hover:text-[#c7ae6a]" href="#"> History </a></li>
 
-                            <li><a className="text-gray-300 transition hover:text-[#c7ae6a]" href="#"> Services </a></li>
+                            <li><a className="text-gray-300 transition hover:text-[#c7ae6a]" href="#"> Upcoming Events </a></li>
 
                             <li><a className="text-gray-300 transition hover:text-[#c7ae6a]" href="#"> Projects </a></li>
 
