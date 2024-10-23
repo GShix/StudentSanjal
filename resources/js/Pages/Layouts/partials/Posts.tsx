@@ -327,7 +327,11 @@ const Posts = () => {
                                                                     {/* <button className='hover:bg-gray-100 w-full px-2 py-1 text-start rounded-md' onClick={() => handleDeleteComment(item.id)}>Delete</button> */}
                                                                 </div>
                                                             ) : (
-                                                                <button onClick={() => handleHideComment(item.id)}>Hide Comment</button>
+                                                                <div className="hide-comment w-full hover:text-[#b99a45] rounded-sm">
+                                                                    <button className='w-full' onClick={() => handleHideComment(item.id)}>
+                                                                        <i className="ri-eye-off-fill" title='Hide comment'></i>
+                                                                    </button>
+                                                                </div>
                                                             )}
                                                         </div>
                                                     )}

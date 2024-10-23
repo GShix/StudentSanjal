@@ -12,7 +12,7 @@ const ShowProfile = () => {
     const authUser = usePage<PageProps>().props.auth.user;
     const { his_posts,user,following,followers,firstTwoFollowers,remainingCount,userSkills} = usePage<PageProps>().props;
 
-    // console.log(userSkills)
+    console.log(his_posts)
     const [hisPosts, setHisPosts] = useState<any[]>([]);
 
     useEffect(() => {
@@ -149,119 +149,125 @@ const ShowProfile = () => {
             </p>
         </div>):""}
 
-        <div className="all-activities px-3 py-3 border-t-2">
+        <div className="all-activities px-3 py-3 border-t-2 mt-2">
           <div className="btn flex gap-3">
             <button className="bg-gray-200 hover:bg-black hover:text-white px-3 py-1 rounded-full">Posts</button>
             <button className="bg-gray-200 hover:bg-black hover:text-white px-3 py-1 rounded-full">Comments</button>
           </div>
-          {hisPosts.map((post: any) => (
-            <div key={post.id} className="post bg-gray-100 mt-4 rounded-xl px-3 py-3 border border-gray-400/50">
-              <div className="posts-user-profile bg-gray-100 rounded-xl flex gap-3 leading-tight items-center h-12">
-                <div className="posts-users-icon w-11 h-11 p-[2.5px] bg-[#c7ae6a] rounded-full">
-                  <img
-                    className="object-cover object-bottom rounded-full w-10 h-full"
-                    src={user.profile_image}
-                    alt=""
-                  />
-                </div>
-                <div className="name-other flex justify-between w-[86%] lg:w-[89%] items-center">
-                  <div className="posts-details">
-                    <div className="user-name">
-                      <strong className="text-sm leading-tight font-semibold block">
-                        {user.first_name} {user.middle_name} {user.last_name}
-                      </strong>
-                    </div>
-                    <div className="flex items-center gap-2">
-                      <span className="text-[12px] inline-block">
-                        <TimeAgo date={post.created_at}/>
-                      </span>
-                      <i className="ri-circle-fill text-[3px]"></i>
-                      <span className="inline-block">
-                        <i className="ri-group-fill text-sm"></i>
-                      </span>
-                    </div>
-                  </div>
-                  <div className="posts-action flex justify-end gap-3">
-                    <div className="post-option-btn rotate-90">
-                      <i className="ri-more-2-fill rotate-180 text-lg cursor-pointer p-1 rounded-md hover:bg-gray-300/60"></i>
-                    </div>
-                    <div className="post-option-btn">
-                      <i className="ri-close-line text-xl cursor-pointer p-[3px] rounded-md hover:bg-gray-300/60"></i>
-                    </div>
-                  </div>
-                </div>
-              </div>
-              <div className="post_description px-1 my-2">
-                <span className="text-gray-700">{post.post_description}</span>
-              </div>
-              <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px] h-80">
-              {post.media && (
-                <>
-                    {isImage(post.media) ? (
+          <div className="border-b-2 border-gray-200/50 pb-3"></div>
+          {(hisPosts.length ===0)?(
+              <p className="text-lg my-10 text-center font-medium">No posts available</p>
+          ):(
+            <>
+                {hisPosts.map((post: any) => (
+                <div key={post.id} className="post bg-gray-100 mt-4 rounded-xl px-3 py-3 border border-gray-400/50">
+                    <div className="posts-user-profile bg-gray-100 rounded-xl flex gap-3 leading-tight items-center h-12">
+                    <div className="posts-users-icon w-11 h-11 p-[2.5px] bg-[#c7ae6a] rounded-full">
                         <img
-                            className="rounded-md cursor-pointer h-full w-fit"
-                            src={post.media}
-                            alt="Post media"
-                            onClick={() => handlePostShow(post.media, post.post_description)}
-                            aria-haspopup="dialog"
-                            aria-expanded="false"
-                            aria-controls="hs-scale-animation-modal"
-                            data-hs-overlay="#hs-scale-animation-modal"/>
-                    ) : isVideo(post.media) ? (
-                        <video
-                            className="rounded-md cursor-pointer h-full w-fit"
-                            src={post.media}
-                            controls
-                            onClick={() => handlePostShow(post.media, post.post_description)}
-                            aria-haspopup="dialog"
-                            aria-expanded="false"
-                            aria-controls="hs-scale-animation-modal"
-                            data-hs-overlay="#hs-scale-animation-modal"/>
-                    ) : null}
-                </>
-                )}
-                {/* <img className="rounded-md cursor-pointer" src={post.media} alt="Users post media" /> */}
-              </div>
-              <div className="post-interaction mt-1 px-2">
-                <div className="interaction-counts flex justify-between">
-                  <div className="like-count">
-                    <i className="ri-heart-3-fill text-gray-100 p-[2px] bg-red-500 rounded-full mr-2 cursor-pointer"></i>
-                    <span className="cursor-pointer hover:underline text-sm">3</span>
-                  </div>
-                  <div className="comment-count">
-                    <span className="cursor-pointer hover:underline text-sm">3</span>
-                    <i className="ri-chat-2-line text-gray-800 ml-2 p-[2px] cursor-pointer"></i>
-                  </div>
+                        className="object-cover object-bottom rounded-full w-10 h-full"
+                        src={user.profile_image}
+                        alt=""
+                        />
+                    </div>
+                    <div className="name-other flex justify-between w-[86%] lg:w-[89%] items-center">
+                        <div className="posts-details">
+                        <div className="user-name">
+                            <strong className="text-sm leading-tight font-semibold block">
+                            {user.first_name} {user.middle_name} {user.last_name}
+                            </strong>
+                        </div>
+                        <div className="flex items-center gap-2">
+                            <span className="text-[12px] inline-block">
+                            <TimeAgo date={post.created_at}/>
+                            </span>
+                            <i className="ri-circle-fill text-[3px]"></i>
+                            <span className="inline-block">
+                            <i className="ri-group-fill text-sm"></i>
+                            </span>
+                        </div>
+                        </div>
+                        <div className="posts-action flex justify-end gap-3">
+                        <div className="post-option-btn rotate-90">
+                            <i className="ri-more-2-fill rotate-180 text-lg cursor-pointer p-1 rounded-md hover:bg-gray-300/60"></i>
+                        </div>
+                        <div className="post-option-btn">
+                            <i className="ri-close-line text-xl cursor-pointer p-[3px] rounded-md hover:bg-gray-300/60"></i>
+                        </div>
+                        </div>
+                    </div>
+                    </div>
+                    <div className="post_description px-1 my-2">
+                    <span className="text-gray-700">{post.post_description}</span>
+                    </div>
+                    <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px] h-80">
+                    {post.media && (
+                    <>
+                        {isImage(post.media) ? (
+                            <img
+                                className="rounded-md cursor-pointer h-full w-fit"
+                                src={post.media}
+                                alt="Post media"
+                                onClick={() => handlePostShow(post.media, post.post_description)}
+                                aria-haspopup="dialog"
+                                aria-expanded="false"
+                                aria-controls="hs-scale-animation-modal"
+                                data-hs-overlay="#hs-scale-animation-modal"/>
+                        ) : isVideo(post.media) ? (
+                            <video
+                                className="rounded-md cursor-pointer h-full w-fit"
+                                src={post.media}
+                                controls
+                                onClick={() => handlePostShow(post.media, post.post_description)}
+                                aria-haspopup="dialog"
+                                aria-expanded="false"
+                                aria-controls="hs-scale-animation-modal"
+                                data-hs-overlay="#hs-scale-animation-modal"/>
+                        ) : null}
+                    </>
+                    )}
+                    {/* <img className="rounded-md cursor-pointer" src={post.media} alt="Users post media" /> */}
+                    </div>
+                    <div className="post-interaction mt-1 px-2">
+                    <div className="interaction-counts flex justify-between">
+                        <div className="like-count">
+                        <i className="ri-heart-3-fill text-gray-100 p-[2px] bg-red-500 rounded-full mr-2 cursor-pointer"></i>
+                        <span className="cursor-pointer hover:underline text-sm">{post.post_like_count}</span>
+                        </div>
+                        <div className="comment-count">
+                        <span className="cursor-pointer hover:underline text-sm">{post.post_comment_count}</span>
+                        <i className="ri-chat-2-line text-gray-800 ml-2 p-[2px] cursor-pointer"></i>
+                        </div>
+                    </div>
+                    <div className="interaction-btn flex justify-between mt-[2px] py-1 border-b-[1.6px] border-t-[1.6px]">
+                        <div className="like w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
+                        <i className="ri-heart-3-line text-lg"></i>
+                        </div>
+                        <div className="comment w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
+                        <i className="ri-chat-2-line text-lg"></i>
+                        </div>
+                        <div className="share w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
+                        <i className="ri-share-forward-line text-lg"></i>
+                        </div>
+                    </div>
+                    </div>
+                    {showModal && (
+                        <div className="modal top-10">
+                            <Modal
+                                show={showModal}
+                                onClose={() => setShowModal(false)} // Corrected function syntax
+                                maxWidth="md"
+                                closeable={true}>
+                                <div className="p-6">
+                                    <img className="rounded-md cursor-pointer w-full object-cover" src={postMedia ?? postMedia} alt="Post media" onClick={closePostShow} />
+                                    <p className="mt-4">{postDescription}</p>
+                                </div>
+                            </Modal>
+                        </div>
+                        )}
                 </div>
-                <div className="interaction-btn flex justify-between mt-[2px] py-1 border-b-[1.6px] border-t-[1.6px]">
-                  <div className="like w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
-                    <i className="ri-heart-3-line text-lg"></i>
-                  </div>
-                  <div className="comment w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
-                    <i className="ri-chat-2-line text-lg"></i>
-                  </div>
-                  <div className="share w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
-                    <i className="ri-share-forward-line text-lg"></i>
-                  </div>
-                </div>
-              </div>
-              {showModal && (
-                  <div className="modal top-10">
-                      <Modal
-                          show={showModal}
-                          onClose={() => setShowModal(false)} // Corrected function syntax
-                          maxWidth="md"
-                          closeable={true}>
-                          <div className="p-6">
-                              <img className="rounded-md cursor-pointer w-full object-cover" src={postMedia ?? postMedia} alt="Post media" onClick={closePostShow} />
-                              <p className="mt-4">{postDescription}</p>
-                          </div>
-                      </Modal>
-                  </div>
-                  )}
-            </div>
-
-          ))}
+                ))}
+            </>
+          )}
         </div>
       </div>
     </HomeLayout>
