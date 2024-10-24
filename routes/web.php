@@ -20,7 +20,7 @@ Route::get('/', function () {
     return Inertia::render('Welcome');
 })->name('home');
 
-Route::get('/googleLogin', [SocialiteController::class,'googleLogin'])->name('google.login');
+// Route::get('/googleLogin', [SocialiteController::class,'googleLogin'])->name('google.login');
 
 Route::middleware('auth')->group(function () {
     Route::get('uploadMedia', function () {
@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('chat', [ChatController::class, 'index'])->name('chat');
 
-    Route::get('/startChat/{sathiKoId}', [ChatController::class, 'startChat']);
+    Route::get('/fetchChats/{sathiKoId}', [ChatController::class, 'fetchChats']);
 
     Route::post('sendChat', [ChatController::class, 'sendChat'])->name('chat.send');
 

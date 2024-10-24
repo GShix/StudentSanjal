@@ -68,6 +68,7 @@ const StartChat = () => {
         setShowEmojiPicker(false); // Close the emoji picker after selecting an emoji
     };
 
+
     const chatContainerRef = useRef(null);
 
     // Scroll to bottom when chats change
@@ -82,7 +83,7 @@ const StartChat = () => {
 
     const fetchChats = async () => {
         try {
-            const response = await axios.get(`startChat/${chatGarneSathi.id}`);
+            const response = await axios.get(`fetchChats/${chatGarneSathi.id}`);
             setChats(response.data.chats);
         } catch (error) {
             console.error("Error fetching chats:", error);
@@ -94,8 +95,9 @@ const StartChat = () => {
         }
     }, [chatGarneSathi]);
 
-    const submitChat = (e:any)=>{
+    const submitChat = (e) => {
         e.preventDefault();
+        if (!data.text_field && !data.media) return;
 
         post(route('chat.send'), {
             onSuccess: () => {
@@ -106,11 +108,9 @@ const StartChat = () => {
                 });
                 fetchChats();
             },
-            onError: (error) => {
-                setError('error', error);
-            },
         });
-    }
+    };
+
 
     useEffect(() => {
         if (chatGarneSathi) {
@@ -283,7 +283,7 @@ const StartChat = () => {
                                                     <span className="mr-2 text-gray-500 text-sm mt-[2px]">{formatTime(chat.created_at)}</span>)}
                                                 <div>
                                                     {chat.text_field && <p className="bg-[#c7ae6a] text-white px-3 py-1 rounded-full text-sm">{chat.text_field}</p>}
-                                                    {chat.media && <img src={chat.media} alt="Media" className="media-image w-16 h-16 mt-[3px] rounded-md cursor-pointer" onClick={()=>handleModal(chat.media??chat.media)}/>}
+                                                    {chat.media && <img src={chat.media} alt="Media" className="media-image w-16 h-16 mt-[3px] rounded-md cursor-pointer object-cover" onClick={()=>handleModal(chat.media??chat.media)}/>}
                                                 </div>
                                             </div>
                                         ) : (
@@ -291,7 +291,7 @@ const StartChat = () => {
                                                 {/* <span className="font-medium mr-2">{chat.sender.username}: </span> */}
                                                 <div>
                                                     {chat.text_field && <p className="bg-gray-200 text-gray-800 px-3 py-1 rounded-full text-sm">{chat.text_field}</p>}
-                                                    {chat.media && <img src={chat.media} alt="Media" onClick={()=>handleModal(chat.media??chat.media)} className="media-image w-16 h-16 mt-[3px] cursor-pointer"/>}
+                                                    {chat.media && <img src={chat.media} alt="Media" onClick={()=>handleModal(chat.media??chat.media)} className="media-image w-16 h-16 mt-[3px] cursor-pointer object-contain rounded-md"/>}
                                                 </div>
                                                 {(chat.text_field || chat.media) && (
                                                     <span className="ml-2 text-gray-500 text-sm mt-[5px]">{formatTime(chat.created_at)}</span>)}

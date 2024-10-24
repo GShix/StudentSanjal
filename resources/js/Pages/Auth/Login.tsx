@@ -150,7 +150,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                                 </button>
                             </div>
                         </form>
-                        <Link className='text-gray-300 text-xs' href={route('password.request')}>Forget your password?</Link>
+                        <Link className='text-gray-300 text-xs hover:underline' href={route('password.request')}>Forget your password?</Link>
                         <hr className="mt-6 border-b-1 border-blueGray-300" />
 
                         <div className="rounded-t mb-0 px-6 pt-4 pb-1">
@@ -162,7 +162,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                             <div className="btn-wrapper text-center">
                                 <button
                                     className="bg-gray-300 active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded-md outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                                    type="button">
+                                    type="button" onClick={() => window.location.href = route('google.login')}>
                                     <img
                                         alt="..."
                                         className="w-5 mr-1"
@@ -171,7 +171,8 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                                 </button>
                                 <a
                                     className="bg-gray-300 active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded-md outline-none focus:outline-none mr-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                                    href="{{URL::to('googleLogin')}}">
+                                    href={route('google.login')}>
+                                    {/* // href='/auth/google'> */}
                                     <img
                                         alt="..."
                                         className="w-5 mr-1"

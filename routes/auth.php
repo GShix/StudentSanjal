@@ -65,5 +65,7 @@ Route::middleware('auth')->group(function () {
 
     // Route::get('')
 
-    Route::get('googleLogin',[SocialiteController::class,'googleLogin'])->name('google.login');
+    // Route::get('googleLogin',[SocialiteController::class,'googleLogin'])->name('google.login');
+    Route::get('auth/google', [SocialiteController::class, 'googleLogin'])->name('google.login');
+    Route::get('auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
 });

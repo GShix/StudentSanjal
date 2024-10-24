@@ -4,8 +4,6 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
-use Illuminate\Broadcasting\PrivateChannel;
-use Illuminate\Broadcasting\PresenceChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -34,7 +32,7 @@ class ChatSendEvent implements ShouldBroadcastNow
     {
         // dd($this->chats);
         return [
-            new PrivateChannel('student-sanjal.'.$this->chats->receiver_id),
+            new Channel('student-sanjal.'.$this->chats->receiver_id),
         ];
     }
 
