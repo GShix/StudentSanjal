@@ -1,11 +1,12 @@
 import { PageProps } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import axios from 'axios';
-import React, { FormEventHandler, useEffect, useState } from 'react';
+import React, { FormEventHandler, useEffect, useRef, useState } from 'react';
 import { toast } from 'react-toastify';
 import TimeAgo from '../TimeAgo';
 import Modal from '@/Components/Modal';
 import ProfileImage from './ProfileImage';
+import { MdOutlineBookmarkAdd } from 'react-icons/md';
 
 interface FormData {
     reason_to_remove_post: string;
@@ -13,8 +14,8 @@ interface FormData {
 
 const Posts = () => {
     const { flash ,latest_comment} = usePage<PageProps>().props;
-    const { user } = usePage<PageProps>().props.auth;
-    // console.log(user)
+    const { user,savedPosts} = usePage<PageProps>().props.auth;
+    // console.log(savedPosts)
     const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({
         reason_to_remove_post: ""
     });
@@ -104,6 +105,44 @@ const Posts = () => {
     const [allComments,setAllComments] = useState([]);
     const [showAllComments,setShowAllComments] = useState(false);
 
+    const [showPostMenu,setShowPostMenu] = useState(false);
+    const [isPostSaved,setIsPostSaved] = useState(false);
+    const toggleRef = useRef(null);
+
+    // const handleClickOutside = (event) => {
+    //     if (toggleRef.current && !toggleRef.current.contains(event.target)) {
+    //       setShowPostMenu(false);
+    //     }
+    //   };
+    const handleToggle = () => {
+        setShowPostMenu((prev) => !prev);
+      };
+
+      // Add and clean up event listener for clicks outside
+    //   useEffect(() => {
+    //     document.addEventListener("mousedown", handleClickOutside);
+    //     return () => {
+    //       document.removeEventListener("mousedown", handleClickOutside);
+    //     };
+    //   }, []);
+
+    const handleSavingPost =async(postId:number,postOwnerId:number)=>{
+        const data ={
+            user_id:user.id,
+            post_id:postId,
+            owner_id:postOwnerId,
+        }
+        try {
+            const response = await axios.post('/toggleSavePost',data);
+            if(response.data.success){
+                setShowPostMenu(false);
+                setIsPostSaved(response.data.isSaved)
+            }
+        } catch (error) {
+            console.error("Error",error);
+        }
+    }
+
     const showAllCommentHandler = async(postId:number)=>{
         setShowAllComments(!showAllComments);
         try {
@@ -170,10 +209,13 @@ const Posts = () => {
         <>
             {latest_posts.map((post: any) => {
 
-                const isLiked = postLikedByUser.some(postLike =>
+                const isLiked = postLikedByUser.some((postLike:any) =>
                     postLike.post_id === post.id && postLike.like_status === 1
                 );
 
+                const isSaved = savedPosts.some(
+                    (savedPost:any) => savedPost.post_id === post.id
+                );
                 return (
                     <div key={post.id} className="post bg-gray-100 mt-3 rounded-xl px-3 py-3 border border-gray-400/50">
                         {postIdToRemove === post.id ? (
@@ -228,12 +270,24 @@ const Posts = () => {
                                                 <span className="inline-block"><i className="ri-group-fill text-sm"></i></span>
                                             </div>
                                         </div>
-                                        <div className="posts-action flex justify-end gap-3">
-                                            <div className="post-option-btn rotate-90">
-                                                <i className="ri-more-2-fill rotate-180 text-lg cursor-pointer p-1 rounded-md hover:bg-gray-300/60"></i>
+                                        <div className="posts-action flex justify-end gap-3 relative">
+                                            <div className="post-option-btn">
+                                                <i className="ri-more-2-fill rotate-90 block text-xl cursor-pointer  rounded-md hover:bg-gray-300/60" onClick={handleToggle} ref={toggleRef}></i>
+                                                {showPostMenu ? (
+                                                    <div className="post-menu absolute top-8 w-40 bg-gray-100 right-0 py-2 rounded-md flex flex-col gap-1 border border-gray-300 shadow-md">
+                                                        <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2" onClick={()=>handleSavingPost(post.id,post.user.id)}>
+                                                            <i className="ri-play-list-add-fill text-xl"></i>
+                                                            <span className='text-sm'>{(isSaved || isPostSaved)?"Unsave":"Save"}</span>
+                                                        </div>
+                                                        <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2">
+                                                            <i className="ri-feedback-fill text-xl pl-[1px]"></i>
+                                                            <span className='text-sm text-nowrap'>Report post</span>
+                                                        </div>
+                                                    </div>
+                                                ):""}
                                             </div>
                                             <div className="post-option-btn">
-                                                <i className="ri-close-line text-xl cursor-pointer p-[3px] rounded-md hover:bg-gray-300/60" onClick={() => handleRemovePost(post.id)}></i>
+                                                <i className="ri-close-line text-xl cursor-pointer rounded-md p-1 hover:bg-gray-300/60" onClick={() => handleRemovePost(post.id)}></i>
                                             </div>
                                         </div>
                                     </div>

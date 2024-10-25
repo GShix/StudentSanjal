@@ -8,6 +8,7 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\Skill;
 use Inertia\Middleware;
+use App\Models\SavedPost;
 use Illuminate\Http\Request;
 use App\Models\PostInteraction;
 use App\Models\ConnectionCircle;
@@ -62,6 +63,7 @@ class HandleInertiaRequests extends Middleware
                     ->take(5)
                     ->get();
 
+        $savedPosts = $user ? SavedPost::where('user_id', $user->id)->get() : [];
         return [
             ...parent::share($request),
             'auth' => [
@@ -74,6 +76,7 @@ class HandleInertiaRequests extends Middleware
                                 : null,
                 'recommendingUsers' =>$usersNotFollowed,
                 'usersYouFollowed'=>$usersYouFollowed,
+                'savedPosts'=>$savedPosts
                 // 'postsLikedByYou'=>$postsLikedByYou
             ],
             'skills'=>$skills,

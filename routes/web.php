@@ -10,6 +10,7 @@ use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\EventController;
 use App\Http\Controllers\User\FrontendController;
 use App\Http\Controllers\User\PostLikeController;
+use App\Http\Controllers\User\SavePostController;
 use App\Http\Controllers\Auth\SocialiteController;
 use App\Http\Controllers\User\ConnectionController;
 use App\Http\Controllers\User\PostCommentController;
@@ -50,6 +51,8 @@ Route::middleware('auth')->group(function () {
     Route::post('postComment/allComments',[PostCommentController::class, 'allComments']);
 
     Route::post('postInteraction/commented',[PostInteractionController::class, 'commentInThePost'])->name('post.comment');
+
+    Route::post('toggleSavePost',[SavePostController::class, 'toggleSave'])->name('post.save');
 
 
     Route::get('showProfile/{username}',[ShowProfileController::class, 'showProfile'])->name('showProfile');
