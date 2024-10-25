@@ -4,6 +4,7 @@ namespace App\Models;
 
 use App\Models\Post;
 use App\Models\Skill;
+use App\Models\SavedPost;
 use App\Models\PostInteraction;
 use App\Models\ConnectionCircle;
 use Illuminate\Http\UploadedFile;
@@ -55,6 +56,11 @@ class User extends Authenticatable
     public function postLike(): HasMany
     {
         return $this->hasMany(PostLike::class,'user_id','id');
+    }
+
+    public function savedPosts(): HasMany
+    {
+        return $this->hasMany(SavedPost::class,'user_id','id');
     }
 
     public function postComment(): HasMany

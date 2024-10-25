@@ -4,6 +4,7 @@ namespace App\Events;
 
 use Illuminate\Broadcasting\Channel;
 use Illuminate\Queue\SerializesModels;
+use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
@@ -30,9 +31,15 @@ class ChatSendEvent implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
-        // dd($this->chats);
+        \Log::info('Broadcasting chat message', [
+            'channel' => 'student-sanjal.'.$this->chats->receiver_id,
+            'message' => $this->chats->text_field,
+            'sender' => $this->chats->sender_id,
+            'receiver' => $this->chats->receiver_id
+        ]);
+
         return [
-            new Channel('student-sanjal.'.$this->chats->receiver_id),
+            new PrivateChannel('student-sanjal.'.$this->chats->receiver_id),
         ];
     }
 

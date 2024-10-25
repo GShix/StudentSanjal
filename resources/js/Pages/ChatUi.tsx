@@ -12,7 +12,7 @@
 //     media?:File | null;
 //     like?: boolean;
 // }
-// interface ChatGarneSathi {
+// interface connectedFriend {
 //     profile_image: string;
 //     first_name: string;
 //     middle_name: string;
@@ -20,7 +20,7 @@
 //     username: string;
 //     active_status: string;
 // }
-// interface noteWalaSathi{
+// interface noteWalafriend{
 //     note:string;
 //     profile_image:string;
 //     title:string;
@@ -38,9 +38,9 @@
 //         like: '',
 //     });
 
-//     const showMessageHandle = (sathi:any) => {
-//         setChatGarneSathi(sathi);
-//         post(route('fetchChats', sathi.id));
+//     const showMessageHandle = (friend:any) => {
+//         setconnectedFriend(friend);
+//         post(route('fetchChats', friend.id));
 //         setShowMessage(true);
 //         setData({
 //             text_field: '',
@@ -52,13 +52,13 @@
 //     const { chats} = usePage<PageProps>().props;
 //     console.log(chats)
 
-//     const [chatGarneSathi, setChatGarneSathi] = useState<ChatGarneSathi | null>(null);
+//     const [connectedFriend, setconnectedFriend] = useState<connectedFriend | null>(null);
 
 //     const [showNoteCreate, setShowNoteCreate] = useState(false);
 //     const [showNoteEdit, setShowNoteEdit] = useState(false);
 //     const [showMessage, setShowMessage] = useState(false);
 
-//     const [noteWalaSathi,setNoteWalaSathi] = useState<noteWalaSathi | null>(null);
+//     const [noteWalafriend,setNoteWalafriend] = useState<noteWalafriend | null>(null);
 //     const [showOthersNote,setShowOthersNote] = useState(false);
 
 
@@ -68,12 +68,12 @@
 //         setShowMessage(false);
 //         setShowOthersNote(false);
 //     }
-//     const handleOthersNote =(sathi:any) =>{
+//     const handleOthersNote =(friend:any) =>{
 //         setShowNoteEdit(false);
 //         setShowOthersNote(true);
 //         setShowNoteCreate(false);
 //         setShowMessage(false);
-//         setNoteWalaSathi(sathi);
+//         setNoteWalafriend(friend);
 //     }
 //     const handleCreateNote =() =>{
 //         setShowNoteEdit(false);
@@ -323,16 +323,16 @@
 //                     </div>
 //                     )}
 
-//                     {showOthersNote && noteWalaSathi && (
+//                     {showOthersNote && noteWalafriend && (
 //                         <div className='absolute left-[25%] top-[10%] z-20'>
 //                         <div className="flex flex-col justify-center items-center h-[300px] bg-gray-50 w-72 mt-10 rounded-lg px-2 py-3 relative" style={{ boxShadow:"0 0 5px 5px #d6d6d6" }}>
 //                             <i className="ri-close-fill absolute top-1 right-2 text-xl cursor-pointer hover:text-[#b99a45]" onClick={()=>setShowOthersNote(false)}></i>
 //                             <div className="relative bg-white text-gray-500 rounded-lg shadow-lg px-2 py-1 inline-block mb-1">
 //                                 <div className="absolute rotate-90 -bottom-2 left-[40%] w-3 h-0 border-t-[15px] border-t-white border-r-[10px] border-r-transparent"></div>
-//                                 <span className='rounded-md px-2'>{noteWalaSathi.note && noteWalaSathi.note.length > 0 && noteWalaSathi.note[0].title}</span>
+//                                 <span className='rounded-md px-2'>{noteWalafriend.note && noteWalafriend.note.length > 0 && noteWalafriend.note[0].title}</span>
 //                             </div>
 //                             <div className="profile-image mt-1 w-32 h-32">
-//                                 <img className="rounded-full w-full h-full object-cover object-center" src={noteWalaSathi.profile_image} alt="" />
+//                                 <img className="rounded-full w-full h-full object-cover object-center" src={noteWalafriend.profile_image} alt="" />
 //                             </div>
 //                             <div className="send-text_field-to-note flex justify-center px-2 mt-5">
 //                                 <input className='text-sm w-full rounded-full' type="text" name="text_field_to_note" id="text_field_to_note" placeholder='Send text_field'/>
@@ -341,7 +341,7 @@
 //                     </div>
 //                     )}
 
-//                     {(showMessage && chatGarneSathi) && (
+//                     {(showMessage && connectedFriend) && (
 //                     <div className="opern-chatter relative h-full z-10">
 //                         <div className="header border-b-2 rounded-t-lg border-gray-200 flex items-center justify-between">
 //                             <div className="chat-profile cursor-pointer px-4 py-2 rounded-t-lg flex gap-2 leading-tight items-center">
@@ -349,12 +349,12 @@
 //                                     <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
 //                                         <div className="active-status h-[6px] w-[6px] bg-green-500 rounded-full"></div>
 //                                     </div>
-//                                     <img className="object-cover object-center rounded-full w-full h-full" src={chatGarneSathi.profile_image} alt="" />
+//                                     <img className="object-cover object-center rounded-full w-full h-full" src={connectedFriend.profile_image} alt="" />
 //                                 </div>
 //                                 <div className="chat-details">
-//                                     <Link href={getProfileLink(chatGarneSathi.username)}>
-//                                         <strong className="text-sm font-semibold">{chatGarneSathi.first_name} {chatGarneSathi.middle_name} {chatGarneSathi.last_name}</strong>
-//                                     <p className="text-xs">{chatGarneSathi.active_status?"Active Now":"Offline"}</p></Link>
+//                                     <Link href={getProfileLink(connectedFriend.username)}>
+//                                         <strong className="text-sm font-semibold">{connectedFriend.first_name} {connectedFriend.middle_name} {connectedFriend.last_name}</strong>
+//                                     <p className="text-xs">{connectedFriend.active_status?"Active Now":"Offline"}</p></Link>
 //                                 </div>
 //                             </div>
 //                             <div className="serachmaa-action flex items-center gap-5">

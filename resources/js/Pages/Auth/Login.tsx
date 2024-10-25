@@ -162,7 +162,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                             <div className="btn-wrapper text-center">
                                 <button
                                     className="bg-gray-300 active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded-md outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                                    type="button" onClick={() => window.location.href = route('google.login')}>
+                                    type="button" onClick={() => window.location.href = route('auth.google')}>
                                     <img
                                         alt="..."
                                         className="w-5 mr-1"
@@ -171,7 +171,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                                 </button>
                                 <a
                                     className="bg-gray-300 active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded-md outline-none focus:outline-none mr-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                                    href={route('google.login')}>
+                                    href={route('auth.google')}>
                                     {/* // href='/auth/google'> */}
                                     <img
                                         alt="..."
@@ -180,6 +180,11 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                                     Google
                                 </a>
                             </div>
+                            {route().params.error && (
+                                <div className="mt-4 text-red-600">
+                                    {route().params.error}
+                                </div>
+                            )}
                         </div>
 
                         <div className="signUp text-center">

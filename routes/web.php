@@ -80,7 +80,7 @@ Route::middleware('auth')->group(function () {
 
     Route::get('chat', [ChatController::class, 'index'])->name('chat');
 
-    Route::get('/fetchChats/{sathiKoId}', [ChatController::class, 'fetchChats']);
+    Route::get('/fetchChats/{friendId}', [ChatController::class, 'fetchChats']);
 
     Route::post('sendChat', [ChatController::class, 'sendChat'])->name('chat.send');
 

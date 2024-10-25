@@ -5,7 +5,6 @@ import ProfileImage from "./Layouts/partials/ProfileImage";
 import { useEffect, useRef, useState } from "react";
 import FilePreview from "./Layouts/partials/PreviewFile";
 import axios from "axios";
-import echo from '../echo'
 import Modal from "@/Components/Modal";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
@@ -15,7 +14,7 @@ interface FormData {
     like?: string;
 }
 
-interface ChatGarneSathi {
+interface connectedFriend {
     profile_image: string;
     first_name: string;
     middle_name: string;
@@ -47,7 +46,7 @@ const StartChat = () => {
     const { user,latest_chat,usersYouFollowed } = usePage<PageProps>().props.auth;
     const { otherUsers} = usePage<PageProps>().props;
 
-    const [chatGarneSathi,setChatGarneSathi] = useState<ChatGarneSathi | null>(null);
+    const [connectedFriend,setconnectedFriend] = useState<connectedFriend | null>(null);
     const [showMessage,setShowMessage] = useState(false);
     const [showSearchInput,setShowSearchInput] = useState(false);
     const [showModal,setShowModal] = useState(false);
@@ -83,17 +82,17 @@ const StartChat = () => {
 
     const fetchChats = async () => {
         try {
-            const response = await axios.get(`fetchChats/${chatGarneSathi.id}`);
+            const response = await axios.get(`fetchChats/${connectedFriend.id}`);
             setChats(response.data.chats);
         } catch (error) {
             console.error("Error fetching chats:", error);
         }
     };
     useEffect(() => {
-        if (chatGarneSathi) {
+        if (connectedFriend) {
             fetchChats();
         }
-    }, [chatGarneSathi]);
+    }, [connectedFriend]);
 
     const submitChat = (e) => {
         e.preventDefault();
@@ -112,24 +111,50 @@ const StartChat = () => {
     };
 
 
+    const [connectionStatus, setConnectionStatus] = useState('connecting');
+
     useEffect(() => {
-        if (chatGarneSathi) {
-            const channel = echo.private(`student-sanjal.${chatGarneSathi.id}`);
+        if (!user?.id) return;
 
-            const handleChatSend = (event:any) => {
-                setChats((prevChats) => [...prevChats, event.chat]);
-            };
+        console.log('Subscribing to channel:', `student-sanjal.${user.id}`);
 
-            channel.listen('ChatSendEvent', handleChatSend);
+        const channel = window.Echo.private(`student-sanjal.${user.id}`);
 
-            return () => {
-                channel.stopListening('ChatSendEvent', handleChatSend);
-            };
-        }
-    }, [chatGarneSathi]);
+        // Debug subscription
+        channel.subscribed(() => {
+            console.log('Successfully subscribed to channel');
+            setConnectionStatus('connected');
+        });
 
-    const showMessageHandle = async(sathi: ChatGarneSathi) => {
-        setChatGarneSathi(sathi);
+        channel.error((error: any) => {
+            console.error('Channel error:', error);
+            setConnectionStatus('error');
+        });
+
+        // Listen for messages
+        channel.listen('.ChatSendEvent', (event: any) => {
+            console.log('Received message:', event);
+            setChats(prev => [...prev, event]);
+
+            // Optional: Add notification
+            if ('Notification' in window && Notification.permission === 'granted') {
+                new Notification('New Message', {
+                    body: event.text_field
+                });
+            }
+        });
+
+        // Cleanup
+        return () => {
+            channel.stopListening('.ChatSendEvent');
+            window.Echo.leave(`student-sanjal.${user.id}`);
+        };
+    }, [user?.id]);
+
+
+
+    const showMessageHandle = async(friend: connectedFriend) => {
+        setconnectedFriend(friend);
         setShowMessage(true);
     };
     const handleModal = (media:any)=>{
@@ -224,7 +249,7 @@ const StartChat = () => {
                                     {(latest_chat?.sender_id==otherUser.id &&
                                     <span>
                                         {latest_chat.media ? (
-                                            <p className="text-[12px]">{`${otherUser.first_name} sent a attachment`}</p>
+                                            <p className="text-[12px]">{`${otherUser.first_name} sent an attachment`}</p>
                                         ):(
                                             <p className="text-[12px]">{latest_chat.text_field??latest_chat.text_field}</p>
                                         )}
@@ -238,21 +263,21 @@ const StartChat = () => {
                 </div>
 
                 <div className="second-col bg-gray-100 rounded-lg h-">
-                    {(showMessage && chatGarneSathi) && (
+                    {(showMessage && connectedFriend) && (
                     <div className="open-chatter relative h- z-10">
                         <div className="header border-b-2 rounded-t-lg bg-gray-100 border-gray-200 flex items-center justify-between sticky top-16">
                             <div className="chat-profile cursor-pointer px-4 py-2 rounded-t-lg flex gap-2 leading-tight items-center">
                                 <div className="chat-icon w-11 h-11 p-[2px] bg-[#c7ae6a] rounded-full relative">
-                                    {chatGarneSathi.active_status?(
+                                    {connectedFriend.active_status?(
                                     <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
                                         <div className="active-status h-[6px] w-[6px] bg-green-500 rounded-full"></div>
                                     </div>):""}
-                                    <img className="object-cover object-center rounded-full w-full h-full" src={chatGarneSathi.profile_image} alt="" />
+                                    <img className="object-cover object-center rounded-full w-full h-full" src={connectedFriend.profile_image} alt="" />
                                 </div>
                                 <div className="chat-details">
-                                    <Link href={getProfileLink(chatGarneSathi.username)}>
-                                        <strong className="text-sm font-semibold">{chatGarneSathi.first_name} {chatGarneSathi.middle_name} {chatGarneSathi.last_name}</strong>
-                                    <p className="text-xs">{chatGarneSathi.active_status?"Active Now":"Offline"}</p></Link>
+                                    <Link href={getProfileLink(connectedFriend.username)}>
+                                        <strong className="text-sm font-semibold">{connectedFriend.first_name} {connectedFriend.middle_name} {connectedFriend.last_name}</strong>
+                                    <p className="text-xs">{connectedFriend.active_status?"Active Now":"Offline"}</p></Link>
                                 </div>
                             </div>
                             <div className="serachmaa-action flex items-center gap-5">
@@ -265,6 +290,10 @@ const StartChat = () => {
                                 {!showSearchInput && (<i className="ri-search-line text-lg cursor-pointer mr-2 hover:text-gray-600" onClick={()=>setShowSearchInput(true)}></i>)}
                                 <i className="ri-close-fill mr-4 text-xl cursor-pointer rounded-full hover:text-gray-600" onClick={()=>setShowMessage(false)}></i>
                             </div>
+                        </div>
+                        <div className="p-4 border-b">
+                            <h2>{connectedFriend.username}</h2>
+                            {connectionStatus && <span className="text-green-500 text-sm">Connected</span>}
                         </div>
                         {showEmojiPicker && (
                         <div className="emoji-picker fixed text-sm">

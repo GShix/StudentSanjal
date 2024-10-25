@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Models\SavedPost;
 use App\Models\ConnectionCircle;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Database\Eloquent\Model;
@@ -41,6 +42,11 @@ class Post extends Model
     public function postLike(): HasMany
     {
         return $this->hasMany(PostLike::class);
+    }
+
+    public function savedPosts(): HasMany
+    {
+        return $this->hasMany(SavedPost::class);
     }
 
     public function postComment(): HasMany

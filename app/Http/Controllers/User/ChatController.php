@@ -8,6 +8,7 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Events\ChatSendEvent;
 use App\Models\ConnectionCircle;
+use Illuminate\Support\Facades\DB;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Chat\StoreChatRequest;
@@ -40,10 +41,10 @@ class ChatController extends Controller
     }
 
 
-    public function fetchChats($sathiKoId)
+    public function fetchChats($friendId)
     {
         $senderId = Auth::id();
-        $receiverId = $sathiKoId;
+        $receiverId = $friendId;
 
         session([
             'sender_id' => $senderId,
@@ -65,29 +66,37 @@ class ChatController extends Controller
 
     public function sendChat(StoreChatRequest $request)
     {
-        $validated = $request->validated();
-        $sender_id = Auth::id(); // Secure the sender_id with Auth
-        $receiver_id = session('receiver_id');
+        try {
+            $validated = $request->validated();
+            $sender_id = Auth::id();
+            $receiver_id = session('receiver_id');
 
-        if (!$receiver_id) {
-            return back()->with('error', 'Receiver not found.');
+            if (!$receiver_id) {
+                return back()->with('error', 'Receiver not found.');
+            }
+
+            DB::beginTransaction();
+
+            $chat = Chat::create([
+                'text_field' => $validated['text_field'],
+                'media' => $validated['media'] ?? null,
+                'like' => $validated['like'] ?? '',
+                'sender_id' => $sender_id,
+                'receiver_id' => $receiver_id,
+            ]);
+
+            // Load relationships needed for the event
+            $chat->load('sender:id,username');
+
+            broadcast(new ChatSendEvent($chat))->toOthers();
+
+            DB::commit();
+
+            return back()->with('success', 'Message sent successfully');
+        } catch (\Exception $e) {
+            DB::rollBack();
+            \Log::error('Chat send error: ' . $e->getMessage());
+            return back()->with('error', 'Failed to send message');
         }
-
-        if ($request->hasFile('media')) {
-            $path = $request->file('media')->store('media', 'public');
-            $validated['media'] = $path;
-        }
-
-        $chat = Chat::create([
-            'text_field' => $validated['text_field'],
-            'media' => $validated['media'] ?? null,
-            'like' => $validated['like'] ?? '',
-            'sender_id' => $sender_id,
-            'receiver_id' => $receiver_id,
-        ]);
-
-        broadcast(new ChatSendEvent($chat))->toOthers();
-
-        return back()->with('success', 'Message sent successfully');
     }
 }
