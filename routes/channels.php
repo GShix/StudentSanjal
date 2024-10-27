@@ -7,10 +7,10 @@ use Illuminate\Support\Facades\Broadcast;
 
 Broadcast::channel('student-sanjal.{id}', function ($user, $id) {
     // Log for debugging
-    \Log::info('Channel auth attempt', [
-        'user_id' => $user->id,
-        'requested_id' => $id
-    ]);
+    // \Log::info('Channel auth attempt', [
+    //     'user_id' => $user->id,
+    //     'requested_id' => $id
+    // ]);
 
     return (int) $user->id === (int) $id ||
            (int) $user->id === (int) Chat::where('id', $id)->value('sender_id');

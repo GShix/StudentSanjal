@@ -24,6 +24,7 @@ class GoogleController extends Controller
 
             $user = User::where('email', $googleUser->email)->first();
 
+            // dd($user);
             if ($user) {
                 // Update existing user's profile image
                 if ($googleUser->avatar) {
@@ -42,6 +43,7 @@ class GoogleController extends Controller
                     ]);
                 }
 
+                dd($user);
                 Auth::login($user);
                 return redirect()->route('home'); // Redirect to home
             }
@@ -50,12 +52,25 @@ class GoogleController extends Controller
             $filename = null;
             if ($googleUser->avatar) {
                 $avatarContents = file_get_contents($googleUser->avatar);
-                $filename = 'profile-images/' . Str::random(40) . '.jpg';
+                $filename = 'users/profileImage/' . Str::random(40) . '.jpg';
                 Storage::disk('public')->put($filename, $avatarContents);
             }
 
+            // $first_name = $googleUser->name;
+            // $email = $googleUser->email;
+            // $filename = $filename;
+            // $password =bcrypt(Str::random(24));
+
+            // $data =[
+            //     $first_name,
+            //     $email ,
+            //     $filename,
+            //     $password
+            // ];
+            // dd($data);
+
             $newUser = User::create([
-                'name' => $googleUser->name,
+                'first_name' => $googleUser->name,
                 'email' => $googleUser->email,
                 'profile_image' => $filename,
                 'password' => bcrypt(Str::random(24))

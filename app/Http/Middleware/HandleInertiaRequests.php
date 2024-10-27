@@ -63,7 +63,7 @@ class HandleInertiaRequests extends Middleware
                     ->take(5)
                     ->get();
 
-        $savedPosts = $user ? SavedPost::where('user_id', $user->id)->get() : [];
+        $savedPostIds = $user ? SavedPost::where('user_id', $user->id)->get() : [];
         return [
             ...parent::share($request),
             'auth' => [
@@ -76,7 +76,7 @@ class HandleInertiaRequests extends Middleware
                                 : null,
                 'recommendingUsers' =>$usersNotFollowed,
                 'usersYouFollowed'=>$usersYouFollowed,
-                'savedPosts'=>$savedPosts
+                'savedPosts'=>$savedPostIds
                 // 'postsLikedByYou'=>$postsLikedByYou
             ],
             'skills'=>$skills,

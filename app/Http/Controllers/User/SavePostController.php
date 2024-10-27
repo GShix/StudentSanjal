@@ -2,12 +2,26 @@
 
 namespace App\Http\Controllers\User;
 
+use App\Models\Post;
+use Inertia\Inertia;
 use App\Models\SavedPost;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class SavePostController extends Controller
 {
+    public function index()
+    {
+        $user = Auth::user();
+        $savedPostIds = $user ? SavedPost::where('user_id', $user->id)->pluck('post_id') : [];
+
+        $savedPosts = Post::whereIn('id', $savedPostIds)->with('user')->get();
+        return Inertia::render('SavedPost',[
+            'savedPosts'=>$savedPosts
+        ]);
+    }
+
     public function toggleSave(Request $request)
     {
         // Validate incoming request

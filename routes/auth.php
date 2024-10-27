@@ -2,6 +2,7 @@
 
 use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
+use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\FollowController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\PasswordController;
@@ -75,11 +76,16 @@ Route::middleware('auth')->group(function () {
     //     Route::get('/login', function () {
     //         return Inertia::render('Auth/Login');
     //     })->name('login');
-
-        Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])
-            ->name('auth.google');
-
-        Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])
-            ->name('auth.google.callback');
     // });
+
 });
+
+Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])
+->name('auth.google');
+
+// Route::get('/auth/google', function () {
+//         return Socialite::driver('google')->redirect();
+//     })->name('auth.google');
+
+Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])
+->name('auth.google.callback');

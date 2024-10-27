@@ -59,6 +59,8 @@ Route::middleware('auth')->group(function () {
     Route::get('showProfile/{id}',[ShowProfileController::class, 'showProfileById'])->name('showProfileById');
 
     route::get('/my-network', [ConnectionController::class, 'myNetwork'])->name('myNetwork');
+
+    route::get('/savedPosts', [SavePostController::class, 'index'])->name('savedPosts');
 });
 
 

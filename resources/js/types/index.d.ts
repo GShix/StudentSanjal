@@ -25,7 +25,7 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         recommendingUsers:any;
         usersYouFollowed:any;
         postsLikedByYou:any;
-        savedPosts:any;
+        savedPostIds:any;
     };
     latest_comment:any;
     userSkills:Array<T>;
@@ -44,4 +44,5 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     firstTwoFollowers:any;
     remainingCount:number;
     events:any;
+    savedPosts:any;
 };

@@ -2,7 +2,6 @@ import { PageProps } from '@/types';
 import { Link, useForm, usePage } from '@inertiajs/react';
 import axios from 'axios';
 import React, { FormEventHandler, useEffect, useRef, useState } from 'react';
-import { toast } from 'react-toastify';
 import TimeAgo from '../TimeAgo';
 import Modal from '@/Components/Modal';
 import ProfileImage from './ProfileImage';
@@ -14,8 +13,8 @@ interface FormData {
 
 const Posts = () => {
     const { flash ,latest_comment} = usePage<PageProps>().props;
-    const { user,savedPosts} = usePage<PageProps>().props.auth;
-    // console.log(savedPosts)
+    const { user,savedPostIds} = usePage<PageProps>().props.auth;
+    // console.log(savedPostIds)
     const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({
         reason_to_remove_post: ""
     });
@@ -213,9 +212,9 @@ const Posts = () => {
                     postLike.post_id === post.id && postLike.like_status === 1
                 );
 
-                const isSaved = savedPosts.some(
-                    (savedPost:any) => savedPost.post_id === post.id
-                );
+                // const isSaved = savedPostIds.some(
+                //     (savedPost:any) => savedPost.post_id === post.id
+                // );
                 return (
                     <div key={post.id} className="post bg-gray-100 mt-3 rounded-xl px-3 py-3 border border-gray-400/50">
                         {postIdToRemove === post.id ? (
@@ -277,7 +276,7 @@ const Posts = () => {
                                                     <div className="post-menu absolute top-8 w-40 bg-gray-100 right-0 py-2 rounded-md flex flex-col gap-1 border border-gray-300 shadow-md">
                                                         <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2" onClick={()=>handleSavingPost(post.id,post.user.id)}>
                                                             <i className="ri-play-list-add-fill text-xl"></i>
-                                                            <span className='text-sm'>{(isSaved || isPostSaved)?"Unsave":"Save"}</span>
+                                                            <span className='text-sm'>{( isPostSaved)?"Unsave":"Save"}</span>
                                                         </div>
                                                         <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2">
                                                             <i className="ri-feedback-fill text-xl pl-[1px]"></i>

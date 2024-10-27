@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('banner_image')->nullable();
             $table->string('first_name');
             $table->string('middle_name')->nullable();
-            $table->string('last_name');
+            $table->string('last_name')->nullable();
             $table->string('username')->nullable();
             $table->string('headline')->nullable();
             $table->string('dob')->nullable();
