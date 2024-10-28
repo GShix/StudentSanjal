@@ -162,7 +162,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                             <div className="btn-wrapper text-center">
                                 <button
                                     className="bg-gray-300 active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded-md outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                                    type="button" onClick={() => window.location.href = route('auth.google')}>
+                                    type="button" onClick={() => window.location.href = route('auth.github')}>
                                     <img
                                         alt="..."
                                         className="w-5 mr-1"

@@ -10,31 +10,31 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Socialite\Facades\Socialite;
 
-class GoogleController extends Controller
+class GitHubController extends Controller
 {
-    public function redirectToGoogle()
+    public function redirectToGitHub()
     {
-        return Socialite::driver('google')->redirect();
+        return Socialite::driver('github')->redirect();
     }
 
-    public function handleGoogleCallback()
+    public function handleGitHubCallback()
     {
         try {
-            $googleUser = Socialite::driver('google')->user();
+            $githubUser = Socialite::driver('github')->user();
 
-            $user = User::where('email', $googleUser->email)->first();
+            $user = User::where('email', $githubUser->email)->first();
 
-            // dd($googleUser);
+            // dd($$githubUser->nickname->toLowercase());
             if ($user) {
-                // Update existing user's profile image
-                if ($googleUser->avatar) {
+
+                if ($githubUser->avatar) {
                     // Delete old profile image if exists
                     if ($user->profile_image) {
                         Storage::disk('public')->delete($user->profile_image);
                     }
 
                     // Download and save new avatar
-                    $avatarContents = file_get_contents($googleUser->avatar);
+                    $avatarContents = file_get_contents($githubUser->avatar);
                     $filename = 'profile-images/' . Str::random(40) . '.jpg';
                     Storage::disk('public')->put($filename, $avatarContents);
 
@@ -50,14 +50,14 @@ class GoogleController extends Controller
 
             // For new user, download and save avatar
             $filename = null;
-            if ($googleUser->avatar) {
-                $avatarContents = file_get_contents($googleUser->avatar);
+            if ($githubUser->avatar) {
+                $avatarContents = file_get_contents($githubUser->avatar);
                 $filename = 'users/profileImage/' . Str::random(40) . '.jpg';
                 Storage::disk('public')->put($filename, $avatarContents);
             }
 
-            // $first_name = $googleUser->name;
-            // $email = $googleUser->email;
+            // $first_name = $githubUser->name;
+            // $email = $githubUser->email;
             // $filename = $filename;
             // $password =bcrypt(Str::random(24));
 
@@ -70,9 +70,10 @@ class GoogleController extends Controller
             // dd($data);
 
             $newUser = User::create([
-                'first_name' => $googleUser->name,
-                'email' => $googleUser->email,
+                'first_name' => $githubUser->name,
+                'email' => $githubUser->email,
                 'profile_image' => $filename,
+                'username'=>Str::lower($githubUser->nickname),
                 'password' => bcrypt(Str::random(24))
             ]);
 
@@ -81,7 +82,7 @@ class GoogleController extends Controller
 
         } catch (Exception $e) {
             return redirect()->route('login')
-                ->withErrors(['error' => 'Something went wrong with Google login!']);
+                ->withErrors(['error' => 'Something went wrong with GitHub login!']);
         }
     }
 }

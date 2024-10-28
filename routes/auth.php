@@ -4,6 +4,7 @@ use Inertia\Inertia;
 use Illuminate\Support\Facades\Route;
 use Laravel\Socialite\Facades\Socialite;
 use App\Http\Controllers\FollowController;
+use App\Http\Controllers\Auth\GitHubController;
 use App\Http\Controllers\Auth\GoogleController;
 use App\Http\Controllers\Auth\PasswordController;
 use App\Http\Controllers\Auth\SocialiteController;
@@ -83,9 +84,11 @@ Route::middleware('auth')->group(function () {
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])
 ->name('auth.google');
 
-// Route::get('/auth/google', function () {
-//         return Socialite::driver('google')->redirect();
-//     })->name('auth.google');
-
 Route::get('auth/google/callback', [GoogleController::class, 'handleGoogleCallback'])
 ->name('auth.google.callback');
+
+Route::get('auth/github', [GitHubController::class, 'redirectToGitHub'])
+->name('auth.github');
+
+Route::get('auth/github/callback', [GitHubController::class, 'handleGitHubCallback'])
+->name('auth.github.callback');
