@@ -58,8 +58,7 @@ class ChatController extends Controller
             $query->where('sender_id', $receiverId)
                   ->where('receiver_id', $senderId);
         })->with('sender:id,username', 'receiver:id,username')
-        //   ->latest()
-          ->get(); // Optionally paginate this
+          ->get();
 
         return response()->json(['chats' => $chats]);
     }

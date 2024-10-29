@@ -8,9 +8,8 @@ use Illuminate\Broadcasting\PrivateChannel;
 use Illuminate\Foundation\Events\Dispatchable;
 use Illuminate\Broadcasting\InteractsWithSockets;
 use Illuminate\Contracts\Broadcasting\ShouldBroadcast;
-use Illuminate\Contracts\Broadcasting\ShouldBroadcastNow;
 
-class ChatSendEvent implements ShouldBroadcastNow
+class ChatSendEvent implements ShouldBroadcast
 {
     use Dispatchable, InteractsWithSockets, SerializesModels;
 
@@ -31,12 +30,12 @@ class ChatSendEvent implements ShouldBroadcastNow
      */
     public function broadcastOn(): array
     {
-        \Log::info('Broadcasting chat message', [
-            'channel' => 'student-sanjal.'.$this->chats->receiver_id,
-            'message' => $this->chats->text_field,
-            'sender' => $this->chats->sender_id,
-            'receiver' => $this->chats->receiver_id
-        ]);
+        // \Log::info('Broadcasting chat message', [
+        //     'channel' => 'student-sanjal.'.$this->chats->receiver_id,
+        //     'message' => $this->chats->text_field,
+        //     'sender' => $this->chats->sender_id,
+        //     'receiver' => $this->chats->receiver_id
+        // ]);
 
         return [
             new PrivateChannel('student-sanjal.'.$this->chats->receiver_id),
@@ -52,7 +51,6 @@ class ChatSendEvent implements ShouldBroadcastNow
             'receiver_id' => $this->chats->receiver_id,
             'text_field' => $this->chats->text_field,
             'media' => $this->chats->media,
-            'like' => $this->chats->like,
             'created_at' => $this->chats->created_at->toDateTimeString(),
         ];
     }

@@ -12,7 +12,6 @@ const ShowProfile = () => {
     const authUser = usePage<PageProps>().props.auth.user;
     const { his_posts,user,following,followers,firstTwoFollowers,remainingCount,userSkills} = usePage<PageProps>().props;
 
-    console.log(his_posts)
     const [hisPosts, setHisPosts] = useState<any[]>([]);
 
     useEffect(() => {
@@ -199,9 +198,8 @@ const ShowProfile = () => {
                     <div className="post_description px-1 my-2">
                     <span className="text-gray-700">{post.post_description}</span>
                     </div>
-                    <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px] h-80">
                     {post.media && (
-                    <>
+                    <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px] h-80">
                         {isImage(post.media) ? (
                             <img
                                 className="rounded-md cursor-pointer h-full w-fit"
@@ -223,10 +221,7 @@ const ShowProfile = () => {
                                 aria-controls="hs-scale-animation-modal"
                                 data-hs-overlay="#hs-scale-animation-modal"/>
                         ) : null}
-                    </>
-                    )}
-                    {/* <img className="rounded-md cursor-pointer" src={post.media} alt="Users post media" /> */}
-                    </div>
+                    </div>)}
                     <div className="post-interaction mt-1 px-2">
                     <div className="interaction-counts flex justify-between">
                         <div className="like-count">

@@ -54,6 +54,7 @@ class HandleInertiaRequests extends Middleware
 
         $usersNotFollowed =$user? User::whereNotIn('id', $followingIds)
                     ->where('id', '!=', $user->id)
+                    ->take(3)
                     ->get():[];
 
         $followingIds[] = $user?$user->id:'';
