@@ -294,8 +294,8 @@ const Posts = () => {
                                 <div className="post_description px-1 my-2">
                                     <span className="text-gray-700">{post.post_description}</span>
                                 </div>
+                                {post.media ? (
                                 <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px] h-80">
-                                {post.media && (
                                     <>
                                         {isImage(post.media) ? (
                                             <img
@@ -321,8 +321,7 @@ const Posts = () => {
                                             />
                                         ) : null}
                                     </>
-                                    )}
-                                </div>
+                                </div>):""}
                                 <div className="post-interaction mt-1 px-2">
                                     <div className="interaction-counts flex justify-between">
                                         <div className="like-count cursor-pointer hover:bg-red-500">

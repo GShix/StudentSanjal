@@ -56,21 +56,19 @@ class GoogleController extends Controller
                 Storage::disk('public')->put($filename, $avatarContents);
             }
 
-            // $first_name = $googleUser->name;
-            // $email = $googleUser->email;
-            // $filename = $filename;
-            // $password =bcrypt(Str::random(24));
-
-            // $data =[
-            //     $first_name,
-            //     $email ,
-            //     $filename,
-            //     $password
-            // ];nsdhfsiihig
-            // dd($data);
+            $fullName = $googleUser->name;
+            $nameParts = explode(' ', trim($fullName));
+            $first_name = $nameParts[0];
+            $middle_name = count($nameParts) > 2 ? implode(' ', array_slice($nameParts, 1, -1)) : null;
+            $last_name = count($nameParts) > 1 ? end($nameParts) : null;
+            $username = $first_name . $last_name;
+            $username = preg_replace('/[^a-z0-9]/', '', $username);
 
             $newUser = User::create([
-                'first_name' => $googleUser->name,
+                'first_name' => $first_name,
+                'middle_name' => $middle_name,
+                'last_name' => $last_name,
+                'username' => $username,
                 'email' => $googleUser->email,
                 'profile_image' => $filename,
                 'password' => bcrypt(Str::random(24))

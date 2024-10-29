@@ -3,6 +3,7 @@ import HomeLayout from "./Layouts/HomeLayout";
 import { FormEventHandler, useEffect, useState } from "react";
 import { PageProps } from "@/types";
 import ProfileImage from "./Layouts/partials/ProfileImage";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 interface FormData {
     post_description: string;
@@ -29,6 +30,14 @@ const UploadMedia = () => {
     const handleRemoveFile = () => {
         setData('media', null);
         setShowPostAdd(!showPostAdd);
+    };
+
+    const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+
+    const handleEmojiClick = (emojiData: EmojiClickData) => {
+        const newValue = (data.post_description || '') + emojiData.emoji; // Get current value or default to empty string
+        setData('post_description', newValue); // Set the new value
+        // setShowEmojiPicker(false); // Close the emoji picker after selecting an emoji
     };
 
     const [fileURL, setFileURL] = useState<string | null>(null);
@@ -85,14 +94,22 @@ const UploadMedia = () => {
                             </div>
                         </div>
                     </div>
-                    <div className="caption">
+                    <div className="caption relative">
                         <textarea
                             className="w-full p-2 border-none rounded-lg focus:outline-none focus:ring-1 focus:border-[#c7ae6a] text-sm"
                             rows={2}
                             placeholder={`What's on your mind, ${user.first_name}?`}
                             value={data.post_description}
-                            onChange={(e) => setData('post_description', e.target.value)}
-                        ></textarea>
+                            onChange={(e) => setData('post_description', e.target.value)}></textarea>
+                        <button type="button" className="emoji-button absolute right-3 top-3 text-xl" onClick={() => setShowEmojiPicker(!showEmojiPicker)}>
+                            😀
+                        </button>
+                        {showEmojiPicker && (
+                            <div className="emoji-picker text-sm">
+                                {/* <EmojiPicker onEmojiClick={handleEmojiClick}/> */}
+                                <EmojiPicker height={300} width={300} onEmojiClick={handleEmojiClick} searchDisabled={true}/>
+                            </div>
+                        )}
                     </div>
                     {showPostAdd && (
                         <div className="file mt-2 p-2 border border-gray-300 rounded-md relative">

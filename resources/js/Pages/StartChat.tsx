@@ -5,28 +5,19 @@ import ProfileImage from "./Layouts/partials/ProfileImage";
 import { useEffect, useRef, useState } from "react";
 import FilePreview from "./Layouts/partials/PreviewFile";
 import axios from "axios";
+import Echo from "laravel-echo";
 import Modal from "@/Components/Modal";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 interface FormData {
-    text_field?:string;
-    media?:File | null;
-    like?: string;
+    text_field?:string; media?:File | null;  like?: string;
 }
 
-interface connectedFriend {
-    profile_image: string;
-    first_name: string;
-    middle_name: string;
-    last_name: string;
-    username: string;
-    active_status: string;
-    id: any;
+interface ConnectedFriend {
+    profile_image: string; first_name: string; middle_name: string; last_name: string; username: string;  active_status: string; id: any;
 }
 interface ChatsData {
-    id: number;
-    sender_id: number;
-    receiver_id: number;
+    id: number; sender_id: number; receiver_id: number;
     sender: {
         id: number;
         username: string;
@@ -35,29 +26,26 @@ interface ChatsData {
         id: number;
         username: string;
     };
-    text_field?: string;
-    media?: string;
-    created_at: string;
-    updated_at: string;
+    text_field?: string; media?: string; created_at: string; updated_at: string;
 }
 
 const StartChat = () => {
-
-    const { user,latest_chat,usersYouFollowed } = usePage<PageProps>().props.auth;
-    const { otherUsers} = usePage<PageProps>().props;
-
-    const [connectedFriend,setconnectedFriend] = useState<connectedFriend | null>(null);
-    const [showMessage,setShowMessage] = useState(false);
-    const [showSearchInput,setShowSearchInput] = useState(false);
-    const [showModal,setShowModal] = useState(false);
-    const [modalKoMedia,setModalKoMedia] = useState();
-    const [chats,setChats] = useState<ChatsData[]>([]);
 
     const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({
         text_field:'',
         media:null,
         like: '',
     });
+
+    const { user,latest_chat,usersYouFollowed } = usePage<PageProps>().props.auth;
+    const { otherUsers} = usePage<PageProps>().props;
+
+    const [connectedFriend,setConnectedFriend] = useState();
+    const [showMessage,setShowMessage] = useState(false);
+    const [showSearchInput,setShowSearchInput] = useState(false);
+    const [showModal,setShowModal] = useState(false);
+    const [modalKoMedia,setModalKoMedia] = useState();
+    const [chats,setChats] = useState<ChatsData[]>([]);
 
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
@@ -67,10 +55,7 @@ const StartChat = () => {
         setShowEmojiPicker(false); // Close the emoji picker after selecting an emoji
     };
 
-
     const chatContainerRef = useRef(null);
-
-    // Scroll to bottom when chats change
     useEffect(() => {
         if (chatContainerRef.current) {
             const lastMessage = chatContainerRef.current.lastElementChild;
@@ -131,12 +116,10 @@ const StartChat = () => {
             setConnectionStatus('error');
         });
 
-        // Listen for messages
-        channel.listen('.ChatSendEvent', (event: any) => {
+        channel.listen('ChatSendEvent', (event: any) => {
             console.log('Received message:', event);
             setChats(prev => [...prev, event]);
 
-            // Optional: Add notification
             if ('Notification' in window && Notification.permission === 'granted') {
                 new Notification('New Message', {
                     body: event.text_field
@@ -144,17 +127,16 @@ const StartChat = () => {
             }
         });
 
-        // Cleanup
         return () => {
-            channel.stopListening('.ChatSendEvent');
+            channel.stopListening('ChatSendEvent');
             window.Echo.leave(`student-sanjal.${user.id}`);
         };
     }, [user?.id]);
 
 
 
-    const showMessageHandle = async(friend: connectedFriend) => {
-        setconnectedFriend(friend);
+    const showMessageHandle = async(friend: any) => {
+        setConnectedFriend(friend);
         setShowMessage(true);
     };
     const handleModal = (media:any)=>{
@@ -296,11 +278,11 @@ const StartChat = () => {
                             {connectionStatus && <span className="text-green-500 text-sm">Connected</span>}
                         </div>
                         {showEmojiPicker && (
-                        <div className="emoji-picker fixed text-sm">
-                            {/* <EmojiPicker onEmojiClick={handleEmojiClick}/> */}
-                            <EmojiPicker height={300} width={300} onEmojiClick={handleEmojiClick} searchDisabled={true}/>
-                        </div>
-                    )}
+                            <div className="emoji-picker fixed text-sm">
+                                {/* <EmojiPicker onEmojiClick={handleEmojiClick}/> */}
+                                <EmojiPicker height={300} width={300} onEmojiClick={handleEmojiClick} searchDisabled={true}/>
+                            </div>
+                        )}
                         <div className="message-items py-2 min-h-96" ref={chatContainerRef}>
                             {chats.map((chat: any) => (
                                 <div key={chat.id} className="chat-message-haru px-8">

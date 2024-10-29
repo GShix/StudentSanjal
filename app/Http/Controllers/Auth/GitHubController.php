@@ -24,16 +24,13 @@ class GitHubController extends Controller
 
             $user = User::where('email', $githubUser->email)->first();
 
-            // dd($$githubUser->nickname->toLowercase());
             if ($user) {
 
                 if ($githubUser->avatar) {
-                    // Delete old profile image if exists
                     if ($user->profile_image) {
                         Storage::disk('public')->delete($user->profile_image);
                     }
 
-                    // Download and save new avatar
                     $avatarContents = file_get_contents($githubUser->avatar);
                     $filename = 'profile-images/' . Str::random(40) . '.jpg';
                     Storage::disk('public')->put($filename, $avatarContents);
@@ -43,12 +40,10 @@ class GitHubController extends Controller
                     ]);
                 }
 
-                // dd($user);
                 Auth::login($user);
                 return redirect()->route('home'); // Redirect to home
             }
 
-            // For new user, download and save avatar
             $filename = null;
             if ($githubUser->avatar) {
                 $avatarContents = file_get_contents($githubUser->avatar);
