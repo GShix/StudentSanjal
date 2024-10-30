@@ -127,5 +127,10 @@ class PostController extends Controller
         $post->delete();
         return to_route('home')->with('success', 'Post deleted successfully');
     }
+    public function hide(Post $post)
+    {
+        $post->delete();
+        return to_route('home')->with('success', 'Post deleted successfully');
+    }
 
 }

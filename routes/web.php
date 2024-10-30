@@ -29,15 +29,16 @@ Route::middleware('auth')->group(function () {
     })->name('updateProfile');
 
     // Route::get('post',[PostController::class,'index'])->name('createPost');
-    Route::resource('post',PostController::class)->except('edit','update');
+    Route::resource('post',PostController::class)->except('edit','update','destroy');
     Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
     Route::patch('/post/{post}/update', [PostController::class, 'update'])->name('post.update');
+    Route::delete('/post/{post}/destroy', [PostController::class, 'destroy'])->name('post.destroy');
 
     Route::get('posts/latestPosts',[PostController::class,'latestPosts'])->name('latestPosts');
 
     Route::get('posts/showPosts',[PostController::class,'showPosts'])->name('showPosts');
 
-    Route::post('post/hide/{post}', [PostController::class, 'destroy'])->name('post.hide');
+    Route::post('post/hide/{post}', [PostController::class, 'hide'])->name('post.hide');
 
     Route::get('post/{post}', [PostController::class, 'updatePostLoveCount'])->name('post.updatePostLoveCount');
 

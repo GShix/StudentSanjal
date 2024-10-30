@@ -202,6 +202,23 @@ const Posts = () => {
     };
 
     //delete
+    const handleDelete = async (postId:number) => {
+        const confirmed = confirm("Are you sure you want to delete this post?");
+        if (confirmed) {
+            try {
+                await axios.delete(window.route('post.destroy', { post: postId }), {
+                    headers: {
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                    },
+                });
+            } catch (error) {
+                console.error("Error deleting post:", error);
+            }
+        }
+    };
+
+
+    //hide
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         post(route('post.hide', postIdToRemove), {
@@ -293,17 +310,19 @@ const Posts = () => {
                                                             </div>
                                                             {post.user.id === user.id ? (
                                                             <>
-                                                                <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2">
-                                                                    <Link href={window.route('post.edit', { post: post.id })}>
-                                                                        <i className="ri-edit-fill text-xl pl-[1px]"></i>
-                                                                        {/* <i className="ri-edit-fill"></i> */}
-                                                                        <span className='text-sm text-nowrap'>Edit post</span>
-                                                                    </Link>
-                                                                </div>
-                                                                <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2">
-                                                                    <i className="ri-delete-bin-2-fill text-xl pl-[1px]"></i>
-                                                                    <span className='text-sm text-nowrap'>Delete post</span>
-                                                                </div>
+                                                                <Link href={window.route('post.edit', { post: post.id })}>
+                                                                    <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2">
+                                                                            <i className="ri-edit-fill text-xl pl-[1px]"></i>
+                                                                            {/* <i className="ri-edit-fill"></i> */}
+                                                                            <span className='text-sm text-nowrap'>Edit post</span>
+                                                                    </div>
+                                                                </Link>
+                                                                {/* <Link href={window.route('post.destroy', { post: post.id })}> */}
+                                                                    <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2" onClick={()=>handleDelete(post.id)}>
+                                                                        <i className="ri-delete-bin-2-fill text-xl pl-[1px]"></i>
+                                                                        <span className='text-sm text-nowrap'>Delete post</span>
+                                                                    </div>
+                                                                {/* </Link> */}
                                                             </>):""}
                                                             <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2">
                                                                 <i className="ri-feedback-fill text-xl pl-[1px]"></i>
