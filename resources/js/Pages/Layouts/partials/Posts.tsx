@@ -118,8 +118,9 @@ const Posts = () => {
     //       setShowPostMenu(false);
     //     }
     //   };
-    const handleToggle = () => {
+    const handlePostMenu = (postId:number) => {
         setShowPostMenu((prev) => !prev);
+        setActivePostIdShowOptions(postId);
       };
 
       // Add and clean up event listener for clicks outside
@@ -130,7 +131,9 @@ const Posts = () => {
     //     };
     //   }, []);
 
+    const [activePostIdToShowOptions,setActivePostIdShowOptions] = useState(Number);
     const handleSavingPost =async(postId:number,postOwnerId:number)=>{
+        setActivePostIdShowOptions(postId);
         const data ={
             user_id:user.id,
             post_id:postId,
@@ -198,9 +201,10 @@ const Posts = () => {
         return media.match(/\.(mp4|webm|ogg)$/i);
     };
 
+    //delete
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
-        post(route('post.destroy', postIdToRemove), {
+        post(route('post.hide', postIdToRemove), {
             onSuccess: () => {
                 setPostIdToRemove(null);
             }
@@ -278,18 +282,35 @@ const Posts = () => {
                                         </div>
                                         <div className="posts-action flex justify-end gap-3 relative">
                                             <div className="post-option-btn">
-                                                <i className="ri-more-2-fill rotate-90 block text-xl cursor-pointer  rounded-md hover:bg-gray-300/60" onClick={handleToggle} ref={toggleRef}></i>
-                                                {showPostMenu ? (
-                                                    <div className="post-menu absolute top-8 w-40 bg-gray-100 right-0 py-2 rounded-md flex flex-col gap-1 border border-gray-300 shadow-md">
-                                                        <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2" onClick={()=>handleSavingPost(post.id,post.user.id)}>
-                                                            <i className="ri-play-list-add-fill text-xl"></i>
-                                                            <span className='text-sm'>{( isPostSaved)?"Unsave":"Save"}</span>
+                                                <i className="ri-more-2-fill rotate-90 block text-xl cursor-pointer  rounded-md hover:bg-gray-300/60" onClick={()=>handlePostMenu(post.id)} ref={toggleRef}></i>
+                                                {activePostIdToShowOptions === post.id? (
+                                                    <>
+                                                    {showPostMenu ? (
+                                                        <div className="post-menu absolute top-8 w-40 z-50 bg-gray-100 right-0 py-2 rounded-md flex flex-col gap-1 border border-gray-300 shadow-md">
+                                                            <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2" onClick={()=>handleSavingPost(post.id,post.user.id)}>
+                                                                <i className="ri-play-list-add-fill text-xl"></i>
+                                                                <span className='text-sm'>{( isPostSaved)?"Unsave":"Save"}</span>
+                                                            </div>
+                                                            {post.user.id === user.id ? (
+                                                            <>
+                                                                <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2">
+                                                                    <Link href={window.route('post.edit', { post: post.id })}>
+                                                                        <i className="ri-edit-fill text-xl pl-[1px]"></i>
+                                                                        {/* <i className="ri-edit-fill"></i> */}
+                                                                        <span className='text-sm text-nowrap'>Edit post</span>
+                                                                    </Link>
+                                                                </div>
+                                                                <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2">
+                                                                    <i className="ri-delete-bin-2-fill text-xl pl-[1px]"></i>
+                                                                    <span className='text-sm text-nowrap'>Delete post</span>
+                                                                </div>
+                                                            </>):""}
+                                                            <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2">
+                                                                <i className="ri-feedback-fill text-xl pl-[1px]"></i>
+                                                                <span className='text-sm text-nowrap'>Report post</span>
+                                                            </div>
                                                         </div>
-                                                        <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2">
-                                                            <i className="ri-feedback-fill text-xl pl-[1px]"></i>
-                                                            <span className='text-sm text-nowrap'>Report post</span>
-                                                        </div>
-                                                    </div>
+                                                    ):""}</>
                                                 ):""}
                                             </div>
                                             <div className="post-option-btn">
@@ -378,7 +399,7 @@ const Posts = () => {
 
                                                         {/* Show menu only if activeCommentId matches the current comment */}
                                                         {activeCommentId === item.id && (
-                                                            <div className="comment-setting absolute top-0 -right-24 bg-gray-200 py-2 z-50 rounded-md w-auto px-3">
+                                                            <div className="comment-setting absolute top-0 -right-24 bg-gray-200 py-2 z-20 rounded-md w-auto px-3">
                                                                 {/* <i className="ri-close-fill absolute right-1 top-0 hover:cursor-pointer" title='Close'></i> */}
                                                                 {item.user.id === user.id ? (
                                                                     <div className='flex gap-5'>

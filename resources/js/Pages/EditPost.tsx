@@ -8,62 +8,68 @@ import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 interface FormData {
     post_description: string;
     media?: File | null;
+    _method: "PATCH";
 }
 
-const UploadPost = () => {
+const EditPost = () => {
     const user = usePage<PageProps>().props.auth.user;
-    const { data, setData, post,errors, clearErrors } = useForm<FormData>({
-        post_description: "",
-        media: null
+    const { postToEdit } = usePage<PageProps>().props;
+
+    // Set initial form data from postToEdit
+    const { data, setData, post, errors, clearErrors } = useForm<FormData>({
+        post_description: postToEdit?.post_description || "",
+        media: null,
+        _method: "PATCH"
     });
 
     const [showPostAdd, setShowPostAdd] = useState(true);
     const [showEventAdd, setShowEventAdd] = useState(false);
-0
-
-    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0] || null;
-        setData('media', file);
-        clearErrors('media');
-    };
-
-    const handleRemoveFile = () => {
-        setData('media', null);
-        setShowPostAdd(!showPostAdd);
-    };
-
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
-
-    const handleEmojiClick = (emojiData: EmojiClickData) => {
-        const newValue = (data.post_description || '') + emojiData.emoji; // Get current value or default to empty string
-        setData('post_description', newValue); // Set the new value
-        // setShowEmojiPicker(false); // Close the emoji picker after selecting an emoji
-    };
-
     const [fileURL, setFileURL] = useState<string | null>(null);
+
+    // Handle file preview
     useEffect(() => {
         if (data.media) {
-            setFileURL(URL.createObjectURL(data.media));
+
+            const url = URL.createObjectURL(data.media);
+            setFileURL(url);
+            return () => URL.revokeObjectURL(url);
         } else {
             setFileURL(null);
         }
-
-        return () => {
-            if (fileURL) URL.revokeObjectURL(fileURL);
-        };
     }, [data.media]);
+
+    const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files?.[0] || null;
+        setData("media", file);
+        clearErrors("media");
+    };
+
+    const handleRemoveFile = () => {
+        setData("media", null);
+        setFileURL(null);
+        setShowPostAdd(!showPostAdd); // Toggle post add view
+    };
+
+    const handleEmojiClick = (emojiData: EmojiClickData) => {
+        const newValue = (data.post_description || "") + emojiData.emoji;
+        setData("post_description", newValue);
+    };
 
     const submit: FormEventHandler = async (e) => {
         e.preventDefault();
-        const formData = new FormData();
-        formData.append('post_description', data.post_description);
-        if (data.media) formData.append('media', data.media);
 
-        post(window.route('post.store'), {
+        const formData = new FormData();
+        formData.append("post_description", data.post_description);
+        if (data.media) formData.append("media", data.media);
+
+        post(route("post.update", { post: postToEdit.id }), {
             data: formData,
-            onError: () => {
-                clearErrors();
+            method:'patch',
+            headers: {
+                "Content-Type": "multipart/form-data"
             },
+            onError: () => clearErrors(),
         });
     };
 
@@ -71,7 +77,7 @@ const UploadPost = () => {
         <HomeLayout>
             <Head title="Post" />
             <div className="post bg-gray-100 px-4 py-3 rounded-xl min-h-screen relative">
-                <div className="h1 text-center font-semibold hover:underline">Create your Post</div>
+                <div className="h1 text-center font-semibold hover:underline">Edit your Post</div>
                 <button className="mt-2 px-[4px] rounded-full bg-gray-200/90 hover:bg-red-500 text-red-500 hover:text-white absolute top-0 right-3">
                     <Link className="" href="/"><i className="ri-close-fill text-xl"></i></Link>
                 </button>
@@ -181,4 +187,4 @@ const UploadPost = () => {
     );
 };
 
-export default UploadPost;
+export default EditPost;

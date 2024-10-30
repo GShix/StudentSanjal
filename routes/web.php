@@ -24,22 +24,20 @@ Route::get('/', function () {
 // Route::get('/googleLogin', [SocialiteController::class,'googleLogin'])->name('google.login');
 
 Route::middleware('auth')->group(function () {
-    Route::get('uploadMedia', function () {
-        return Inertia::render('UploadMedia');
-    })->name('uploadMedia');
-
     Route::get('updateProfile', function () {
         return Inertia::render('Profile');
     })->name('updateProfile');
 
     // Route::get('post',[PostController::class,'index'])->name('createPost');
-    Route::resource('post',PostController::class)->except('destroy');
+    Route::resource('post',PostController::class)->except('edit','update');
+    Route::get('/post/{post}/edit', [PostController::class, 'edit'])->name('post.edit');
+    Route::patch('/post/{post}/update', [PostController::class, 'update'])->name('post.update');
 
     Route::get('posts/latestPosts',[PostController::class,'latestPosts'])->name('latestPosts');
 
     Route::get('posts/showPosts',[PostController::class,'showPosts'])->name('showPosts');
 
-    Route::post('post/{post}', [PostController::class, 'destroy'])->name('post.destroy');
+    Route::post('post/hide/{post}', [PostController::class, 'destroy'])->name('post.hide');
 
     Route::get('post/{post}', [PostController::class, 'updatePostLoveCount'])->name('post.updatePostLoveCount');
 

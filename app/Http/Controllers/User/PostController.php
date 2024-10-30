@@ -12,6 +12,7 @@ use App\Models\ConnectionCircle;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Post\StorePostRequest;
+use App\Http\Requests\Post\UpdatePostRequest;
 
 class PostController extends Controller
 {
@@ -29,13 +30,23 @@ class PostController extends Controller
     public function store(StorePostRequest $request)
     {
 
-        $post = new Post();
-
         Post::create($request->validated()+['user_id'=> Auth::user()->id]);
 
         return to_route('home')->with('success','Post created successfully');
     }
 
+    public function edit(Post $post)
+    {
+        return Inertia::render('EditPost',[
+            'postToEdit'=>$post
+        ]);
+    }
+
+    public function update(UpdatePostRequest $request, Post $post)
+    {
+        $post->update($request->validated());
+        return to_route('home')->with('success','Post updated successfully');
+    }
     /**
      * Display the specified resource.
      */
@@ -106,14 +117,6 @@ class PostController extends Controller
             'latestPosts' => $latestPosts,
             'postLikedByUser'=>$postLikedByUser
         ]);
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, Post $post)
-    {
-        //
     }
 
     /**
