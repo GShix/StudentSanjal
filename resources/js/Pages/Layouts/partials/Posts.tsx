@@ -100,6 +100,11 @@ const Posts = () => {
     };
 
     const [createComment,setCreateComment] = useState(false);
+    const [activePostIdToComment, setActivePostIdToComment] = useState(Number);
+    const handleCreateComment = (postId:number)=>{
+        setActivePostIdToComment(postId);
+        setCreateComment(true);
+    }
     const [comment,setComment] = useState('');
     const [allComments,setAllComments] = useState([]);
     const [showAllComments,setShowAllComments] = useState(false);
@@ -142,7 +147,9 @@ const Posts = () => {
         }
     }
 
+    const [activePostIdShowComment, setActivePostIdShowComment] = useState(Number);
     const showAllCommentHandler = async(postId:number)=>{
+        setActivePostIdShowComment(postId)
         setShowAllComments(!showAllComments);
         try {
             const data ={
@@ -341,7 +348,7 @@ const Posts = () => {
                                             {/* <i className="ri-heart-3-line text-lg"></i> */}
                                             <i className={`${isLiked || postLikedByUser.includes(post.id) ?"ri-thumb-up-fill text-lg":"ri-thumb-up-line"}`}></i>
                                         </div>
-                                        <div className="comment w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer" onClick={()=>setCreateComment(true)}>
+                                        <div className="comment w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer" onClick={()=>handleCreateComment(post.id)}>
                                             <i className="ri-chat-2-line text-lg"></i>
                                         </div>
                                         <div className="share w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer">
@@ -349,51 +356,55 @@ const Posts = () => {
                                         </div>
 
                                     </div>
-                                    {showAllComments && (
-                                        <>
-                                        {allComments.map((item: any, index: number) => (
-                                            <div key={index} className="create-comment flex items-center py-1">
-                                                <div className="create-comment flex items-center gap-1 lg:gap-4 py-1 relative">
-                                                    <div className="user-profile">
-                                                        <ProfileImage image={item?.user.profile_image} className="w-9 h-9 rounded-full object-cover object-fit" />
-                                                    </div>
-                                                    <div className="comment-box relative border border-gray-200 rounded-full">
-                                                        <p className="bg-gray-200 px-2 py-1 rounded-md text-sm text-gray-700">{item?.comment}</p>
-                                                    </div>
-                                                    <div className="menu relative ml-3">
-                                                        <i
-                                                            className="ri-more-2-fill cursor-pointer block rotate-90 hover:bg-gray-200 py-1 px-[2px] rounded-md"
-                                                            onClick={() => handleShowCommentSetting(item.id)} // Toggle the menu for the clicked comment
-                                                        ></i>
-                                                    </div>
-
-                                                    {/* Show menu only if activeCommentId matches the current comment */}
-                                                    {activeCommentId === item.id && (
-                                                        <div className="comment-setting absolute top-0 -right-24 bg-gray-200 py-2 z-50 rounded-md w-auto px-3">
-                                                            {/* <i className="ri-close-fill absolute right-1 top-0 hover:cursor-pointer" title='Close'></i> */}
-                                                            {item.user.id === user.id ? (
-                                                                <div className='flex gap-5'>
-                                                                    <i className="ri-edit-2-fill hover:text-[#b99a45] cursor-pointer" title='Edit' onClick={() => handleEditComment(item.id)}></i>
-                                                                    {/* <button className='hover:bg-gray-100 w-full px-2 py-1 text-start border-b border-gray-50 rounded-md' onClick={() => handleEditComment(item.id)}>Edit</button> */}
-                                                                    <i className="ri-delete-bin-2-fill hover:text-red-600 cursor-pointer" title='Delete' onClick={() => handleDeleteComment(item.id)}></i>
-                                                                    {/* <button className='hover:bg-gray-100 w-full px-2 py-1 text-start rounded-md' onClick={() => handleDeleteComment(item.id)}>Delete</button> */}
-                                                                </div>
-                                                            ) : (
-                                                                <div className="hide-comment w-full hover:text-[#b99a45] rounded-sm">
-                                                                    <button className='w-full' onClick={() => handleHideComment(item.id)}>
-                                                                        <i className="ri-eye-off-fill" title='Hide comment'></i>
-                                                                    </button>
-                                                                </div>
-                                                            )}
+                                    {activePostIdShowComment === post.id ? (
+                                    <>
+                                        {showAllComments && (
+                                            <>
+                                            {allComments.map((item: any, index: number) => (
+                                                <div key={index} className="create-comment flex items-center py-1">
+                                                    <div className="create-comment flex items-center gap-1 lg:gap-4 py-1 relative">
+                                                        <div className="user-profile">
+                                                            <ProfileImage image={item?.user.profile_image} className="w-9 h-9 rounded-full object-cover object-fit" />
                                                         </div>
-                                                    )}
+                                                        <div className="comment-box relative border border-gray-200 rounded-full">
+                                                            <p className="bg-gray-200 px-2 py-1 rounded-md text-sm text-gray-700">{item?.comment}</p>
+                                                        </div>
+                                                        <div className="menu relative ml-3">
+                                                            <i
+                                                                className="ri-more-2-fill cursor-pointer block rotate-90 hover:bg-gray-200 py-1 px-[2px] rounded-md"
+                                                                onClick={() => handleShowCommentSetting(item.id)} // Toggle the menu for the clicked comment
+                                                            ></i>
+                                                        </div>
+
+                                                        {/* Show menu only if activeCommentId matches the current comment */}
+                                                        {activeCommentId === item.id && (
+                                                            <div className="comment-setting absolute top-0 -right-24 bg-gray-200 py-2 z-50 rounded-md w-auto px-3">
+                                                                {/* <i className="ri-close-fill absolute right-1 top-0 hover:cursor-pointer" title='Close'></i> */}
+                                                                {item.user.id === user.id ? (
+                                                                    <div className='flex gap-5'>
+                                                                        <i className="ri-edit-2-fill hover:text-[#b99a45] cursor-pointer" title='Edit' onClick={() => handleEditComment(item.id)}></i>
+                                                                        {/* <button className='hover:bg-gray-100 w-full px-2 py-1 text-start border-b border-gray-50 rounded-md' onClick={() => handleEditComment(item.id)}>Edit</button> */}
+                                                                        <i className="ri-delete-bin-2-fill hover:text-red-600 cursor-pointer" title='Delete' onClick={() => handleDeleteComment(item.id)}></i>
+                                                                        {/* <button className='hover:bg-gray-100 w-full px-2 py-1 text-start rounded-md' onClick={() => handleDeleteComment(item.id)}>Delete</button> */}
+                                                                    </div>
+                                                                ) : (
+                                                                    <div className="hide-comment w-full hover:text-[#b99a45] rounded-sm">
+                                                                        <button className='w-full' onClick={() => handleHideComment(item.id)}>
+                                                                            <i className="ri-eye-off-fill" title='Hide comment'></i>
+                                                                        </button>
+                                                                    </div>
+                                                                )}
+                                                            </div>
+                                                        )}
+                                                    </div>
                                                 </div>
-                                            </div>
-                                        ))}
-                                        </>
-                                    )}
+                                            ))}
+                                            </>
+                                        )}
+                                    </>):''}
 
-
+                                    {activePostIdToComment === post.id ? (
+                                    <>
                                     {/* <div className="interaction-btn flex justify-center mt-[2px] py-1 border-b-[1.6px]"> */}
                                         {createComment &&(
                                             <div className="create-comment flex items-center gap-2 lg:gap-4 py-1">
@@ -410,6 +421,7 @@ const Posts = () => {
                                             </div>
                                         )}
                                     {/* </div> */}
+                                    </>):""}
                                 </div>
                             </>
                         )}
