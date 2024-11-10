@@ -52,7 +52,7 @@ export default function Register() {
     e.preventDefault();
 
     if (!errors.dob) {
-        post(route('register'), {
+        post(window.route('register'), {
             onFinish: () => reset('password', 'password_confirmation'),
         });
     }
@@ -268,7 +268,7 @@ export default function Register() {
                             </div>
                         </div>
                         <div className="logIn text-center mt-2">
-                            <p className="sign-up-label mt-1 text-xs font-normal text-gray-300">Already have an account? <a href= {route('login')} className="underline font-semibold text-sm text-[#e3d6b4]">Log in</a></p>
+                            <p className="sign-up-label mt-1 text-xs font-normal text-gray-300">Already have an account? <a href= {window.route('login')} className="underline font-semibold text-sm text-[#e3d6b4]">Log in</a></p>
                         </div>
                     </div>
                 </div>

@@ -98,7 +98,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         const formData = { ...data, skill_id: JSON.stringify(data.skill_id) };
 
         if (!errors.dob) {
-            post(route('profile.update'));
+            post(window.route('profile.update'));
         }
     };
 

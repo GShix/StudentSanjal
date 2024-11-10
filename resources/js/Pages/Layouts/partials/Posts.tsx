@@ -6,6 +6,10 @@ import TimeAgo from '../TimeAgo';
 import Modal from '@/Components/Modal';
 import ProfileImage from './ProfileImage';
 import { MdOutlineBookmarkAdd } from 'react-icons/md';
+import CreateComment from './CreateComment';
+import ShowAllComments from './ShowAllComments';
+import PostHideForm from './PostHideForm';
+import ShowPostMedia from './ShowPostMedia';
 
 interface FormData {
     reason_to_remove_post: string;
@@ -14,55 +18,11 @@ interface FormData {
 const Posts = () => {
     const { flash ,latest_comment} = usePage<PageProps>().props;
     const { user,savedPostIds} = usePage<PageProps>().props.auth;
-    // console.log(savedPostIds)
-    const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({
-        reason_to_remove_post: ""
-    });
 
     const [showCommentSetting,setShowCommentSetting] = useState(false);
     const [commentId,setCommentId] = useState();
     const [commentOwnerId,setCommentOwnerId] = useState();
     const [postIdToRemove, setPostIdToRemove] = useState<number | null>(null);
-    const [showModal, setShowModal] = useState(false);
-    const [postMedia, setPostMedia] = useState<string>();
-    const [postDescription, setPostDescription] = useState<string>();
-
-    const [activeCommentId, setActiveCommentId] = useState<number | null>(null); // State to track which comment's menu is active
-
-    const handleShowCommentSetting = (commentId: number) => {
-        setActiveCommentId(activeCommentId === commentId ? null : commentId); // Toggle menu visibility
-    };
-
-    const handleEditComment = (commentId: number) => {
-        console.log(`Edit comment ${commentId}`);
-    };
-
-    const handleDeleteComment = (commentId: number) => {
-        console.log(`Delete comment ${commentId}`);
-    };
-
-    const handleHideComment = (commentId: number) => {
-        console.log(`Hide comment ${commentId}`);
-    };
-
-    const handlePostShow = (media:string,description:string)=>{
-        console.log(media,description);
-        setShowModal(true);
-        setPostMedia(media);
-        setPostDescription(description);
-        // console.log(postMedia,postDescription)
-    }
-    const closePostShow =()=>{
-        setShowModal(false);
-        setPostMedia('');
-        setPostDescription('');
-    }
-
-    // const handleShowCommentSetting =(commentId:any,ownerId:any) =>{
-    //     setShowCommentSetting(!showCommentSetting);
-    //     setCommentId(commentId);
-    //     setCommentOwnerId(ownerId);
-    // }
 
     let [latest_posts ,setLatestPosts] = useState([]);
     let [latest_comments,setLatestComments] = useState([]);
@@ -82,7 +42,6 @@ const Posts = () => {
         loadLatestPost();
     },[]);
 
-    // console.log(latest_posts)
     const [isLiked, setIsLiked] = useState(false);
 
     const handlePostLike = async (postId:number, userId:number) => {
@@ -105,7 +64,7 @@ const Posts = () => {
         setActivePostIdToComment(postId);
         setCreateComment(true);
     }
-    const [comment,setComment] = useState('');
+
     const [allComments,setAllComments] = useState([]);
     const [showAllComments,setShowAllComments] = useState(false);
 
@@ -113,23 +72,10 @@ const Posts = () => {
     const [isPostSaved,setIsPostSaved] = useState(false);
     const toggleRef = useRef(null);
 
-    // const handleClickOutside = (event) => {
-    //     if (toggleRef.current && !toggleRef.current.contains(event.target)) {
-    //       setShowPostMenu(false);
-    //     }
-    //   };
     const handlePostMenu = (postId:number) => {
         setShowPostMenu((prev) => !prev);
         setActivePostIdShowOptions(postId);
-      };
-
-      // Add and clean up event listener for clicks outside
-    //   useEffect(() => {
-    //     document.addEventListener("mousedown", handleClickOutside);
-    //     return () => {
-    //       document.removeEventListener("mousedown", handleClickOutside);
-    //     };
-    //   }, []);
+    };
 
     const [activePostIdToShowOptions,setActivePostIdShowOptions] = useState(Number);
     const handleSavingPost =async(postId:number,postOwnerId:number)=>{
@@ -165,26 +111,6 @@ const Posts = () => {
         }
 
     }
-
-    const handleComment =async (postId:number, userId:number) => {
-        const data = {
-            post_id: postId,
-            user_id: userId,
-            comment
-        }
-        try {
-            const response = await axios.post('/postComment/commentOnThePost',data);
-            if(response.data.success){
-                loadLatestPost();
-                setShowAllComments(true);
-                setCreateComment(false);
-                setComment('');
-            }
-        } catch (error) {
-            console.error('Error liking the post', error);
-        }
-    }
-
     const handleRemovePost = (postId: number) => {
         setPostIdToRemove(postId);
     };
@@ -193,20 +119,12 @@ const Posts = () => {
         setPostIdToRemove(null);
     };
 
-    const isImage = (media: string) => {
-        return media.match(/\.(jpeg|jpg|gif|png|svg|webp)$/i);
-    };
-
-    const isVideo = (media: string) => {
-        return media.match(/\.(mp4|webm|ogg)$/i);
-    };
-
     //delete
     const handleDelete = async (postId:number) => {
         const confirmed = confirm("Are you sure you want to delete this post?");
         if (confirmed) {
             try {
-                await axios.delete(window.route('post.destroy', { post: postId }), {
+                await axios.delete(window.window.route('post.destroy', { post: postId }), {
                     headers: {
                         'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
                     },
@@ -217,19 +135,8 @@ const Posts = () => {
         }
     };
 
-
-    //hide
-    const submit: FormEventHandler = (e) => {
-        e.preventDefault();
-        post(route('post.hide', postIdToRemove), {
-            onSuccess: () => {
-                setPostIdToRemove(null);
-            }
-        });
-    };
-
     const getProfileLink = (username?: string) => {
-        return username ? route('showProfile', username) : route('updateProfile');
+        return username ? window.route('showProfile', username) : window.route('updateProfile');
     };
 
     return (
@@ -251,27 +158,7 @@ const Posts = () => {
                                     <h1 className="text-sm font-medium">Post removed from your feed</h1>
                                     <span className="text-[#b99a45] font-medium cursor-pointer" onClick={handleUndoRemove}>Undo</span>
                                 </div>
-                                <div className="reason-to-remove flex flex-col gap-3 py-3">
-                                    <p className="text-gray-600 text-[12.5px] md:text-[13px]">Tell us more to help improve your feed.</p>
-                                    <form onSubmit={submit}>
-                                        <div className="remove-reason-form flex flex-col gap-2">
-                                            <div className="reason">
-                                                <input
-                                                    className="w-full rounded-full placeholder:text-xs md:placeholder:text-[13px]"
-                                                    type="text"
-                                                    name="reason_to_remove_post"
-                                                    id="reason_to_remove_post"
-                                                    value={data.reason_to_remove_post} // Corrected value
-                                                    onChange={(e) => setData("reason_to_remove_post", e.target.value)}
-                                                    placeholder="Must enter your reason to remove this post ..."
-                                                />
-                                            </div>
-                                            <div className="remove-btn flex justify-end">
-                                                <button className="bg-[#c7ae6a] px-2 py-1 rounded-md hover:text-gray-200 hover:bg-[#1a1a1a]" type="submit">Submit</button>
-                                            </div>
-                                        </div>
-                                    </form>
-                                </div>
+                                <PostHideForm/>
                             </div>
                         ) : (
                             <>
@@ -285,7 +172,7 @@ const Posts = () => {
                                     <div className="name-other flex justify-between w-[86%] lg:w-[89%] items-center">
                                         <div className="posts-details">
                                             <div className="user-name">
-                                                <Link href={route('showProfile', post.user.username)}>
+                                                <Link href={window.route('showProfile', post.user.username)}>
                                                     <strong className="text-sm leading-tight font-semibold block hover:underline">{post.user.first_name} {post.user.middle_name} {post.user.last_name}</strong>
                                                 </Link>
                                             </div>
@@ -310,14 +197,14 @@ const Posts = () => {
                                                             </div>
                                                             {post.user.id === user.id ? (
                                                             <>
-                                                                <Link href={window.route('post.edit', { post: post.id })}>
+                                                                <Link href={window.window.route('post.edit', { post: post.id })}>
                                                                     <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2">
                                                                             <i className="ri-edit-fill text-xl pl-[1px]"></i>
                                                                             {/* <i className="ri-edit-fill"></i> */}
                                                                             <span className='text-sm text-nowrap'>Edit post</span>
                                                                     </div>
                                                                 </Link>
-                                                                {/* <Link href={window.route('post.destroy', { post: post.id })}> */}
+                                                                {/* <Link href={window.window.route('post.destroy', { post: post.id })}> */}
                                                                     <div className="save-post flex items-center w-auto gap-2 cursor-pointer hover:bg-gray-300 px-3 py-2" onClick={()=>handleDelete(post.id)}>
                                                                         <i className="ri-delete-bin-2-fill text-xl pl-[1px]"></i>
                                                                         <span className='text-sm text-nowrap'>Delete post</span>
@@ -342,33 +229,8 @@ const Posts = () => {
                                     <span className="text-gray-700">{post.post_description}</span>
                                 </div>
                                 {post.media ? (
-                                <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px] h-80">
-                                    <>
-                                        {isImage(post.media) ? (
-                                            <img
-                                                className="rounded-md cursor-pointer object-contain"
-                                                src={post.media}
-                                                alt="Post media"
-                                                onClick={() => handlePostShow(post.media, post.post_description)}
-                                                aria-haspopup="dialog"
-                                                aria-expanded="false"
-                                                aria-controls="hs-scale-animation-modal"
-                                                data-hs-overlay="#hs-scale-animation-modal"
-                                            />
-                                        ) : isVideo(post.media) ? (
-                                            <video
-                                                className="rounded-t-lg cursor-pointer h-full"
-                                                src={post.media}
-                                                controls
-                                                onClick={() => handlePostShow(post.media, post.post_description)}
-                                                aria-haspopup="dialog"
-                                                aria-expanded="false"
-                                                aria-controls="hs-scale-animation-modal"
-                                                data-hs-overlay="#hs-scale-animation-modal"
-                                            />
-                                        ) : null}
-                                    </>
-                                </div>):""}
+                                    <ShowPostMedia post={post}/>
+                                ):""}
                                 <div className="post-interaction mt-1 px-2">
                                     <div className="interaction-counts flex justify-between">
                                         <div className="like-count cursor-pointer hover:bg-red-500">
@@ -397,89 +259,21 @@ const Posts = () => {
 
                                     </div>
                                     {activePostIdShowComment === post.id ? (
-                                    <>
-                                        {showAllComments && (
-                                            <>
-                                            {allComments.map((item: any, index: number) => (
-                                                <div key={index} className="create-comment flex items-center py-1">
-                                                    <div className="create-comment flex items-center gap-1 lg:gap-4 py-1 relative">
-                                                        <div className="user-profile">
-                                                            <ProfileImage image={item?.user.profile_image} className="w-9 h-9 rounded-full object-cover object-fit" />
-                                                        </div>
-                                                        <div className="comment-box relative border border-gray-200 rounded-full">
-                                                            <p className="bg-gray-200 px-2 py-1 rounded-md text-sm text-gray-700">{item?.comment}</p>
-                                                        </div>
-                                                        <div className="menu relative ml-3">
-                                                            <i
-                                                                className="ri-more-2-fill cursor-pointer block rotate-90 hover:bg-gray-200 py-1 px-[2px] rounded-md"
-                                                                onClick={() => handleShowCommentSetting(item.id)} // Toggle the menu for the clicked comment
-                                                            ></i>
-                                                        </div>
-
-                                                        {/* Show menu only if activeCommentId matches the current comment */}
-                                                        {activeCommentId === item.id && (
-                                                            <div className="comment-setting absolute top-0 -right-24 bg-gray-200 py-2 z-20 rounded-md w-auto px-3">
-                                                                {/* <i className="ri-close-fill absolute right-1 top-0 hover:cursor-pointer" title='Close'></i> */}
-                                                                {item.user.id === user.id ? (
-                                                                    <div className='flex gap-5'>
-                                                                        <i className="ri-edit-2-fill hover:text-[#b99a45] cursor-pointer" title='Edit' onClick={() => handleEditComment(item.id)}></i>
-                                                                        {/* <button className='hover:bg-gray-100 w-full px-2 py-1 text-start border-b border-gray-50 rounded-md' onClick={() => handleEditComment(item.id)}>Edit</button> */}
-                                                                        <i className="ri-delete-bin-2-fill hover:text-red-600 cursor-pointer" title='Delete' onClick={() => handleDeleteComment(item.id)}></i>
-                                                                        {/* <button className='hover:bg-gray-100 w-full px-2 py-1 text-start rounded-md' onClick={() => handleDeleteComment(item.id)}>Delete</button> */}
-                                                                    </div>
-                                                                ) : (
-                                                                    <div className="hide-comment w-full hover:text-[#b99a45] rounded-sm">
-                                                                        <button className='w-full' onClick={() => handleHideComment(item.id)}>
-                                                                            <i className="ri-eye-off-fill" title='Hide comment'></i>
-                                                                        </button>
-                                                                    </div>
-                                                                )}
-                                                            </div>
-                                                        )}
-                                                    </div>
-                                                </div>
-                                            ))}
-                                            </>
-                                        )}
-                                    </>):''}
+                                        <>
+                                            {showAllComments && (
+                                                <ShowAllComments allComments={allComments}/>
+                                            )}
+                                        </>
+                                    ):''}
 
                                     {activePostIdToComment === post.id ? (
                                     <>
-                                    {/* <div className="interaction-btn flex justify-center mt-[2px] py-1 border-b-[1.6px]"> */}
                                         {createComment &&(
-                                            <div className="create-comment flex items-center gap-2 lg:gap-4 py-1">
-                                                <div className="user-profile w-10">
-                                                        <ProfileImage image={user.profile_image} className='w-10 h-10 rounded-full object-cover object-fit'/>
-                                                </div>
-                                                <div className="comment-box relative border border-gray-200 rounded-full w-86 lg:w-96 h-11">
-                                                    <input className='rounded-full w-full h-full' type="text" name="comment" id="comment"
-                                                    onChange={(e)=>setComment(e.target.value)}/>
-                                                    {comment && (
-                                                    <button className='bg-[#c7a36a] hover:bg-[#b99a45] text-gray-100 text-sm rounded-full px-2 py-[2px] absolute right-2 top-2.5 transition-transform ease-out duration-1000' type="submit" onClick={()=>handleComment(post.id,user.id)}>Comment</button>)}
-                                                </div>
-
-                                            </div>
+                                            <CreateComment postId={post.id} />
                                         )}
-                                    {/* </div> */}
                                     </>):""}
                                 </div>
                             </>
-                        )}
-
-                        {/* Modal */}
-                        {showModal && (
-                        <div className="modal top-10">
-                            <Modal
-                                show={showModal}
-                                onClose={() => setShowModal(false)} // Corrected function syntax
-                                maxWidth="md"
-                                closeable={true}>
-                                <div className="p-6">
-                                    <img className="rounded-md cursor-pointer w-full object-cover" src={postMedia ?? postMedia} alt="Post media" onClick={closePostShow} />
-                                    <p className="mt-4">{postDescription}</p>
-                                </div>
-                            </Modal>
-                        </div>
                         )}
                     </div>
             )})}

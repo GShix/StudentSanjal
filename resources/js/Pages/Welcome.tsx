@@ -71,8 +71,8 @@ const  Welcome = ({ laravelVersion, phpVersion }: PageProps<{ laravelVersion: st
                                 ))}
                             </ul>
                             <div className="nav-cta w-full hidden max-sm:flex items-center mb-2 gap-8 h-12">
-                                <div><a href={route('register')} className="py-2.5 px-5 bg-[#1a1a1a] rounded-md border border-[#e3d6b4] hover:bg-[#000000] hover:border-2 hover:border-[#c7ae6a]">Join now</a></div>
-                                <div><a href={route('login')} className="py-2.5 px-5 bg-[#c7ae6a] rounded-md hover:bg-[#000000] hover:border-2 hover:border-[#c7ae6a]">Login</a></div>
+                                <div><a href={window.route('register')} className="py-2.5 px-5 bg-[#1a1a1a] rounded-md border border-[#e3d6b4] hover:bg-[#000000] hover:border-2 hover:border-[#c7ae6a]">Join now</a></div>
+                                <div><a href={window.route('login')} className="py-2.5 px-5 bg-[#c7ae6a] rounded-md hover:bg-[#000000] hover:border-2 hover:border-[#c7ae6a]">Login</a></div>
 
                             </div>
                         </div>
@@ -94,8 +94,8 @@ const  Welcome = ({ laravelVersion, phpVersion }: PageProps<{ laravelVersion: st
                         </div>
 
                         <div className="nav-cta w-1/2 h-full hidden sm:flex gap-8 items-center ml-4 text-sm">
-                            <a href={route('register')} className="py-2.5 px-5 bg-[#1a1a1a] rounded-md hover:bg-[#000000] hover:border hover:border-[#c7ae6a]">Join now</a>
-                            <a href={route('login')} className="py-2.5 px-5 bg-[#c7ae6a] rounded-md hover:bg-[#000000] hover:border hover:border-[#c7ae6a]">Login</a>
+                            <a href={window.route('register')} className="py-2.5 px-5 bg-[#1a1a1a] rounded-md hover:bg-[#000000] hover:border hover:border-[#c7ae6a]">Join now</a>
+                            <a href={window.route('login')} className="py-2.5 px-5 bg-[#c7ae6a] rounded-md hover:bg-[#000000] hover:border hover:border-[#c7ae6a]">Login</a>
                         </div>
                     </nav>
                 </div>

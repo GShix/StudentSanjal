@@ -51,7 +51,7 @@ class ShowProfileController extends Controller
         //           ->where('followers', $user->id);
         // })->get();
         if (!$user->profile_updated) {
-            return redirect()->route('showProfile')->with('warning',"Must update your profile");
+            return redirect()->window.route('showProfile')->with('warning',"Must update your profile");
         }
         if (!$user) {
             abort(404, 'User not found');

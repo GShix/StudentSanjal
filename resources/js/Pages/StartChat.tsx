@@ -83,7 +83,7 @@ const StartChat = () => {
         e.preventDefault();
         if (!data.text_field && !data.media) return;
 
-        post(route('chat.send'), {
+        post(window.route('chat.send'), {
             onSuccess: () => {
                 setData({
                     text_field: '',
@@ -175,11 +175,11 @@ const StartChat = () => {
 
     const getProfileLink:any = (username?: string, otherUsername?:string,otherId?:number) => {
         if(username){
-            return username ? route('showProfile', username) : route('updateProfile');
+            return username ? window.route('showProfile', username) : window.route('updateProfile');
         }else if(otherUsername) {
-            return otherUsername ?? route('showProfile', otherUsername);
+            return otherUsername ?? window.route('showProfile', otherUsername);
         } else if(otherId) {
-            return otherId ?? route('showProfileById', otherId)
+            return otherId ?? window.route('showProfileById', otherId)
         }
     };
 

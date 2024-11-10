@@ -40,7 +40,7 @@
 
 //     const showMessageHandle = (friend:any) => {
 //         setconnectedFriend(friend);
-//         post(route('fetchChats', friend.id));
+//         post(window.window.route('fetchChats', friend.id));
 //         setShowMessage(true);
 //         setData({
 //             text_field: '',
@@ -108,7 +108,7 @@
 //     const handleChat = (e:any)=>{
 //         e.preventDefault();
 
-//         post(route('chat.send'), {
+//         post(window.window.route('chat.send'), {
 //             onSuccess: () => {
 //                 setData({
 //                     text_field: '',
@@ -125,7 +125,7 @@
 //         setData('media', null);
 //     };
 //     const storeNote = () => {
-//         postNote(route('note.store'), {
+//         postNote(window.window.route('note.store'), {
 //             onSuccess: () => {
 //                 setNoteData('title', '');
 //                 setShowNoteCreate(false);
@@ -136,7 +136,7 @@
 //         });
 //     };
 //     const deleteNote = (latestNote:any) => {
-//         router.delete(route('note.destroy',latestNote), {
+//         router.delete(window.window.route('note.destroy',latestNote), {
 //             onSuccess: () => {
 //                 setNoteData('title', '');
 //                 setShowNoteCreate(false);
@@ -150,11 +150,11 @@
 
 //     const getProfileLink:any = (username?: string, otherUsername?:string,otherId?:number) => {
 //         if(username){
-//             return username ? route('showProfile', username) : route('updateProfile');
+//             return username ? window.window.route('showProfile', username) : window.window.route('updateProfile');
 //         }else if(otherUsername) {
-//             return otherUsername ?? route('showProfile', otherUsername);
+//             return otherUsername ?? window.window.route('showProfile', otherUsername);
 //         } else if(otherId) {
-//             return otherId ?? route('showProfileById', otherId)
+//             return otherId ?? window.window.route('showProfileById', otherId)
 
 //         }{
 //         }

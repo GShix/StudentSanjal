@@ -46,7 +46,7 @@ const HomeLayout = ({
 
     const getProfileLink = (username?: string):any => {
         if(username){
-            return username ? route('showProfile', username) : route('updateProfile');
+            return username ? window.route('showProfile', username) : window.route('updateProfile');
         }
     };
   return (
@@ -57,7 +57,7 @@ const HomeLayout = ({
             top: 0,
             zIndex: 1000}}>
             <div className="col1 flex max-sm:gap-1 max-md:gap-5 gap-12">
-                <a className="logo" href={route('home')}>
+                <a className="logo" href={window.route('home')}>
                     <img className="w-56 sm:w-60 sm:h-16" src="/img/Home_logo.png" alt="" srcSet="" />
                 </a>
                 <div className="search-btn relative flex items-center max-w-[60%]">
@@ -87,7 +87,7 @@ const HomeLayout = ({
                         </a>
                     </div>
                     <div className="Mynetwork-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
-                        <a href={route('myNetwork')} className="flex flex-col items-center">
+                        <a href={window.route('myNetwork')} className="flex flex-col items-center">
                             <i className="ri-group-3-fill text-base"></i>
                             <span className="block text-xs leading-none">My Network</span>
                         </a>
@@ -99,13 +99,13 @@ const HomeLayout = ({
                         </a>
                     </div> */}
                     <div className="Events-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
-                        <a href={route('event.index')} className="flex flex-col items-center">
+                        <a href={window.route('event.index')} className="flex flex-col items-center">
                         <i className="ri-calendar-event-fill text-base"></i>
                             <span className="block text-xs leading-none">Events</span>
                         </a>
                     </div>
                     <div className="Mynetwork-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
-                        <a href={route('chat')} className="flex flex-col items-center">
+                        <a href={window.route('chat')} className="flex flex-col items-center">
                             <i className="ri-chat-private-line  "></i>
                             <span className="block text-xs leading-none">Chat</span>
                         </a>
@@ -121,7 +121,7 @@ const HomeLayout = ({
                     !searchInput && (
                         <div className="mobile-navbar md:hidden flex gap-5">
                             <div className="Chat-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
-                                <a href={route('chat')} className="flex flex-col items-center">
+                                <a href={window.route('chat')} className="flex flex-col items-center">
                                     <i className="ri-chat-private-line text-base max-sm:text-3xl hover:text-clip"></i>
                                     <span className="block text-sm leading-none max-sm:hidden">Chat</span>
                                 </a>
@@ -155,11 +155,11 @@ const HomeLayout = ({
                                     </div>
 
                                 </div>
-                                <Dropdown.Link href={route('profile.edit')} className="mt-2">
+                                <Dropdown.Link href={window.route('profile.edit')} className="mt-2">
                                     <i className="ri-settings-4-fill mr-2 bg-gray-300 p-[6px] rounded-full"></i>
                                     Profile Setting
                                 </Dropdown.Link>
-                                <Dropdown.Link href={route('logout')} method="post" as="button" className="mt-1">
+                                <Dropdown.Link href={window.route('logout')} method="post" as="button" className="mt-1">
                                 <i className="ri-logout-box-r-fill mr-2 bg-gray-300 p-[6px] rounded-full"></i>
                                     Log Out
                                 </Dropdown.Link>
@@ -203,7 +203,7 @@ const HomeLayout = ({
                 <div className="siderbar bg-gray-100 px-2.5 py-2 rounded-xl mt-3 border border-gray-400/50">
                     <ul className="flex flex-col">
                         <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href=""><img className="h-7 w-7 mr-2" src="/img/trending.png" alt="" />Trending</a></li>
-                        <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href={route('event.index')}><img className="h-7 w-7 mr-2" src="/img/events.png" alt="" />Events</a></li>
+                        <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href={window.route('event.index')}><img className="h-7 w-7 mr-2" src="/img/events.png" alt="" />Events</a></li>
                         <li><a className="flex items-center font-medium px-2 py-3 hover:bg-[#c7ae6a] rounded-xl" href="/savedPosts"><img className="h-6 w-6 mr-2" src="/img/saved.png" alt="" />Saved</a></li>
                     </ul>
                 </div>
@@ -230,7 +230,7 @@ const HomeLayout = ({
                         </a>
                     </div>
                     <div className="Mynetwork-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
-                        <a href={route('myNetwork')} className="flex group relative flex-col items-center">
+                        <a href={window.route('myNetwork')} className="flex group relative flex-col items-center">
                             <i className="ri-group-3-fill text-[20px] hover:scale-110"></i>
                             <p className="text-xs hidden group-hover:block absolute -top-2.5 text-nowrap">My Network</p>
                         </a>
@@ -242,7 +242,7 @@ const HomeLayout = ({
                         </a>
                     </div>
                     <div className="Events-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
-                        <a href={route('event.index')} className="flex flex-col items-center group relative">
+                        <a href={window.route('event.index')} className="flex flex-col items-center group relative">
                             {/* <i className="ri-group-line text-[20px] hover:scale-110"></i> */}
                             <i className="ri-calendar-event-fill text-[20px] hover:scale-110"></i>
                             <p className="text-xs hidden group-hover:block absolute -top-2.5">Events</p>

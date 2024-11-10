@@ -68,7 +68,7 @@ const Events = () => {
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         console.log(data)
-        post(route('event.store'));
+        post(window.route('event.store'));
 
     };
 
@@ -214,7 +214,7 @@ const Events = () => {
                             <img className='w-full h-full rounded-sm mb-2 object-cover object-fit max-sm:h-[70%] transition-transform hover:scale-105 cursor-pointer' src={event.event_image} alt="" sizes="" srcSet="" />
                         </div>
                         <div className="card-details max-sm:w-[70%]">
-                            <Link href={route('event.detail',event.title)}>
+                            <Link href={window.route('event.detail',event.title)}>
                             <h1 className='font-bold text-lg hover:underline flex flex-wrap'>{event.title}</h1>
                             </Link>
                             <p className='font-bold text-sm mt-1 text-gray-600'>Hosted By: {event.host}</p>

@@ -49,7 +49,7 @@ const CleanHomeLayout = ({
             top: 0,
             zIndex: 1000}}>
             <div className="clean-col1 flex max-sm:gap-1 max-md:gap-5 gap-12">
-                <a className="logo" href={route('home')}>
+                <a className="logo" href={window.route('home')}>
                     <img className="w-56 sm:w-60 sm:h-16" src="/img/Home_logo.png" alt="" srcSet="" />
                 </a>
                 <div className="search-btn relative flex items-center max-w-[60%]">
@@ -79,7 +79,7 @@ const CleanHomeLayout = ({
                         </a>
                     </div>
                     <div className="Mynetwork-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
-                        <a href={route('myNetwork')} className="flex flex-col items-center">
+                        <a href={window.route('myNetwork')} className="flex flex-col items-center">
                             <i className="ri-group-3-fill text-base"></i>
                             <span className="block text-xs leading-none">My Network</span>
                         </a>
@@ -91,13 +91,13 @@ const CleanHomeLayout = ({
                         </a>
                     </div> */}
                     <div className="Events-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
-                        <a href={route('event.index')} className="flex flex-col items-center">
+                        <a href={window.route('event.index')} className="flex flex-col items-center">
                             <i className="ri-calendar-event-fill text-base"></i>
                             <span className="block text-xs leading-none">Events</span>
                         </a>
                     </div>
                     <div className="Mynetwork-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
-                        <a href={route('chat')} className="flex flex-col items-center">
+                        <a href={window.route('chat')} className="flex flex-col items-center">
                             <i className="ri-chat-private-line text-base "></i>
                             <span className="block text-xs leading-none">Chat</span>
                         </a>
@@ -113,7 +113,7 @@ const CleanHomeLayout = ({
                     !searchInput && (
                         <div className="mobile-navbar md:hidden flex gap-5">
                             <div className="Chat-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
-                                <a href={route('chat')} className="flex flex-col items-center">
+                                <a href={window.route('chat')} className="flex flex-col items-center">
                                     <i className="ri-chat-private-line text-base max-sm:text-3xl hover:text-clip"></i>
                                     <span className="block text-sm leading-none max-sm:hidden">Chat</span>
                                 </a>
@@ -144,11 +144,11 @@ const CleanHomeLayout = ({
                                         <p className="text-sm text-nowrap">{user.first_name} {user.middle_name} {user.last_name}</p>
                                     </div>
                                 </div>
-                                <Dropdown.Link href={route('profile.edit')} className="mt-2 ">
+                                <Dropdown.Link href={window.route('profile.edit')} className="mt-2 ">
                                     <i className="ri-settings-4-fill mr-2 bg-gray-300 p-[6px] rounded-full"></i>
                                     Profile Setting
                                 </Dropdown.Link>
-                                <Dropdown.Link href={route('logout')} method="post" as="button" className="mt-1">
+                                <Dropdown.Link href={window.route('logout')} method="post" as="button" className="mt-1">
                                     <i className="ri-logout-box-r-fill mr-2 bg-gray-300 p-[6px] rounded-full"></i>
                                     Log Out
                                 </Dropdown.Link>
@@ -181,7 +181,7 @@ const CleanHomeLayout = ({
                         </a>
                     </div>
                     <div className="Events-btn bg-transparent text-gray-600 hover:text-[#c7ae6a]">
-                        <a href={route('event.index')} className="flex flex-col items-center group relative">
+                        <a href={window.route('event.index')} className="flex flex-col items-center group relative">
                             {/* <i className="ri-group-line text-[20px] hover:scale-110"></i> */}
                             <i className="ri-calendar-event-fill text-[20px] hover:scale-110"></i>
                             <p className="text-xs hidden group-hover:block absolute -top-2.5">Events</p>

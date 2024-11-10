@@ -11,7 +11,7 @@ export default function Hero() {
                 In today’s digital age, there is a growing need for platforms that connect Nepalese college students. Our platform offers tailored features for students to manage their accounts, verify their identities, and engage in activities like sharing posts and joining virtual events.
               </p>
               <div className="join-btn mt-5 md:w-1/2 max-sm:text-center">
-                <a href={route('register')} className="inline-block rounded-md border border-transparent bg-[#1a1a1a] px-4 py-2.5 text-center font-medium text-white hover:bg-[#c7ae6a] hover:border hover:border-[#1a1a1a]">Join now</a>
+                <a href={window.window.window.route('register')} className="inline-block rounded-md border border-transparent bg-[#1a1a1a] px-4 py-2.5 text-center font-medium text-white hover:bg-[#c7ae6a] hover:border hover:border-[#1a1a1a]">Join now</a>
               </div>
             </div>
             <div className="hero-img pb-4">

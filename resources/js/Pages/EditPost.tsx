@@ -63,7 +63,7 @@ const EditPost = () => {
         formData.append("post_description", data.post_description);
         if (data.media) formData.append("media", data.media);
 
-        post(route("post.update", { post: postToEdit.id }), {
+        post(window.window.route("post.update", { post: postToEdit.id }), {
             data: formData,
             method:'patch',
             headers: {

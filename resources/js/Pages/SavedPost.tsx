@@ -93,7 +93,7 @@ const SavedPost = () => {
         }
     }
     const getProfileLink = (username?: string) => {
-        return username ? route('showProfile', username) : route('updateProfile');
+        return username ? window.route('showProfile', username) : window.route('updateProfile');
     };
   return (
     <HomeLayout>
@@ -115,7 +115,7 @@ const SavedPost = () => {
                     <div className="name-other flex justify-between w-[86%] lg:w-[89%] items-center">
                         <div className="posts-details">
                             <div className="user-name">
-                                <Link href={route('showProfile', post.user.username)}>
+                                <Link href={window.route('showProfile', post.user.username)}>
                                     <strong className="text-sm leading-tight font-semibold block hover:underline">{post.user.first_name} {post.user.middle_name} {post.user.last_name}</strong>
                                 </Link>
                             </div>

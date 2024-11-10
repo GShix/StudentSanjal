@@ -59,7 +59,7 @@ const UploadPost = () => {
         formData.append('post_description', data.post_description);
         if (data.media) formData.append('media', data.media);
 
-        post(window.route('post.store'), {
+        post(window.window.route('post.store'), {
             data: formData,
             onError: () => {
                 clearErrors();

@@ -66,8 +66,8 @@ const MainNavbar = () => {
                 </Dropdown.Trigger>
 
                 <Dropdown.Content>
-                    <Dropdown.Link href={route('profile.edit')}>Profile</Dropdown.Link>
-                    <Dropdown.Link href={route('logout')} method="post" as="button">
+                    <Dropdown.Link href={window.route('profile.edit')}>Profile</Dropdown.Link>
+                    <Dropdown.Link href={window.route('logout')} method="post" as="button">
                         Log Out
                     </Dropdown.Link>
                 </Dropdown.Content>

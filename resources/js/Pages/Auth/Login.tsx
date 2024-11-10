@@ -19,7 +19,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
-        post(route('login'), {
+        post(window.route('login'), {
             onFinish: () => reset('password'),
         });
     };
@@ -78,7 +78,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
         //         <div className="flex items-center justify-end mt-4">
         //             {canResetPassword && (
         //                 <Link
-        //                     href={route('password.request')}
+        //                     href={window.route('password.request')}
         //                     className="underline text-sm text-gray-600 hover:text-gray-900 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
         //                 >
         //                     Forgot your password?
@@ -150,7 +150,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                                 </button>
                             </div>
                         </form>
-                        <Link className='text-gray-300 text-xs hover:underline' href={route('password.request')}>Forget your password?</Link>
+                        <Link className='text-gray-300 text-xs hover:underline' href={window.route('password.request')}>Forget your password?</Link>
                         <hr className="mt-6 border-b-1 border-blueGray-300" />
 
                         <div className="rounded-t mb-0 px-6 pt-4 pb-1">
@@ -162,7 +162,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                             <div className="btn-wrapper text-center">
                                 <button
                                     className="bg-gray-300 active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded-md outline-none focus:outline-none mr-2 mb-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                                    type="button" onClick={() => window.location.href = route('auth.github')}>
+                                    type="button" onClick={() => window.location.href = window.route('auth.github')}>
                                     <img
                                         alt="..."
                                         className="w-5 mr-1"
@@ -171,7 +171,7 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                                 </button>
                                 <a
                                     className="bg-gray-300 active:bg-blueGray-50 text-blueGray-700 px-4 py-2 rounded-md outline-none focus:outline-none mr-1 uppercase shadow hover:shadow-md inline-flex items-center font-bold text-xs ease-linear transition-all duration-150"
-                                    href={route('auth.google')}>
+                                    href={window.route('auth.google')}>
                                     {/* // href='/auth/google'> */}
                                     <img
                                         alt="..."
@@ -180,16 +180,16 @@ export default function Login({ status, canResetPassword }: { status?: string, c
                                     Google
                                 </a>
                             </div>
-                            {route().params.error && (
+                            {window.route().params.error && (
                                 <div className="mt-4 text-red-600">
-                                    {route().params.error}
+                                    {window.route().params.error}
                                 </div>
                             )}
                         </div>
 
                         <div className="signUp text-center">
                             <p className="sign-up-label mt-1 text-xs font-normal text-gray-300">
-                                New to StudentSanjal? <a href={route('register')} className="underline font-semibold text-sm text-[#e3d6b4]">Sign Up</a>
+                                New to StudentSanjal? <a href={window.route('register')} className="underline font-semibold text-sm text-[#e3d6b4]">Sign Up</a>
                             </p>
                         </div>
                     </div>
