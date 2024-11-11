@@ -10,6 +10,7 @@ use App\Models\ConnectionCircle;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -46,6 +47,10 @@ class User extends Authenticatable
     public function post(): HasMany
     {
         return $this->hasMany(Post::class);
+    }
+    public function studentVerification():HasOne
+    {
+        return $this->hasOne(StudentVerification::class);
     }
 
     public function postInteraction(): HasMany

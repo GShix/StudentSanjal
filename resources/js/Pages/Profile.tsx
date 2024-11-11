@@ -2,7 +2,6 @@ import InputError from '@/Components/InputError';
 import { Head, Link, useForm, usePage } from '@inertiajs/react';
 import { FormEventHandler, useEffect, useState } from 'react';
 import { PageProps } from '@/types';
-import { toast, ToastContainer } from 'react-toastify';
 import CleanHomeLayout from './Layouts/CleanHomeLayout';
 import UpdatePasswordForm from './Profile/Partials/UpdatePasswordForm';
 import DeleteUserForm from './Profile/Partials/DeleteUserForm';
@@ -10,6 +9,7 @@ import PrimaryButton from '@/Components/PrimaryButton';
 import Skills from './Layouts/partials/Skills';
 import Multiselect from 'multiselect-react-dropdown';
 import axios from 'axios';
+import StudentVerificationButton from './Layouts/partials/StudentVerificationButton';
 
 
 interface FormData {
@@ -56,22 +56,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
             validateAge(data.dob);
         }
     }, [data.dob]); // Validate DOB on change
-    useEffect(() => {
-        if (flash.success) {
-            toast.success(flash.success,{
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                progressStyle:{
-                    backgroundColor:"#c7ae6a"
-                }
-            });
-        }
-    }, [flash.success]);
+
 
     const validateAge = (dob: string) => {
         const dobDate = new Date(dob);
@@ -454,6 +439,10 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                 <PrimaryButton disabled={processing}>Update Profile</PrimaryButton>
             </div>
             </form>
+        </div>
+
+        <div className="p-4 sm:p-8 bg-gray-50 shadow rounded-lg mt-4">
+            <StudentVerificationButton className="max-w-xl" />
         </div>
 
         <div className="p-4 sm:p-8 bg-gray-50 shadow rounded-lg mt-4">

@@ -96,6 +96,13 @@ Route::middleware('auth')->group(function () {
 
     Route::post('events/store', [EventController::class,'store'])->name('event.store');
     Route::get('event-detail/{event:title}', [EventController::class,'eventDetail'])->name('event.detail');
+
 });
+Route::get('students/verify',function(){
+    return Inertia::render('StudentVerificationPage');
+})->name('student.verify');
+Route::get('students/verify/uploads',function(){
+    return Inertia::render('StudentDocumentUpload');
+})->name('student.verify.uploads');
 
 require __DIR__.'/auth.php';
