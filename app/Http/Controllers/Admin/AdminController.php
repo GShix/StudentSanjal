@@ -10,6 +10,6 @@ class AdminController extends Controller
 {
     public function index()
     {
-        return Inertia::render('AdminPanel/AdminNavbar');
+        return Inertia::render('AdminPanel/Dashboard');
     }
 }

@@ -62,19 +62,6 @@ Route::middleware('auth')->group(function () {
     route::get('/savedPosts', [SavePostController::class, 'index'])->name('savedPosts');
 });
 
-
-// Route::post('post',[PostController::class,'store'])->name('post.store');
-
-// Route::middleware('web')->group(function () {
-//     Route::get('/', function () {
-//         return Inertia::render('Welcome');
-//     })->name('home');
-// });
-
-// Route::get('/dashboard', function () {
-//     return Inertia::render('Dashboard');
-// })->middleware(['auth', 'verified'])->name('dashboard');
-
 Route::middleware('auth')->group(function () {
     Route::get('/profileSetting', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profileSetting', [ProfileController::class, 'update'])->name('profile.update');

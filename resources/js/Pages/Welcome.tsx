@@ -9,7 +9,6 @@ import FAQ from '@/Components/FAQ';
 import OurTeam from '@/Components/OurTeam';
 import CTA from '@/Components/CTA';
 import { useEffect, useState } from 'react';
-import Dashboard from './Dashboard';
 import Home from './Home';
 
 
@@ -48,11 +47,14 @@ const  Welcome = ({ laravelVersion, phpVersion }: PageProps<{ laravelVersion: st
 
     return (
         <>
-            <Head title="Welcome"/>
             {auth.user ? (
+                <>
+                <Head title="Home"/>
                 <Home/>
+                </>
             ) : (
                 <>
+                    <Head title='Welcome'/>
                 <div className="header w-full">
                     <nav className="navbar bg-black text-white flex justify-center items-center w-full gap-5 max-sm:text-3xl mx-auto px-5">
 

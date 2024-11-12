@@ -66,19 +66,6 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/toggleFollow/{id}',[FollowController::class,'toggleFollow'])->name('follow.toggle');
     Route::get('followStatus/{id}',[FollowController::class,'checkFollowStatus'])->name('follow.status');
-
-    // Route::get('')
-
-    // Route::get('googleLogin',[SocialiteController::class,'googleLogin'])->name('google.login');
-    // Route::get('auth/google', [SocialiteController::class, 'googleLogin'])->name('google.login');
-    // Route::get('auth/google/callback', [SocialiteController::class, 'handleGoogleCallback']);
-
-    // Route::middleware('guest')->group(function () {
-    //     Route::get('/login', function () {
-    //         return Inertia::render('Auth/Login');
-    //     })->name('login');
-    // });
-
 });
 
 Route::get('auth/google', [GoogleController::class, 'redirectToGoogle'])
