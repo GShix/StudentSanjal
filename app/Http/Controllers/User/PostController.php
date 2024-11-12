@@ -59,11 +59,9 @@ class PostController extends Controller
 
         $latestPosts = Post::with('user','postInteractions')
         ->whereIn('user_id', $followingIds)
-        // ->with('postInteractions')
         ->latest()
         ->take(5)
         ->get();
-        // $comments
 
         $latestPosts->each(function ($post) {
             // Extract interactions that are likes/dislikes (no comments)

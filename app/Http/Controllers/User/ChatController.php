@@ -61,6 +61,8 @@ class ChatController extends Controller
           ->get();
 
         return response()->json(['chats' => $chats]);
+
+        // return back()->compact('chats');
     }
 
     public function sendChat(StoreChatRequest $request)
