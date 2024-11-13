@@ -34,19 +34,19 @@ const ViewUser = () => {
         <Head title={user.first_name} />
         <section className='bg-gray-200 p-4 rounded-lg lg:mx-10'>
         <div className="p-2 sm:p-4 bg-gray-50 shadow rounded-lg px-4">
-            <div className="border-b border-gray-900/10">
+            <div className="">
                 <h2 className="text-base font-semibold leading-7 text-gray-900">{user.first_name}'s Profile Information</h2>
-                <div className="mt-5 lg:mt-0 md:flex items-center justify-evenly gap-6  sm:grid-cols-6 md:px-10">
-                    <div className="col-span-full flex gap-x-4">
-                        <label htmlFor="profile_image" className="block text-sm font-medium leading-6 text-gray-900 lg:text-center">
-                            Profile Image
-                        </label>
-                        <div className="mt-2 flex items-center gap-y-3 justify-start">
-                            <div className="old-profile-image  rounded-full p-1 bg-[#c7ae6a] ">
-                                <img className='w-20 h-20 rounded-full object-cover object-center' src={user?user.profile_image:""}  alt="" srcSet="" />
+                <div className="mt-5 lg:mt-0 md:flex items-center justify-evenly gap-4  sm:grid-cols-6 md:px-10">
+                    <div className="col-span-full flex gap-x-2 justify-between w-full">
+                        <div className="">
+                            <label htmlFor="profile_image" className="block text-sm font-medium leading-6 text-gray-900 lg:text-center">
+                                Profile Image
+                            </label>
+                            <div className="old-profile-image h-20 w-20 rounded-full p-1 bg-[#c7ae6a] ">
+                                <img className='w-full h-full rounded-full object-cover object-center' src={user?user.profile_image:""}  alt="" srcSet="" />
                             </div>
                         </div>
-                        <div className="vertical-border hidden md:block bg-gray-100 h-60 w-1"></div>
+                        <div className="vertical-border hidden md:block bg-gray-100  w-1"></div>
                         <div className="col-span-full max-md:mt-2">
                             <label htmlFor="banner_image" className="block text-sm font-medium leading-6 text-gray-900 lg:text-center">
                                 Banner image
@@ -58,8 +58,8 @@ const ViewUser = () => {
                     </div>
                 </div>
 
-                <div className="border-b border-gray-900/10 pb-10 max-sm:pb-5">
-                    <div className="mt-10 max-sm:mt-2 grid grid-cols-1 gap-x-6 gap-y-4 lg:gap-y-8 sm:grid-cols-6">
+                <div className="pb-10 max-sm:pb-5">
+                    <div className="mt-10 max-sm:mt-2 grid grid-cols-1 gap-x-6 gap-y-4 lg:gap-y-4 sm:grid-cols-6">
                         <div className="md:col-span-2 col-span-full">
                             <label htmlFor="first_name" className="block text-sm font-medium leading-6 text-gray-900">
                                 First name
@@ -119,13 +119,27 @@ const ViewUser = () => {
                             </div>
                         </div>
                         <div className="md:col-span-2 col-span-full">
-                            <label htmlFor="email" className="block text-sm font-medium leading-6 text-gray-900">
+                            <label htmlFor="status" className="block text-sm font-medium leading-6 text-gray-900">
                                 Verification Status
                             </label>
                             <p>{user.account_status}</p>
                         </div>
                     </div>
                 </div>
+            </div>
+        </div>
+        <div className="p-4 sm:p-8 bg-gray-50 shadow rounded-lg mt-4">
+            <div className={`md:col-span-2 col-span-full ${user.student_verification?'h-80':'h-20'}`}>
+                <label htmlFor="id_card_photo" className="block text-sm font-medium leading-6 text-gray-900">
+                    Uploaded Document
+                </label>
+                {
+                    user.student_verification && user.student_verification.id_card_photo ? (
+                        <img src={user.student_verification.id_card_photo} className="h-full" alt="ID Card" />
+                    ) : (
+                        '--'
+                    )
+                }
             </div>
         </div>
         <div className="p-4 sm:p-8 bg-gray-50 shadow rounded-lg mt-4">

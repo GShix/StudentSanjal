@@ -74,9 +74,6 @@ const AllUsers = () => {
                                                     <h6 className="fw-semibold mb-0">S.No.</h6>
                                                 </th>
                                                 <th className="border-right-1">
-                                                    <h6 className="fw-semibold mb-0">ID</h6>
-                                                </th>
-                                                <th className="border-right-1">
                                                     <h6 className="fw-semibold mb-0">Profile Image</h6>
                                                 </th>
                                                 <th className="border-right-1">
@@ -95,9 +92,6 @@ const AllUsers = () => {
                                                 <tr key={user.id}>
                                                     <td>
                                                         <h6>{index + 1}</h6>
-                                                    </td>
-                                                    <td>
-                                                        <h6>{user.id ?? ''}</h6>
                                                     </td>
                                                     <td>
                                                         <img className="mb-1 w-20" src={user.profile_image ?? ''} alt="User Photo" />
