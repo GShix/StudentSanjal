@@ -442,7 +442,9 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
         </div>
 
         <div className="p-4 sm:p-8 bg-gray-50 shadow rounded-lg mt-4">
+        {user.account_status!=='goldTick' ?(
             <StudentVerificationButton className="max-w-xl" />
+        ):"Gold Tick: Verified"}
         </div>
 
         <div className="p-4 sm:p-8 bg-gray-50 shadow rounded-lg mt-4">
