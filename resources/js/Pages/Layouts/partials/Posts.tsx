@@ -171,10 +171,12 @@ const Posts = () => {
                                     </div>
                                     <div className="name-other flex justify-between w-[86%] lg:w-[89%] items-center">
                                         <div className="posts-details">
-                                            <div className="user-name">
+                                            <div className="user-name flex items-center gap-x-1">
                                                 <Link href={window.route('showProfile', post.user.username)}>
                                                     <strong className="text-sm leading-tight font-semibold block hover:underline">{post.user.first_name} {post.user.middle_name} {post.user.last_name}</strong>
                                                 </Link>
+                                                {/* {user.} */}
+                                                <i className={`ri-verified-badge-fill text-[#b99a45] text-xl leading-none ${post.user.account_status=='goldTick'?'block':'hidden'}`}></i>
                                             </div>
                                             <div className="flex items-center gap-2">
                                                 <span className="text-[12px] inline-block">

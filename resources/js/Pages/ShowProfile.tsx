@@ -88,7 +88,9 @@ const ShowProfile = () => {
           </div>
         </div>
         <div className="intro mt-16 px-3">
-          <span className="block font-semibold text-lg leading-normal">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</span>
+          <span className="font-semibold text-lg leading-normal flex items-center gap-1">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}
+            <i className={`ri-verified-badge-fill text-[#b99a45] text-xl leading-none ${user.account_status=='goldTick'?'block':'hidden'}`}></i>
+          </span>
           <span className="block text-sm font-normal text-gray-800/90">{user.headline}</span>
           <span className="block text-[13px] font-normal leading-loose text-gray-800/70">{user.address}</span>
           <div className="flex items-center gap-2">

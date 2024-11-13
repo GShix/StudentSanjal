@@ -32,8 +32,9 @@ const PeopleYouMayKnow = () => {
                         <img className="object-cover object-center rounded-full w-full h-full" src={user.profile_image} alt="" />
                     </div>
                     <div className="recommendation-details">
-                        <p className="recommendation-person-name text-base font-semibold">
+                        <p className="recommendation-person-name text-base font-semibold flex items-center gap-1">
                             {user.first_name} {user.middle_name} {user.last_name}
+                            <i className={`ri-verified-badge-fill text-[#b99a45] text-xl leading-none ${user.account_status=='goldTick'?'block':'hidden'}`}></i>
                         </p>
                         <p className="recommendation-person-headline text-sm text-gray-700/80">{user.headline}</p>
                         <p className="text-xs text-gray-700/80">4 mutual connections</p>
