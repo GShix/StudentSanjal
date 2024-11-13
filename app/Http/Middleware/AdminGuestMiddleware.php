@@ -16,9 +16,11 @@ class AdminGuestMiddleware
      */
     public function handle(Request $request, Closure $next): Response
     {
-        if(Auth::check()){
+        // Use the 'admin' guard to check if the user is already authenticated
+        if (Auth::guard('admin')->check()) {
             return redirect()->route('admin.dashboard');
         }
+
         return $next($request);
     }
 }

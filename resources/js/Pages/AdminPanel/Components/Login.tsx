@@ -1,29 +1,36 @@
 
-import { Head } from '@inertiajs/react';
-import React, { useState } from 'react';
+import { Head, useForm } from '@inertiajs/react';
+import React, { FormEventHandler, useState } from 'react';
 
 const Login = () => {
-    const [email, setEmail] = useState('');
-    const [password, setPassword] = useState('');
 
-    const handleSubmit = (e: React.FormEvent) => {
+    const { data, setData, post, processing, errors, reset,recentlySuccessful } = useForm({
+        email: '',
+        password: '',
+        remember: false,
+    });
+
+    const [eye, setEye] = useState(false);
+    const submit: FormEventHandler = (e) => {
         e.preventDefault();
 
+        post(window.route('admin.store'), {
+            onFinish: () => reset('password'),
+        });
     };
-
     return (
         <div className="flex items-center justify-center min-h-screen bg-gray-100">
             <Head title='Login'/>
             <div className="w-full max-w-md p-8 space-y-6 bg-white rounded-lg shadow-md">
                 <h2 className="text-2xl font-bold text-center">StudentSanjal Admin Portal</h2>
-                <form onSubmit={handleSubmit} className="space-y-4">
+                <form onSubmit={submit} className="space-y-4">
                     <div>
                         <label htmlFor="email" className="block text-sm font-medium text-gray-700">Email</label>
                         <input
                             id="email"
                             type="email"
-                            value={email}
-                            onChange={(e) => setEmail(e.target.value)}
+                            value={data.email}
+                            onChange={(e) => setData('email',e.target.value)}
                             required
                             className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />
@@ -33,8 +40,8 @@ const Login = () => {
                         <input
                             id="password"
                             type="password"
-                            value={password}
-                            onChange={(e) => setPassword(e.target.value)}
+                            value={data.password}
+                            onChange={(e) => setData('password',e.target.value)}
                             required
                             className="w-full px-3 py-2 mt-1 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
                         />

@@ -4,7 +4,7 @@ import { PageProps } from "@/types"
 
 const EventDetail = () => {
     const {event,host,user} = usePage<PageProps>().props;
-    console.log(user,host.id)
+    // console.log(user,host.id)
   return (
     <CleanHomeLayout>
         <Head title={event.title}/>

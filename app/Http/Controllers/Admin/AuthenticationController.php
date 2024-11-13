@@ -27,21 +27,25 @@ class AuthenticationController extends Controller
     /**
      * Handle an incoming authentication request for admin.
      */
-    public function store(LoginRequest $request): RedirectResponse
+    public function store(Request $request): RedirectResponse
     {
-        // Use the 'admin' guard for authentication
-        $credentials = $request->only('email', 'password');
+        $request->validate([
+            'email'=>'required|email',
+            'password'=>'required'
+        ]);
 
-        if (Auth::guard('admin')->attempt($credentials)) {
-            // Regenerate the session to prevent session fixation
-            $request->session()->regenerate();
-
-            return redirect()->intended(route('admin.dashboard'));
+        // dd($request);
+        if(Auth::attempt($request->only('email','password')))
+        {
+            return redirect()->route('admin.dashboard');
         }
 
-        // Redirect back with an error message if credentials are invalid
-        return back()->withErrors(['email' => 'Invalid admin credentials']);
+        return back()->withErrors([
+            'email'=>'The provided credentials does not match our records.'
+        ]);
     }
+
+
 
     /**
      * Destroy an authenticated session for admin.

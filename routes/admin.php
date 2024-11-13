@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\Admin\AdminController;
 use App\Http\Controllers\Admin\AuthenticationController;
 
 
@@ -11,8 +12,11 @@ Route::middleware(['admin_guest'])->group(function(){
 });
 
 
-Route::middleware(['admin_auth'])->group(function(){
+// Route::middleware(['admin_auth'])->group(function(){
 
-    Route::get('/admin/dashboard',[AuthenticationController::class,'index'])->name('admin.dashboard');
+    Route::get('/admin/dashboard',[AdminController::class,'index'])->name('admin.dashboard');
+    Route::get('/admin/allUsers',[AdminController::class,'allUsers'])->name('admin.allUsers');
+    Route::get('/admin/user/view/{username:username}',[AdminController::class,'viewUser'])->name('admin.viewUser');
+    Route::post('/admin/user/account_status',[AdminController::class,'changeAccountStatus'])->name('admin.status');
     Route::get('/admin/logout',[AuthenticationController::class,'logout'])->name('admin.logout');
-});
+// });
