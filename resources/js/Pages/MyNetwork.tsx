@@ -43,9 +43,10 @@ const MyNetwork = () => {
                     {usersYouFollowed.map((user:any)=>(
                         <div key={user.id} className="user flex items-center justify-between max-sm:flex-col mb-2 border-b border-gray-300 pb-2 max-sm:pt-2 px-2 rounded-md hover:bg-gray-200">
                             <div className="user-profile flex max-md:flex-col items-center gap-3">
-                                <ProfileImage image={user.profile_image} className="h-20 w-20 rounded-full p-1"/>
+                                <ProfileImage image={user.profile_image} className="h-20 w-20 rounded-full p-1 object-cover object-center"/>
                                 <div className="profile-details">
-                                    <h1 className="font-mono">{user.first_name} {user.middle_name} {user.last_name}</h1>
+                                    <h1 className="font-mono flex items-center gap-1">{user.first_name} {user.middle_name} {user.last_name}
+                                    <i className={`ri-verified-badge-fill text-[#b99a45] text-base leading-none ${user.account_status=='goldTick'?'block':'hidden'}`}></i></h1>
                                     <p className="text-sm text-gray-600 leading-snug">{user.headline}</p>
                                     <p className="text-xs text-gray-600">{getTimeAgo(user.created_at)}</p>
                                 </div>

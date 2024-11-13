@@ -148,7 +148,8 @@ const HomeLayout = ({
                             <div className="profile-modal">
                                 <div className="chat-icon flex items-center gap-2 mx-2.5 pt-[5px] pb-2 border-b border-gray-400 mb-1">
                                     <div className="image w-10 h-10  rounded-full relative">
-                                        <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" />
+                                        {/* <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" /> */}
+                                        <ProfileImage image={user.profile_image} className="object-cover object-center rounded-full w-full h-full cursor-pointer"/>
                                     </div>
                                     <div className="fullname text-gray-900">
                                         <p className="text-sm text-nowrap">{user.first_name} {user.middle_name} {user.last_name}</p>
@@ -188,7 +189,7 @@ const HomeLayout = ({
                     <div className="user-details textce flex flex-col flex-wrap mt-14 items-center px-2 justify-center text-center">
                         <div className="flex items-center gap-1">
                             <a href={getProfileLink(user.username)} className="text-base font-semibold  hover:underline">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</a>
-                            <i className={`ri-verified-badge-fill text-[#b99a45] text-xl leading-none ${user.account_status=='goldTick'?'block':'hidden'}`}></i>
+                            <i className={`ri-verified-badge-fill text-[#b99a45] text-base leading-none ${user.account_status=='goldTick'?'block':'hidden'}`}></i>
                         </div>
                         <p className="text-xs mt-1 text-gray-800/70">{user.headline}</p>
                     </div>
