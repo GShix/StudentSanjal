@@ -16,6 +16,7 @@ use App\Http\Controllers\User\ConnectionController;
 use App\Http\Controllers\User\PostCommentController;
 use App\Http\Controllers\User\ShowProfileController;
 use App\Http\Controllers\User\PostInteractionController;
+use App\Http\Controllers\User\StudentVerificationController;
 
 Route::get('/', function () {
     return Inertia::render('Welcome');
@@ -85,12 +86,9 @@ Route::middleware('auth')->group(function () {
     Route::get('event-detail/{event:title}', [EventController::class,'eventDetail'])->name('event.detail');
 
 });
-Route::get('students/verify',function(){
-    return Inertia::render('StudentVerificationPage');
-})->name('student.verify');
-Route::get('students/verify/uploads',function(){
-    return Inertia::render('StudentDocumentUpload');
-})->name('student.verify.uploads');
+Route::get('students/verify',[StudentVerificationController::class,'index'])->name('student.verify');
+Route::get('students/verify/uploads',[StudentVerificationController::class, 'create'])->name('student.verify.uploads');
+Route::post('students/verify/uploads',[StudentVerificationController::class, 'store'])->name('student.verify.store');
 
 require __DIR__.'/auth.php';
 require __DIR__.'/admin.php';
