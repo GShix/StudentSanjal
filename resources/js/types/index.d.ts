@@ -1,5 +1,6 @@
 export interface User {
     id: number;
+    name?:string;
     profile_image: File | null;
     banner_image: File | null;
     first_name: string;

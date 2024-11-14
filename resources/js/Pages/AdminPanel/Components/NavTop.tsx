@@ -5,6 +5,7 @@ import { usePage } from "@inertiajs/react"
 
 const NavTop = () => {
     const {user} = usePage<PageProps>().props.auth;
+    // console.log(user)
   return (
     <nav className="main-header navbar navbar-expand navbar-white navbar-light">
         <ul className="navbar-nav">
@@ -69,26 +70,26 @@ const NavTop = () => {
                 <div className="user-icon p-[2px] rounded-full hover:bg-gray-700">
                     <Dropdown>
                         <Dropdown.Trigger>
-                        <div className="chat-icon w-10 h-10 p-[3px] bg-[#c7ae6a] rounded-full relative">
+                        <div className="chat-icon w-10 h-10 p-[3px] bg-black rounded-full relative">
                             {/* <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" /> */}
-                            <ProfileImage image={user.profile_image} className="object-cover object-center rounded-full w-full h-full cursor-pointer"/>
+                            <img src='/img/icon.png' className="object-cover bg-none object-center rounded-full w-full h-full cursor-pointer"/>
                         </div>
                         </Dropdown.Trigger>
                         <Dropdown.Content>
                             <div className="profile-modal">
                                 <div className="chat-icon flex items-center gap-2 mx-2.5 pt-[5px] pb-2 border-b border-gray-400 mb-1">
                                     <div className="image w-10 h-10 rounded-full">
-                                        <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" />
+                                        <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src='/img/icon.png' alt="" />
                                     </div>
                                     <div className="fullname text-gray-900">
-                                        <p className="text-sm text-nowrap">{user.first_name} {user.middle_name} {user.last_name}</p>
+                                        <p className="text-sm text-nowrap">{user.name}</p>
                                     </div>
                                 </div>
                                 <Dropdown.Link href={window.route('profile.edit')} className="mt-2 ">
                                     <i className="ri-settings-4-fill mr-2 bg-gray-300 p-[6px] rounded-full"></i>
                                     Profile Setting
                                 </Dropdown.Link>
-                                <Dropdown.Link href={window.route('logout')} method="post" as="button" className="mt-1">
+                                <Dropdown.Link href={window.route('admin.logout')} method="post" as="button" className="mt-1">
                                     <i className="ri-logout-box-r-fill mr-2 bg-gray-300 p-[6px] rounded-full"></i>
                                     Log Out
                                 </Dropdown.Link>

@@ -1,11 +1,15 @@
+import { PageProps } from "@/types"
+import { usePage } from "@inertiajs/react"
 
 const SideNav = () => {
+    const {user} = usePage<PageProps>().props.auth
   return (
 <aside className="main-sidebar bg-gray-100 elevation-4 mr-2">
     {/* <!-- Brand Logo --> */}
-    <a href="index3.html" className="brand-link">
+    <a href="/admin/dashboard" className="brand-link">
         {/* <img src="/img/logo.png" alt="AdminLTE Logo" className="" /> */}
-        <span className="text-dark flex justify-center">Admin</span>
+        <span className="text-dark flex justify-center w-full bg-dark py-2 rounded-md">StudentSanjal</span>
+        {/* <span className="text-dark flex justify-center mt-2">{user.name}</span> */}
     </a>
 
     {/* <!-- Sidebar --> */}
