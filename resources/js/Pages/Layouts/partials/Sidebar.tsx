@@ -37,7 +37,10 @@ const Sidebar = () => {
                     </div>
                     </div>
                     <div className="user-details textce flex flex-col flex-wrap mt-14 items-center px-2 justify-center text-center">
-                        <a href={getProfileLink(user.username)} className="text-base font-semibold  hover:underline">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</a>
+                        <a href={getProfileLink(user.username)} className="text-base font-semibold flex items-center gap-1">
+                            <span className="hover:underline">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</span>
+                        <i title="Verified" className={`ri-verified-badge-fill text-[#b99a45] text- leading-none ${user.account_status=='goldTick'?'block':'hidden'}`}></i>
+                        </a>
                         <p className="text-xs mt-1 text-gray-800/70">{user.headline}</p>
                     </div>
                     <div className="user-details textce flex flex-col flex-wrap pt-5 px-5 gap-y-2">

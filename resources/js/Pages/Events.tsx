@@ -1,6 +1,6 @@
 import { Head, Link, useForm, usePage } from "@inertiajs/react"
 import CleanHomeLayout from "./Layouts/CleanHomeLayout"
-import Sidebar from "./Layouts/partials/FullSidebar"
+import Sidebar from "./Layouts/partials/Sidebar"
 import { Fragment } from "react/jsx-runtime"
 import { FormEventHandler, useState } from "react"
 import { PageProps } from "@/types"

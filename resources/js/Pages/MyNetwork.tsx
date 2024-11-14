@@ -1,6 +1,6 @@
 import { Head, usePage } from "@inertiajs/react"
 import CleanHomeLayout from "./Layouts/CleanHomeLayout"
-import Sidebar from "./Layouts/partials/FullSidebar"
+import Sidebar from "./Layouts/partials/Sidebar"
 import { PageProps } from "@/types";
 import ProfileImage from "./Layouts/partials/ProfileImage";
 import TimeAgo from "./Layouts/TimeAgo";
@@ -46,7 +46,7 @@ const MyNetwork = () => {
                                 <ProfileImage image={user.profile_image} className="h-20 w-20 rounded-full p-1 object-cover object-center"/>
                                 <div className="profile-details">
                                     <h1 className="font-mono flex items-center gap-1">{user.first_name} {user.middle_name} {user.last_name}
-                                    <i className={`ri-verified-badge-fill text-[#b99a45] text-base leading-none ${user.account_status=='goldTick'?'block':'hidden'}`}></i></h1>
+                                    <i title="Verified" className={`ri-verified-badge-fill text-[#b99a45] text-base leading-none ${user.account_status=='goldTick'?'block':'hidden'}`}></i></h1>
                                     <p className="text-sm text-gray-600 leading-snug">{user.headline}</p>
                                     <p className="text-xs text-gray-600">{getTimeAgo(user.created_at)}</p>
                                 </div>

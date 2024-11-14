@@ -15,7 +15,7 @@ const AdminDashboardLayout = ({children}:any) => {
             </div>
 
             <footer className="main-footer">
-                <strong className="text-sm">Copyright &copy; <a href="https://adminlte.io">Admin.io </a></strong>
+                <strong className="text-sm">Copyright &copy; <a href="#">dambarsing.tech </a></strong>
                 All rights reserved.
                 <div className="float-right d-none d-sm-inline-block">
                     <b className="text-sm">Version</b> 1.2.1
