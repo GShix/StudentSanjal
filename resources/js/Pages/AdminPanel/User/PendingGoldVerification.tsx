@@ -5,13 +5,12 @@ import { PageProps } from "@/types";
 const PendingGoldVerification = () => {
     const { pendingUsers,csrf_token  } = usePage<PageProps>().props;
 
-    console.log(pendingUsers)
     return (
         <AdminDashboardLayout>
-            <Head title="All Users" />
+            <Head title="Pending" />
             <div className="pendingUsers px-2">
                 <div className="container full-container py-1 flex flex-col gap-4">
-                    <div className="card flex items-center py-1 mx-1">
+                    <div className="card flex items-center py-1 mx-[7px]">
                         <nav className="w-full flex items-center justify-between" aria-label="Global">
                             <ul className="icon-nav flex items-center gap-4">
                                 <li className="relative xl:hidden">
@@ -66,7 +65,7 @@ const PendingGoldVerification = () => {
                     <div className="col-lg-12 overflow-hidden d-flex align-items-stretch">
                         <div className="card w-100">
                             <div className="card-body p-2">
-                                <h5 className="card-title fw-semibold mb-4">User</h5>
+                                <h5 className="card-title fw-semibold mb-4">Pending users for Verification</h5>
                                 <div className="table-responsive">
                                     <table className="table text-nowrap mb-0 align-middle">
                                         <thead className="text-dark fs-4">
@@ -112,7 +111,13 @@ const PendingGoldVerification = () => {
                                                             <form action={window.route("admin.dashboard", user)} method="POST" className="inline-block">
                                                                 <input type="hidden" name="_method" value="DELETE" />
                                                                 <input type="hidden" name="_token" value={csrf_token as string} />
-                                                                <button type="submit">
+                                                                <button
+                                                                    type="submit"
+                                                                    onClick={(e) => {
+                                                                        if (!confirm("Are you sure you want to delete this user?")) {
+                                                                            e.preventDefault(); // Prevents form submission if user cancels
+                                                                        }
+                                                                    }}>
                                                                     <i className="ri-delete-bin-2-fill text-[18px] text-white hover:bg-black bg-red-500 p-2 rounded-full"></i>
                                                                 </button>
                                                             </form>

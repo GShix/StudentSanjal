@@ -31,9 +31,8 @@ const SideNav = () => {
             <ul className="nav nav-pills nav-sidebar flex-column" data-widget="treeview" role="menu"
                 data-accordion="false">
                 <li className="nav-item ">
-                    <a href="./index.html" className="nav-link bg-[#b99a45] text-dark">
-                        {/* <i className="nav-icon fas fa-tachometer-alt"></i> */}
-                        <i className="nav-icon ri-dashboard-horizontal-fill inline-block mr-[5px] ml-[3px]"a></i>
+                    <a href="/admin/dashboard" className="nav-link bg-[#b99a45] text-dark">
+                        <i className="nav-icon fas fa-home"></i>
                         <p className="">
                             Dashboard
                         </p>
@@ -42,11 +41,19 @@ const SideNav = () => {
                 </li>
                 <li className="nav-item">
                     <a href="pages/widgets.html" className="nav-link">
-                        {/* <i className="nav-icon fas fa-th"></i> */}
-                        <img src="/img/chat_gpt.png" className="h-[21px] inline-block mr-[5px] ml-[3px]" alt="GPT" />
+                        <i className="nav-icon fas fa-calendar"></i>
                         <p>
-                            ChatGPT 3.5
+                            Events
                             <span className="right badge badge-danger">New</span>
+                        </p>
+                    </a>
+                </li>
+                <li className="nav-item">
+                    <a href="pages/widgets.html" className="nav-link">
+                        <i className="nav-icon fas fa-blog"></i>
+                        <p>
+                            Posts
+                            {/* <span className="right badge badge-danger">New</span> */}
                         </p>
                     </a>
                 </li>
@@ -81,6 +88,15 @@ const SideNav = () => {
                     </ul>
                 </li>
                 <li className="nav-item">
+                    <a href="pages/widgets.html" className="nav-link">
+                        <i className="nav-icon fas fa-fire"></i>
+                        <p>
+                            Feedbacks
+                            {/* <span className="right badge badge-danger">New</span> */}
+                        </p>
+                    </a>
+                </li>
+                <li className="nav-item">
                     <a href="" className="nav-link">
                         <i className="nav-icon fas fa-chart-pie"></i>
                         <p>
@@ -100,7 +116,7 @@ const SideNav = () => {
                 </li>
                 <li className="nav-item">
                     <a href="" className="nav-link">
-                        <i className="nav-icon fas fa-wrench"></i>
+                        <i className="nav-icon fas fa-sun"></i>
                         <p>
                             Settings
                             <i className="fas fa-angle-left right"></i>

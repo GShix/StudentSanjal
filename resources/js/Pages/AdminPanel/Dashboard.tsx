@@ -18,7 +18,7 @@ export default function Dashboard({ auth}: PageProps) {
                             <i className="ri-group-2-fill text-xl mb-1"></i>
                             <p>Total Users:</p>
                             <p>{totalUsers}</p>
-                            <Link href='/admin/allUsers'>View</Link>
+                            <Link href='/admin/allUsers' className='text-[#b99a45] hover:text-black hover:scale-110'>View</Link>
                         </div>
                     </div>
                     <div className="bg-white overflow-hidden shadow-sm sm:rounded-lg w-48 flex items-center justify-center py-3">
@@ -26,7 +26,7 @@ export default function Dashboard({ auth}: PageProps) {
                             <i className="ri-news-fill text-xl mb-1"></i>
                             <p>Total Posts:</p>
                             <p>{totalPosts}</p>
-                            <Link href="/admin/allPosts">View</Link>
+                            <Link href="/admin/allPosts" className='text-[#b99a45] hover:text-black hover:scale-110'>View</Link>
                         </div>
                     </div>
                 </div>

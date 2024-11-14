@@ -32,7 +32,7 @@ const ViewUser = () => {
   return (
     <AdminDashboardLayout>
         <Head title={user.first_name} />
-        <section className='bg-gray-200 p-4 rounded-lg lg:mx-10'>
+        <section className='bg-gray-200 p-4 rounded-lg'>
         <div className="p-2 sm:p-4 bg-gray-50 shadow rounded-lg px-4">
             <div className="">
                 <h2 className="text-base font-semibold leading-7 text-gray-900">{user.first_name}'s Profile Information</h2>

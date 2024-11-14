@@ -77,7 +77,7 @@ const NavTop = () => {
                                     <div className="image w-10 h-10 rounded-full">
                                         <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src='/img/icon.png' alt="" />
                                     </div>
-                                    <div className="fullname text-gray-900">
+                                    <div className="fullname text-gray-900 h-5">
                                         <p className="text-sm text-nowrap">{user.name}</p>
                                     </div>
                                 </div>

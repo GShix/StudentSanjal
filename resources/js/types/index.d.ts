@@ -28,6 +28,10 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
         postsLikedByYou:any;
         savedPostIds:any;
     };
+    pendingUsers:any;
+    totalUsers:any;
+    totalPosts:any;
+    goldVerified:any;
     latest_comment:any;
     userSkills:Array<T>;
     event:any;

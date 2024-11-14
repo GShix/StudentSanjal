@@ -1,6 +1,6 @@
 import { Head, Link, useForm, usePage } from "@inertiajs/react";
 import CleanHomeLayout from "./Layouts/CleanHomeLayout"
-import { PageProps } from "@/types";
+import { PageProps, User } from "@/types";
 import ProfileImage from "./Layouts/partials/ProfileImage";
 import { useEffect, useRef, useState } from "react";
 import FilePreview from "./Layouts/partials/PreviewFile";
@@ -40,7 +40,7 @@ const StartChat = () => {
     const { user,latest_chat,usersYouFollowed } = usePage<PageProps>().props.auth;
     const { otherUsers} = usePage<PageProps>().props;
 
-    const [connectedFriend,setConnectedFriend] = useState();
+    const [connectedFriend,setConnectedFriend] = useState<any>();
     const [showMessage,setShowMessage] = useState(false);
     const [showSearchInput,setShowSearchInput] = useState(false);
     const [showModal,setShowModal] = useState(false);
@@ -79,7 +79,7 @@ const StartChat = () => {
         }
     }, [connectedFriend]);
 
-    const submitChat = (e) => {
+    const submitChat = (e:any) => {
         e.preventDefault();
         if (!data.text_field && !data.media) return;
 
@@ -153,7 +153,7 @@ const StartChat = () => {
             hour12: true,
         };
 
-        return new Intl.DateTimeFormat('en-US', options).format(date);
+        return new Intl.DateTimeFormat('en-US', options as any).format(date);
     };
 
     const handleRemoveFile = () => {
@@ -254,7 +254,8 @@ const StartChat = () => {
                                     <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
                                         <div className="active-status h-[6px] w-[6px] bg-green-500 rounded-full"></div>
                                     </div>):""}
-                                    <img className="object-cover object-center rounded-full w-full h-full" src={connectedFriend.profile_image} alt="" />
+                                    <ProfileImage image={connectedFriend.profile_image} className="object-cover object-center rounded-full w-full h-full"/>
+                                    {/* // <img className="" src={connectedFriend.profile_image} alt="" /> */}
                                 </div>
                                 <div className="chat-details">
                                     <Link href={getProfileLink(connectedFriend.username)}>
