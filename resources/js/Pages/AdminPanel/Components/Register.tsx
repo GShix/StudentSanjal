@@ -22,7 +22,7 @@ export default function Register() {
     };
 
     return (
-        <div className='flex min-h-screen flex-col items-center bg-gray-100 pt-6 sm:justify-center sm:pt-0'>
+        <div className='flex min-h-screen flex-col items-center bg-gray-200 pt-6 sm:justify-center sm:pt-0'>
             <Head title="Register" />
 
             <div className="mt-6 w-full overflow-hidden bg-white px-6 py-4 shadow-md sm:max-w-md sm:rounded-lg">

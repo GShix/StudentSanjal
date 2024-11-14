@@ -4,7 +4,7 @@ import { usePage } from "@inertiajs/react"
 const SideNav = () => {
     const {user} = usePage<PageProps>().props.auth
   return (
-<aside className="main-sidebar bg-gray-100 elevation-4 mr-2">
+<aside className="main-sidebar bg-gray-100 elevation-4 mr-2 -mt-1">
     {/* <!-- Brand Logo --> */}
     <a href="/admin/dashboard" className="brand-link">
         {/* <img src="/img/logo.png" alt="AdminLTE Logo" className="" /> */}
@@ -32,7 +32,8 @@ const SideNav = () => {
                 data-accordion="false">
                 <li className="nav-item ">
                     <a href="./index.html" className="nav-link bg-[#b99a45] text-dark">
-                        <i className="nav-icon fas fa-tachometer-alt"></i>
+                        {/* <i className="nav-icon fas fa-tachometer-alt"></i> */}
+                        <i className="nav-icon ri-dashboard-horizontal-fill inline-block mr-[5px] ml-[3px]"a></i>
                         <p className="">
                             Dashboard
                         </p>
@@ -41,15 +42,16 @@ const SideNav = () => {
                 </li>
                 <li className="nav-item">
                     <a href="pages/widgets.html" className="nav-link">
-                        <i className="nav-icon fas fa-th"></i>
+                        {/* <i className="nav-icon fas fa-th"></i> */}
+                        <img src="/img/chat_gpt.png" className="h-[21px] inline-block mr-[5px] ml-[3px]" alt="GPT" />
                         <p>
-                            Widgets
+                            ChatGPT 3.5
                             <span className="right badge badge-danger">New</span>
                         </p>
                     </a>
                 </li>
                 <li className="nav-item">
-                    <a href="#" className="nav-link">
+                    <a href="" className="nav-link">
                         <i className="nav-icon fas fa-users"></i>
                         <p>
                             Users
@@ -64,7 +66,13 @@ const SideNav = () => {
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a href="pages/charts/flot.html" className="nav-link">
+                            <a href="/admin/goldVerified" className="nav-link">
+                                <i className="far fa-circle nav-icon"></i>
+                                <p>Gold Verified</p>
+                            </a>
+                        </li>
+                        <li className="nav-item">
+                            <a href="/admin/pendingGoldVerification" className="nav-link">
                                 <i className="far fa-circle nav-icon"></i>
                                 <p>Pending Verifications</p>
                             </a>
@@ -73,7 +81,7 @@ const SideNav = () => {
                     </ul>
                 </li>
                 <li className="nav-item">
-                    <a href="#" className="nav-link">
+                    <a href="" className="nav-link">
                         <i className="nav-icon fas fa-chart-pie"></i>
                         <p>
                             Reports & Analysis
@@ -82,7 +90,7 @@ const SideNav = () => {
                     </a>
                     <ul className="nav nav-treeview">
                         <li className="nav-item">
-                            <a href="pages/forms/general.html" className="nav-link">
+                            <a href="#" className="nav-link">
                                 <i className="far fa-circle nav-icon"></i>
                                 <p>General Elements</p>
                             </a>
@@ -91,7 +99,7 @@ const SideNav = () => {
                     </ul>
                 </li>
                 <li className="nav-item">
-                    <a href="#" className="nav-link">
+                    <a href="" className="nav-link">
                         <i className="nav-icon fas fa-wrench"></i>
                         <p>
                             Settings
@@ -100,19 +108,19 @@ const SideNav = () => {
                     </a>
                     <ul className="nav nav-treeview">
                         <li className="nav-item">
-                            <a href="pages/tables/simple.html" className="nav-link">
+                            <a href="#" className="nav-link">
                                 <i className="far fa-circle nav-icon"></i>
                                 <p>General</p>
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a href="pages/tables/data.html" className="nav-link">
+                            <a href="#" className="nav-link">
                                 <i className="far fa-circle nav-icon"></i>
                                 <p>Payment</p>
                             </a>
                         </li>
                         <li className="nav-item">
-                            <a href="pages/tables/jsgrid.html" className="nav-link">
+                            <a href="#" className="nav-link">
                                 <i className="far fa-circle nav-icon"></i>
                                 <p>Security</p>
                             </a>

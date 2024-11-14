@@ -14,8 +14,8 @@ const AdminDashboardLayout = ({children}:any) => {
                 {children}
             </div>
 
-            <footer className="main-footer">
-                <strong className="text-sm">Copyright &copy; <a href="#">dambarsing.tech </a></strong>
+            <footer className="main-footer text-gray-900">
+                <strong className="text-sm">Copyright &copy; <a href="#" className="text-[#b99a45]">dambarsing.tech </a></strong>
                 All rights reserved.
                 <div className="float-right d-none d-sm-inline-block">
                     <b className="text-sm">Version</b> 1.2.1

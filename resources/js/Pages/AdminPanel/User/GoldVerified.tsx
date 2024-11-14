@@ -2,13 +2,13 @@ import { Head, usePage } from "@inertiajs/react";
 import AdminDashboardLayout from "../Layouts/AdminDashboardLayout";
 import { PageProps } from "@/types";
 
-const AllUsers = () => {
-    const { allUsers,csrf_token  } = usePage<PageProps>().props;
+const GoldVerified = () => {
+    const { goldVerified,csrf_token  } = usePage<PageProps>().props;
 
     return (
         <AdminDashboardLayout>
             <Head title="All Users" />
-            <div className="allUsers px-2">
+            <div className="goldVerified px-2">
                 <div className="container full-container py-1 flex flex-col gap-4">
                     <div className="card flex items-center py-1 mx-1">
                         <nav className="w-full flex items-center justify-between" aria-label="Global">
@@ -52,7 +52,7 @@ const AllUsers = () => {
                                                 <a
                                                     href="#"
                                                     className="motion-reduce:transition-none-none text-black/60 transition duration-200 hover:text-black/80 hover:ease-in-out focus:text-black/80 active:text-black/80 motion-reduce:transition motion-reduce:transition-none">
-                                                    All Users
+                                                    Gold Verified
                                                 </a>
                                             </li>
                                         </ol>
@@ -88,7 +88,7 @@ const AllUsers = () => {
                                             </tr>
                                         </thead>
                                         <tbody>
-                                            {allUsers && allUsers.map((user:any, index:number) => (
+                                            {goldVerified && goldVerified.map((user:any, index:number) => (
                                                 <tr key={user.id}>
                                                     <td>
                                                         <h6>{index + 1}</h6>
@@ -131,4 +131,4 @@ const AllUsers = () => {
     );
 };
 
-export default AllUsers;
+export default GoldVerified;

@@ -19,6 +19,8 @@ Route::prefix('admin')->middleware('auth:admin')->group(function(){
 
     Route::get('dashboard',[AdminController::class,'index'])->name('admin.dashboard');
     Route::get('allUsers',[AdminController::class,'allUsers'])->name('admin.allUsers');
+    Route::get('goldVerified',[AdminController::class,'goldVerified'])->name('admin.goldVerified');
+    Route::get('pendingGoldVerification',[AdminController::class,'pendingGoldVerification'])->name('admin.pendingGoldVerification');
     Route::get('user/view/{username:username}',[AdminController::class,'viewUser'])->name('admin.viewUser');
     Route::post('user/account_status',[AdminController::class,'changeAccountStatus'])->name('admin.status');
     Route::post('logout',[LoginController::class,'destroy'])->name('admin.logout');

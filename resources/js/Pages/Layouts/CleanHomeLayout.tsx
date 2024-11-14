@@ -4,6 +4,7 @@ import { Link, usePage } from "@inertiajs/react";
 import { PropsWithChildren, ReactNode, useEffect, useState } from "react"
 import { toast, ToastContainer } from "react-toastify";
 import 'react-toastify/dist/ReactToastify.css';
+import ProfileImage from "./partials/ProfileImage";
 
 const CleanHomeLayout = ({
     story,
@@ -131,14 +132,14 @@ const CleanHomeLayout = ({
                             <div className="active-status p-[1.5px] bg-gray-100 absolute rounded-full bottom-0 right-1">
                                 <div className="active-status h-[6px] w-[6px] bg-green-500 rounded-full"></div>
                             </div>):""}
-                            <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" />
+                            <ProfileImage image={user.profile_image} className="object-cover object-center rounded-full w-full h-full cursor-pointer"/>
                         </div>
                         </Dropdown.Trigger>
                         <Dropdown.Content>
                             <div className="profile-modal">
                                 <div className="chat-icon flex items-center gap-2 mx-2.5 pt-[5px] pb-2 border-b border-gray-400 mb-1">
                                     <div className="image w-10 h-10 rounded-full">
-                                        <img className="object-cover object-center rounded-full w-full h-full cursor-pointer" src={user.profile_image} alt="" />
+                                        <ProfileImage image={user.profile_image} className="object-cover object-center rounded-full w-full h-full cursor-pointer"/>
                                     </div>
                                     <div className="fullname text-gray-900">
                                         <p className="text-sm text-nowrap">{user.first_name} {user.middle_name} {user.last_name}</p>

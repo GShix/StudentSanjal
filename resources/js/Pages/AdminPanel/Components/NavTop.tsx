@@ -10,14 +10,14 @@ const NavTop = () => {
     <nav className="main-header navbar navbar-expand navbar-white navbar-light">
         <ul className="navbar-nav">
             <li className="nav-item">
-                <a className="nav-link" data-widget="pushmenu" href="#" role="button"><i className="fas fa-bars"></i></a>
+                <a className="nav-link" data-widget="pushmenu" href="#" role="button"><i className="fas fa-bars text-[#b99a45] text-lg"></i></a>
             </li>
         </ul>
         <div className="navbar-admin ml-auto font-semibold text-lg">Welcome {user.name}</div>
         <ul className="navbar-nav ml-auto">
             <li className="nav-item">
                 <a className="nav-link" data-widget="navbar-search" href="#" role="button">
-                <i className="fas fa-search"></i>
+                <i className="fas fa-search text-[#b99a45] "></i>
                 </a>
                 <div className="navbar-search-block w-[85%]">
                     <form className="form-inline">
@@ -38,11 +38,11 @@ const NavTop = () => {
 
             <li className="nav-item dropdown">
                 <a className="nav-link" data-toggle="dropdown" href="#">
-                <i className="far fa-bell"></i>
-                <span className="badge badge-warning navbar-badge">15</span>
+                <i className="far fa-bell text-[#b99a45]"></i>
+                <span className="badge badge-warning navbar-badge">2</span>
                 </a>
                 <div className="dropdown-menu dropdown-menu-lg dropdown-menu-right">
-                <span className="dropdown-item dropdown-header">15 Notifications</span>
+                <span className="dropdown-item dropdown-header">2 Notifications</span>
                 <div className="dropdown-divider"></div>
                 <a href="#" className="dropdown-item">
                     <i className="fas fa-envelope mr-2"></i> 4 new messages
@@ -52,11 +52,6 @@ const NavTop = () => {
                 <a href="#" className="dropdown-item">
                     <i className="fas fa-users mr-2"></i> 8 friend requests
                     <span className="float-right text-muted text-sm">12 hours</span>
-                </a>
-                <div className="dropdown-divider"></div>
-                <a href="#" className="dropdown-item">
-                    <i className="fas fa-file mr-2"></i> 3 new reports
-                    <span className="float-right text-muted text-sm">2 days</span>
                 </a>
                 <div className="dropdown-divider"></div>
                 <a href="#" className="dropdown-item dropdown-footer">See All Notifications</a>
@@ -86,10 +81,10 @@ const NavTop = () => {
                                         <p className="text-sm text-nowrap">{user.name}</p>
                                     </div>
                                 </div>
-                                <Dropdown.Link href={window.route('profile.edit')} className="mt-2 ">
+                                {/* <Dropdown.Link href={window.route('profile.edit')} className="mt-2 ">
                                     <i className="ri-settings-4-fill mr-2 bg-gray-300 p-[6px] rounded-full"></i>
                                     Profile Setting
-                                </Dropdown.Link>
+                                </Dropdown.Link> */}
                                 <Dropdown.Link href={window.route('admin.logout')} method="post" as="button" className="mt-1">
                                     <i className="ri-logout-box-r-fill mr-2 bg-gray-300 p-[6px] rounded-full"></i>
                                     Log Out

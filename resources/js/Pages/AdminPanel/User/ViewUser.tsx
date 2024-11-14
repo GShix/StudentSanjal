@@ -14,7 +14,7 @@ import axios from "axios";
 
 const ViewUser = () => {
     const user = usePage<PageProps>().props.user[0];
-    console.log(user)
+    // console.log(user)
     const options = getEnumOptions(AccountStatus);
     const [selectedOption, setSelectedOption] = useState<string>(user?.account_status); // State to store selected value
 
