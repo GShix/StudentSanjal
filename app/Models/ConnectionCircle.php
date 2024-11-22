@@ -44,4 +44,8 @@ class ConnectionCircle extends Model
     {
         return $this->belongsTo(User::class, 'followers');
     }
+    public function followingUser(): BelongsTo
+    {
+        return $this->belongsTo(User::class, 'user_id');
+    }
 }

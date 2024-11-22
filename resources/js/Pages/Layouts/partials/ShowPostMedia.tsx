@@ -1,7 +1,7 @@
 import Modal from "@/Components/Modal";
 import { useState } from "react";
 
-const ShowPostMedia = ({post}:any) => {
+const ShowPostMedia = ({post}:any,{height}:any) => {
 
     const isImage = (media: string) => {
         return media.match(/\.(jpeg|jpg|gif|png|svg|webp)$/i);
@@ -27,7 +27,7 @@ const ShowPostMedia = ({post}:any) => {
 
   return (
     <>
-        <div className="posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px] h-80">
+        <div className={`posts-media mt-3 rounded-md flex justify-center border-b-[1.6px] border-t-[1.6px] ${height?height:'h-80'} `}>
             <>
                 {isImage(post.media) ? (
                     <img

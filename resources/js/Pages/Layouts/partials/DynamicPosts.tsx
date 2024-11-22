@@ -15,33 +15,15 @@ interface FormData {
     reason_to_remove_post: string;
 }
 
-const Posts = () => {
+const DynamicPosts = () => {
     const {latest_comment} = usePage<PageProps>().props;
     const { user,savedPostIds} = usePage<PageProps>().props.auth;
 
-    const [showCommentSetting,setShowCommentSetting] = useState(false);
-    const [commentId,setCommentId] = useState();
-    const [commentOwnerId,setCommentOwnerId] = useState();
     const [postIdToRemove, setPostIdToRemove] = useState<number | null>(null);
 
     let [latest_posts ,setLatestPosts] = useState([]);
     let [latest_comments,setLatestComments] = useState([]);
     const [postLikedByUser,setPostLikedByUser]=useState([]);
-    const loadLatestPost = async ()=>{
-        try {
-            const response = await axios.get('/posts/showPosts')
-            setLatestPosts(response.data.latestPosts);
-            setPostLikedByUser(response.data.postLikedByUser);
-
-        } catch (error) {
-
-        }
-    }
-
-    useEffect(()=>{
-        loadLatestPost();
-    },[]);
-
     const [isLiked, setIsLiked] = useState(false);
 
     const handlePostLike = async (postId:number, userId:number) => {
@@ -283,4 +265,4 @@ const Posts = () => {
     );
 };
 
-export default Posts;
+export default DynamicPosts;

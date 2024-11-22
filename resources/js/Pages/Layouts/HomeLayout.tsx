@@ -189,7 +189,7 @@ const HomeLayout = ({
                     <div className="user-details textce flex flex-col flex-wrap mt-14 items-center px-2 justify-center text-center">
                         <div className="flex items-center gap-1">
                             <a href={getProfileLink(user.username)} className="text-base font-semibold  hover:underline">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}</a>
-                            <i title="Verified" className={`ri-verified-badge-fill text-[#b99a45] text-base leading-none ${user.account_status=='goldTick'?'block':'hidden'}`}></i>
+                            <i title="Golden Badge" className={`ri-verified-badge-fill text-[#b99a45] text-base leading-none ${user.account_status=='goldTick'?'block':'hidden'}`}></i>
                         </div>
                         <p className="text-xs mt-1 text-gray-800/70">{user.headline}</p>
                     </div>

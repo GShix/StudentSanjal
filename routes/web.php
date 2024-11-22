@@ -12,6 +12,7 @@ use App\Http\Controllers\User\FrontendController;
 use App\Http\Controllers\User\PostLikeController;
 use App\Http\Controllers\User\SavePostController;
 use App\Http\Controllers\Auth\SocialiteController;
+use App\Http\Controllers\RecommendationController;
 use App\Http\Controllers\User\ConnectionController;
 use App\Http\Controllers\User\PostCommentController;
 use App\Http\Controllers\User\ShowProfileController;
@@ -84,6 +85,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('events/store', [EventController::class,'store'])->name('event.store');
     Route::get('event-detail/{event:title}', [EventController::class,'eventDetail'])->name('event.detail');
+
+    Route::get('recommendation/by-skills', [RecommendationController::class,'getRecommendedPostsBySkills'])->name('recommended.bySkills');
 
 });
 Route::get('students/verify',[StudentVerificationController::class,'index'])->name('student.verify');

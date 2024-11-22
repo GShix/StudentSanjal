@@ -78,9 +78,14 @@ class User extends Authenticatable
         return $this->hasMany(Note::class);
     }
 
-    public function skills():HasMany
+    public function skills()
     {
-        return $this->hasMany(Skill::class,'id','skill_id[]');
+        return Skill::whereIn('id', $this->skill_id)->get();
+    }
+
+    public function getSkillsAttribute()
+    {
+        return Skill::whereIn('id', $this->skill_id)->get();
     }
 
     public function connectionCircle():HasMany

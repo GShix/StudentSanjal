@@ -8,11 +8,13 @@ import Stories from "./Layouts/partials/Story";
 import WhatOnYourMind from "./Layouts/partials/WhatOnYourMind";
 import Chat from "./Layouts/partials/Chat";
 import PeopleYouMayKnow from "./Layouts/partials/PeopleYouMayKnow";
+import PostBySkils from "./Layouts/Recommended/PostBySkills";
 
 const Home = () => {
 
   return (
         <HomeLayout whatOnYourMind={<WhatOnYourMind/>} peopleYouMayKnow={<PeopleYouMayKnow/>}>
+            <PostBySkils/>
             <Posts/>
         </HomeLayout>
   )
