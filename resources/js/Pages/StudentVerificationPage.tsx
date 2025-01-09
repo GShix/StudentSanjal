@@ -3,6 +3,7 @@ import CleanHomeLayout from "./Layouts/CleanHomeLayout"
 import { PageProps } from "@/types"
 import ProfileImage from "./Layouts/partials/ProfileImage"
 import PrimaryButton from "@/Components/PrimaryButton"
+import { useEffect } from "react"
 
 const StudentVerificationPage = () => {
     const {user} = usePage<PageProps>().props.auth
@@ -24,6 +25,15 @@ const StudentVerificationPage = () => {
             icon:'ri-lock-star-line'
         },
     ]
+    const { dialogMessage } = usePage().props;
+
+    useEffect(() => {
+        if (dialogMessage) {
+            alert(dialogMessage); // Display a simple alert dialog
+            // Optionally, navigate to the profile or home page
+            window.location.href = "/profileSetting"; // Adjust URL as needed
+        }
+    }, [dialogMessage]);
   return (
     <CleanHomeLayout>
         <Head title="Verify"/>

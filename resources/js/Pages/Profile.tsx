@@ -441,11 +441,39 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
             </form>
         </div>
 
-        <div className="p-4 sm:p-8 bg-gray-50 shadow rounded-lg mt-4">
-            {user.account_status!=='goldTick' ?(
+        {/* <div className="p-4 sm:p-8 bg-gray-50 shadow rounded-lg mt-4">
+            {user.account_status==='pending' ?(
+                if(mmmmmm)
                 <StudentVerificationButton className="max-w-xl" />
             ):<><h2 className='text-lg font-medium text-gray-900 inline-block'>Verification Status:</h2> <span className=''>Golden Badge</span></>}
+        </div> */}
+        <div className="p-4 sm:p-8 bg-gray-50 shadow rounded-lg mt-4">
+            {user.account_status==='pending' ? (
+                <div>
+                    <h2 className="text-lg font-medium text-gray-900 inline-block">Verification Status:</h2>
+                    <span className="ml-2 text-yellow-600">Pending</span>
+                </div>
+            ) : user.account_status==='rejected' ||user.account_status==='blueTick' ? (
+                <div>
+                    <h2 className="text-lg font-medium text-gray-900 inline-block">Verification Status:</h2>
+                    <span className="ml-2 text-red-600">Rejected</span>
+                    <StudentVerificationButton title='Reapply for the Verified Badge' description='Check your mail for the details'
+                        className="max-w-xl mt-4"
+                    />
+                </div>
+            ) : user.account_status==='goldTick' ? (
+                <div>
+                    <h2 className='text-lg font-medium text-gray-900 inline-block mr-1'>Verification Status:</h2>
+                    <span className=''>Golden Badge</span>
+
+                </div>
+            ) : (
+                <StudentVerificationButton
+                    className="max-w-xl mt-4"
+                />
+            )}
         </div>
+
 
         <div className="p-4 sm:p-8 bg-gray-50 shadow rounded-lg mt-4">
             <UpdatePasswordForm className="max-w-xl" />

@@ -1,13 +1,13 @@
 
-export default function StudentVerificationButton({ className = '' }: { className?: string }) {
+export default function StudentVerificationButton({ className = "",title="Student Verification", description="Verify your account with your Student ID Card." }: { className?: string,title?: string,description?: string }) {
 
     return (
         <section className={className}>
             <header>
-                <h2 className="text-lg font-medium text-gray-900">Student Verification</h2>
+                <h2 className="text-lg font-medium text-gray-900">{title}</h2>
 
                 <p className="mt-1 text-sm text-gray-600">
-                    Verify your account with your Student ID Card.
+                    {description}
                 </p>
             </header>
 

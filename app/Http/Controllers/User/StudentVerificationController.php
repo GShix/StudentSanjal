@@ -6,13 +6,24 @@ use Inertia\Inertia;
 use Illuminate\Http\Request;
 use App\Models\StudentVerification;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class StudentVerificationController extends Controller
 {
 
     public function index()
     {
-        return Inertia::render('StudentVerificationPage');
+        $user = Auth::user();
+        if($user->account_status==='rejected' || 'blueTick'){
+            // return
+            return Inertia::render('StudentVerificationPage');
+        }
+        if ($user->studentVerification) {
+            return back()->with([
+                'dialogMessage' => 'You already have a verification record. Please return to your profile or home page.'
+            ]);
+        }
+
     }
 
     public function create()
