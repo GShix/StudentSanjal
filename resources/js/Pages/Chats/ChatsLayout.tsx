@@ -1,50 +1,56 @@
-import Dropdown from "@/Components/Dropdown"
+import Dropdown from "@/Components/Dropdown";
 import { PageProps } from "@/types";
-import { Link, usePage } from "@inertiajs/react";
-import { PropsWithChildren, ReactNode, useEffect, useState } from "react"
-import { toast, ToastContainer } from "react-toastify";
-import 'react-toastify/dist/ReactToastify.css';
-import ProfileImage from "./partials/ProfileImage";
+import { useForm, usePage } from "@inertiajs/react";
+import { PropsWithChildren, useEffect, useRef, useState } from "react"
+import { toast, ToastContainer } from "react-toastify"
+import ProfileImage from "../Layouts/partials/ProfileImage";
+import { Link } from "lucide-react";
+import axios from "axios";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
+import FilePreview from "../Layouts/partials/PreviewFile";
 
-const CleanHomeLayout = ({
-    story,
-    whatOnYourMind,
-    chat,
-    connectionRequest,
-    peopleYouMayKnow,
-    children,
-}:PropsWithChildren<{
-    story?:ReactNode,
-    whatOnYourMind?:ReactNode,
-    chat?:ReactNode,
-    connectionRequest?:ReactNode,
-    peopleYouMayKnow?:ReactNode
-}>) => {
+const ChatsLayout = ({children}:PropsWithChildren) => {
+        const [searchInput, setSearchInput] = useState(false);
 
-    const [searchInput, setSearchInput] = useState(false);
+        const user = usePage<PageProps>().props.auth.user;
+        const { flash } = usePage<PageProps>().props;
 
-    const user = usePage<PageProps>().props.auth.user;
-    const { flash } = usePage<PageProps>().props;
+        useEffect(() => {
+            if (flash.success) {
+                toast.success(flash.success,{
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    progressStyle:{
+                        backgroundColor:"#c7ae6a"
+                    }
+                });
+            }
+        }, [flash.success]);
+        const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({
+            text_field:'',
+            media:null,
+            like: '',
+        });
 
-    useEffect(() => {
-        if (flash.success) {
-            toast.success(flash.success,{
-                position: "top-right",
-                autoClose: 5000,
-                hideProgressBar: false,
-                closeOnClick: true,
-                pauseOnHover: true,
-                draggable: true,
-                progress: undefined,
-                progressStyle:{
-                    backgroundColor:"#c7ae6a"
-                }
-            });
-        }
-    }, [flash.success]);
+        const { latest_chat,usersYouFollowed } = usePage<PageProps>().props.auth;
+        const { otherUsers} = usePage<PageProps>().props;
 
+        const getProfileLink:any = (username?: string, otherUsername?:string,otherId?:number) => {
+            if(username){
+                return username ? window.route('showProfile', username) : window.route('updateProfile');
+            }else if(otherUsername) {
+                return otherUsername ?? window.route('showProfile', otherUsername);
+            } else if(otherId) {
+                return otherId ?? window.route('showProfileById', otherId)
+            }
+        };
   return (
-    <div className="home bg-gray-400/45 min-h-screen">
+    <div className="home bg-gray-400/45 min-h-screen bg-scroll">
         <ToastContainer/>
         <div className="clean-fistRow bg-black flex items-center justify-between max-sm:py-2 px-4 sm:px-8"style={{position: "sticky",
             top: 0,
@@ -198,12 +204,71 @@ const CleanHomeLayout = ({
 
                 {/* Stories  */}
 
-                {story}
-
-
-                {/* posts  */}
                 <div className="main flex-grow">
-                    {children}
+                    <div className="chat-ui min-h-[82vh] -mt-1 grid grid-cols-2 gap-4">
+                        <div className="first-col bg-gray-100 rounded-lg px-4 py-2">
+                            <div className=" sticky top-20">
+                                <div className="header flex items-center justify-between">
+                                    <div className="profile flex items-center gap-2">
+                                        <div className="posts-users-icon w-11 h-11 p-[2.5px] bg-[#c7ae6a] rounded-full relative flex justify-end">
+                                                <img className="object-cover object-bottom rounded-full w-10 h-full" src={user.profile_image} alt="" />
+                                            <Link href={getProfileLink(user.username)}>
+                                                <ProfileImage image={user.profile_image} />
+                                            </Link>
+                                            {user.active_status ?(<div className="bg-green-500 w-[10px] h-[10px] border-[1.5px] border-white rounded-full absolute bottom-[2px] right-[1px]"></div>):""}
+                                        </div>
+                                        <div className="username flex items-center gap-1">
+                                            {(user.username)?user.username:`${user.first_name} ${user.middle_name?user.middle_name:""} ${user.last_name}`}
+                                            <i className="ri-arrow-down-s-line text-xl font-light"></i>
+                                        </div>
+                                    </div>
+                                    <i className="ri-settings-5-fill text-[#b99a45] text-2xl"></i>
+                                </div>
+
+                                {/* Chat Box */}
+                                <div className="chat-box py-2">
+                                    <div className="chat-category flex gap-5 px-2 py-2 border-b-2 border-gray-200 mb-2 text-[15px]">
+                                        <h1 className="bg-gray-200/90 cursor-pointer hover:bg-gray-300/80 px-5 py-1 rounded-full">Inbox</h1>
+                                        <h1 className="bg-gray-200/90 cursor-pointer hover:bg-gray-300/80 px-5 py-1 rounded-full">Communities</h1>
+                                    </div>
+
+                                    {/* Chat Item */}
+                                    {usersYouFollowed.map((otherUser:any)=>(
+                                        <div key={otherUser.id} className="chat-item mt-2">
+                                            <a href={`/chatss/sanjal/${otherUser.id}`} className="chat-profile cursor-pointer px-2 py-2 bg-gray-100 hover:bg-[#e3d6b4] rounded-xl flex gap-2 leading-tight items-center">
+                                                {/* <a href={`chatss/sanjal/${otherUser.id}`}> */}
+                                                    <div className="chat-icon w-11 h-11 p-[2px] bg-[#c7ae6a] rounded-full relative">
+                                                        {otherUser.active_status?(
+                                                        <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
+                                                            <div className="active-status h-[6px] w-[6px] bg-green-500 rounded-full"></div>
+                                                        </div>):""}
+                                                        <img className="object-cover object-center rounded-full w-full h-full" src={otherUser.profile_image} alt="" />
+                                                    </div>
+                                                {/* </a> */}
+                                                <div className="chat-details">
+                                                    <strong className="text-[13px] font-semibold">{otherUser.first_name} {otherUser.middle_name} {otherUser.last_name}</strong>
+                                                    {(latest_chat?.sender_id==otherUser.id &&
+                                                    <span>
+                                                        {latest_chat.media ? (
+                                                            <p className="text-[12px]">{`${otherUser.first_name} sent an attachment`}</p>
+                                                        ):(
+                                                            <p className="text-[12px]">{latest_chat.text_field??latest_chat.text_field}</p>
+                                                        )}
+                                                        </span>
+                                                    )}
+                                                </div>
+                                            </a>
+                                        </div>
+                                        ))}
+                                </div>
+                            </div>
+                        </div>
+
+                        <div className="second-col bg-gray-100 rounded-lg h-">
+                            {children}
+                        </div>
+                    </div>
+
                 </div>
 
             </div>
@@ -213,4 +278,4 @@ const CleanHomeLayout = ({
   )
 }
 
-export default CleanHomeLayout;
+export default ChatsLayout

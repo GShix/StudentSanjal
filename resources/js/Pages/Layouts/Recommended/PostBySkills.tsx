@@ -22,7 +22,7 @@ const PostBySkills = () => {
       if (page === 1) {
         setRecommendedPosts(response.data.recommendedPosts);
       }
-      setRemainingPosts((prevPosts) => [
+      setRemainingPosts((prevPosts):any => [
         ...prevPosts,
         ...response.data.remainingPosts.data, // Append new posts
       ]);

@@ -60,8 +60,8 @@ class ChatController extends Controller
         })->with('sender:id,username', 'receiver:id,username')
           ->get();
 
-        return response()->json(['chats' => $chats]);
-
+        // return response()->json(['chats' => $chats]);
+        Inertia::render('Chats/StartChats',['chats'=>$chats]);
         // return back()->compact('chats');
     }
 

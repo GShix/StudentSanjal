@@ -8,6 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\ChatController;
 use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\EventController;
+use App\Http\Controllers\Admin\SanjalController;
 use App\Http\Controllers\User\FrontendController;
 use App\Http\Controllers\User\PostLikeController;
 use App\Http\Controllers\User\SavePostController;
@@ -87,6 +88,11 @@ Route::middleware('auth')->group(function () {
     Route::get('event-detail/{event:title}', [EventController::class,'eventDetail'])->name('event.detail');
 
     Route::get('recommendation/by-skills', [RecommendationController::class,'getRecommendedPostsBySkills'])->name('recommended.bySkills');
+
+
+
+    Route::get('/chatss',[SanjalController::class, 'index'])->name('chatss');
+    Route::get('chatss/sanjal/{id:friendId}', [SanjalController::class, 'startChat']);
 
 });
 Route::get('students/verify',[StudentVerificationController::class,'index'])->name('student.verify');

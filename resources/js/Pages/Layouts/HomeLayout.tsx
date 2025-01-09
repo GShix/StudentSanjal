@@ -105,7 +105,7 @@ const HomeLayout = ({
                         </a>
                     </div>
                     <div className="Mynetwork-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
-                        <a href={window.route('chat')} className="flex flex-col items-center">
+                        <a href={window.route('chatss')} className="flex flex-col items-center">
                             <i className="ri-chat-private-line  "></i>
                             <span className="block text-xs leading-none">Chat</span>
                         </a>
@@ -121,7 +121,7 @@ const HomeLayout = ({
                     !searchInput && (
                         <div className="mobile-navbar md:hidden flex gap-5">
                             <div className="Chat-btn bg-transparent text-gray-200 hover:text-[#c7ae6a]">
-                                <a href={window.route('chat')} className="flex flex-col items-center">
+                                <a href={window.route('chatss')} className="flex flex-col items-center">
                                     <i className="ri-chat-private-line text-base max-sm:text-3xl hover:text-clip"></i>
                                     <span className="block text-sm leading-none max-sm:hidden">Chat</span>
                                 </a>

@@ -187,7 +187,7 @@ const StartChat = () => {
     <CleanHomeLayout>
         <Head title="Chat" />
             {/* <div className="chat-ui max-h-screen min-h-[85vh] pb-3 -mt-1 grid grid-cols-2 gap-4 relative mt-40"> */}
-            <div className="chat-ui min-h-[85vh] pb-3 -mt-1 grid grid-cols-2 gap-4">
+            <div className="chat-ui min-h-[82vh] pb-3 -mt-1 grid grid-cols-2 gap-4">
                 <div className="first-col bg-gray-100 rounded-lg px-4 py-2">
                     {/* Header */}
                 <div className=" sticky top-20">
