@@ -18,7 +18,7 @@ class EventController extends Controller
     public function index()
     {
         $events = Event::latest()->get();
-        return Inertia::render('Events',['events'=>$events]);
+        return Inertia::render('Event/Events',['events'=>$events]);
     }
 
     public function store(StoreEventRequest $request)
@@ -27,10 +27,12 @@ class EventController extends Controller
         $validated= $request->validated();
         $validated['user_id'] =$user->id;
         // dd($validated);
-
         Event::create($validated);
 
-        return to_route('event.index')->with('success','Event created successfully');
+        return to_route('event.index')->with([
+            'success' => 'Event created successfully',
+            'createEvent' => false,
+        ]);
     }
 
     /**
@@ -41,7 +43,7 @@ class EventController extends Controller
         $user = Auth::user();
         $host = User::where('id',$event->user_id)->first();
         // dd($host);
-        return Inertia::render("EventDetail",[
+        return Inertia::render("Event/EventDetail",[
             'event'=>$event,
             'host'=>$host,
             'user'=>$user

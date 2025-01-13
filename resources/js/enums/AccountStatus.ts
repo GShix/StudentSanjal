@@ -2,7 +2,7 @@
 export enum AccountStatus
 {
     PENDING = "pending",
-    VERIFIED = "verified",
-    BLUE_TICK = "blueTick",
-    GOLD_TICK = "goldTick",
+    VERIFIED = "rejected",
+    BLUE_TICK = "blueBadge",
+    GOLD_TICK = "goldenBadge",
 }

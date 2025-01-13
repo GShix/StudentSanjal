@@ -30,7 +30,7 @@ class UserFactory extends Factory
             'last_name' => fake()->name(),
             'headline'=>static::$headline,
             'active_status' => fake()->boolean(),
-            'account_status' => fake()->randomElement(['pending', 'verified', 'blueTick', 'GoldTick']),
+            'account_status' => fake()->randomElement(['pending', 'rejected', 'blueBadge', 'goldenBadge']),
             'user_role' => fake()->randomElement(['user', 'admin']),
             'email' => fake()->unique()->safeEmail(),
             'email_verified_at' => now(),

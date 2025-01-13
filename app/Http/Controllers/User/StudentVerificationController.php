@@ -14,7 +14,7 @@ class StudentVerificationController extends Controller
     public function index()
     {
         $user = Auth::user();
-        if($user->account_status==='rejected' || 'blueTick'){
+        if($user->account_status==='rejected'){
             // return
             return Inertia::render('StudentVerificationPage');
         }

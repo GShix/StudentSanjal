@@ -137,7 +137,7 @@ class SanjalController extends Controller
 
             return back()->with('success', 'Message sent successfully');
         } catch (\Throwable $e) {
-            \Log::error('Chat send error: ' . $e->getMessage());
+            // \Log::error('Chat send error: ' . $e->getMessage());
             return back()->with('error', 'Failed to send message');
         }
     }

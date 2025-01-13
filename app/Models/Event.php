@@ -17,6 +17,8 @@ class Event extends Model
         'user_id',
         'event_image',
         'title',
+        'description',
+        'host_image',
         'host',
         'start_date',
         'end_date',
@@ -42,15 +44,26 @@ class Event extends Model
         }
     }
 
-    /**
-     * Get the full URL for the banner image.
-     *
-     * @return string
-     */
     public function getEventImageAttribute(): string
     {
         return $this->attributes['event_image']
             ? asset('storage/' . $this->attributes['event_image'])
+            : asset('assets/img/default_banner.png');
+    }
+
+    public function setHostImageAttribute($value): void
+    {
+        if ($value instanceof UploadedFile) {
+            $this->attributes['host_image'] = $value->store('events', 'public');
+        } elseif (is_string($value)) {
+            $this->attributes['host_image'] = $value;
+        }
+    }
+
+    public function getHostImageAttribute(): string
+    {
+        return $this->attributes['host_image']
+            ? asset('storage/' . $this->attributes['host_image'])
             : asset('assets/img/default_banner.png');
     }
 

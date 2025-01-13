@@ -29,14 +29,14 @@ class AdminController extends Controller
     }
     public function pendingGoldVerification()
     {
-        $pendingUsers = User::where('account_status','!=','goldTick')->get();
+        $pendingUsers = User::where('account_status','!=','goldenBadge')->get();
         // dd($pendingUsers);
         return Inertia::render('AdminPanel/User/PendingGoldVerification',compact('pendingUsers'));
     }
 
     public function goldVerified()
     {
-        $goldVerified = User::where('account_status','=','goldTick')->get();
+        $goldVerified = User::where('account_status','=','goldenBadge')->get();
         // dd($goldVerified);
         return Inertia::render('AdminPanel/User/GoldVerified',compact('goldVerified'));
     }

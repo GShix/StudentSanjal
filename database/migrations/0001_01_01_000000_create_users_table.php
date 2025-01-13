@@ -29,7 +29,7 @@ return new class extends Migration
             $table->boolean('profile_updated')->default(false);
             $table->enum('user_role',['user','admin'])->default('user');
             $table->boolean('active_status')->default(false);
-            $table->enum('account_status', ['pending', 'verified', 'blueTick', 'goldTick'])->default('pending');
+            $table->enum('account_status', ['pending', 'rejected', 'blueBadge', 'goldenBadge'])->nullable();
             $table->rememberToken();
             $table->timestamps();
         });

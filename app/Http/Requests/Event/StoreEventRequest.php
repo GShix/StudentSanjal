@@ -24,9 +24,11 @@ class StoreEventRequest extends FormRequest
         return [
             'event_image'=>['required','mimes:png,jpg,jpeg,gif'],
             'title'=>['required','string'],
+            'description'=>['required','string'],
+            'host_image'=>['required','mimes:png,jpg,jpeg,gif'],
             'host'=>['required','string'],
             'start_date'=>['required','string'],
-            'end_date'=>['required','string'],
+            'end_date'=>['nullable','string'],
             'attendees'=>['nullable','string'],
             'entry_type'=>['required','string'],
             'entry_fee'=>['nullable','integer'],

@@ -461,7 +461,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         className="max-w-xl mt-4"
                     />
                 </div>
-            ) : user.account_status==='goldTick' ? (
+            ) : user.account_status==='goldBadge' ? (
                 <div>
                     <h2 className='text-lg font-medium text-gray-900 inline-block mr-1'>Verification Status:</h2>
                     <span className=''>Golden Badge</span>

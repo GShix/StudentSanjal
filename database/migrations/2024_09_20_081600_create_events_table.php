@@ -16,6 +16,8 @@ return new class extends Migration
             $table->integer('user_id');
             $table->string('event_image');
             $table->string('title');
+            $table->string('description');
+            $table->string('host_image');
             $table->string('host');
             $table->string('start_date');
             $table->string('end_date')->nullable();

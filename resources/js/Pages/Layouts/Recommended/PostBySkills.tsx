@@ -130,7 +130,7 @@ const PostBySkills = () => {
                                                 <strong className="text-sm leading-tight font-semibold block hover:underline">{post.user.first_name} {post.user.middle_name} {post.user.last_name}</strong>
                                             </Link>
                                             {/* {user.} */}
-                                            <i title="Golden Badge" className={`ri-verified-badge-fill text-[#b99a45] text- leading-none ${post.user.account_status=='goldTick'?'block':'hidden'}`}></i>
+                                            <i title="Golden Badge" className={`ri-verified-badge-fill text-[#b99a45] text- leading-none ${post.user.account_status=='goldenBadge'?'block':'hidden'}`}></i>
                                         </div>
                                         <div className="flex items-center gap-2">
                                             <span className="text-[12px] inline-block">

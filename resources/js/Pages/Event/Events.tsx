@@ -1,13 +1,15 @@
 import { Head, Link, useForm, usePage } from "@inertiajs/react"
-import CleanHomeLayout from "./Layouts/CleanHomeLayout"
-import Sidebar from "./Layouts/partials/Sidebar"
 import { Fragment } from "react/jsx-runtime"
 import { FormEventHandler, useState } from "react"
 import { PageProps } from "@/types"
+import CleanHomeLayout from "../Layouts/CleanHomeLayout";
+import Sidebar from "../Layouts/partials/Sidebar";
 
 interface FormData {
     event_image: File | null;
     title: string;
+    description: string;
+    host_image: File | null;
     host: string;
     start_date: string;
     end_date: string;
@@ -22,6 +24,8 @@ const Events = () => {
     const { data, setData, post,reset, errors, processing, recentlySuccessful,setError } = useForm<FormData>({
         event_image: null,
         title:"",
+        description:"",
+        host_image: null,
         host:"",
         start_date:"",
         end_date:"",
@@ -30,8 +34,8 @@ const Events = () => {
         venue:"",
         entry_fee:0
       });
-      const [imagePreviewUrl, setImagePreviewUrl] = useState<string | null>(null);
-      const handleImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+      const [eventImagePreviewUrl, setEventImagePreviewUrl] = useState<string | null>(null);
+      const handleEventImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
         const file = e.target.files ? e.target.files[0] : null;
         if (file) {
           setData('event_image', file);
@@ -39,7 +43,21 @@ const Events = () => {
           // Create a FileReader to generate the preview URL
           const reader = new FileReader();
           reader.onloadend = () => {
-            setImagePreviewUrl(reader.result as string); // Store the URL for image preview
+            setEventImagePreviewUrl(reader.result as string); // Store the URL for image preview
+          };
+          reader.readAsDataURL(file); // Read the image file
+        }
+      };
+      const [hostImagePreviewUrl, setHostImagePreviewUrl] = useState<string | null>(null);
+      const handleHostImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+        const file = e.target.files ? e.target.files[0] : null;
+        if (file) {
+          setData('host_image', file);
+
+          // Create a FileReader to generate the preview URL
+          const reader = new FileReader();
+          reader.onloadend = () => {
+            setHostImagePreviewUrl(reader.result as string); // Store the URL for image preview
           };
           reader.readAsDataURL(file); // Read the image file
         }
@@ -103,14 +121,14 @@ const Events = () => {
                                 <div className="event_image col-span-full md:col-span-1 mb-2">
                                     <label className='font-medium text-sm' htmlFor="event_image">Event Image:<sup className="text-red-500">*</sup></label>
                                     <div className="image flex gap-20">
-                                        <input className="ml-2 h-9 mt-1 text-sm" type="file" name="event_image" id="event_image" onChange={handleImageChange}/>
+                                        <input className="ml-2 h-9 mt-1 text-sm w-40" type="file" name="event_image" id="event_image" onChange={handleEventImageChange}/>
                                     </div>
                                     <p className="text-red-500 text-xs">{errors.event_image}</p>
                                 </div>
                                 <div className="image-preview h-20 col-span-full md:col-span-1 mb-5">
                                     <label htmlFor="">Image Preview:</label>
-                                    {imagePreviewUrl ? (
-                                        <img className="h-full w-fit mt-1" src={imagePreviewUrl} alt="Image Preview" />
+                                    {eventImagePreviewUrl ? (
+                                        <img className="h-full w-fit mt-1" src={eventImagePreviewUrl} alt="Image Preview" />
                                     ) : (
                                         <p className="text-sm">No image selected</p> // Fallback if no image is selected
                                     )}
@@ -120,6 +138,31 @@ const Events = () => {
                                     <input className="ml-2 h-9 rounded-md text-sm" type="text" name="title" id="title" placeholder="Enter event title"
                                     value={data.title}
                                     onChange={(e)=>setData('title',e.target.value)}/>
+                                </div>
+
+                                <div className="description col-span-full ">
+                                    <label className='font-medium text-sm' htmlFor="description">Event Description:<sup className="text-red-500">*</sup></label> <br></br>
+                                    <textarea className="ml-2 rounded-md text-sm "  name="description" cols={50} rows={5} id="description" placeholder="Enter event description"
+                                    value={data.description}
+                                    onChange={(e)=>setData('description',e.target.value)}/>
+                                </div>
+
+                                <div className="host_image col-span-full md:col-span-1 mb-2">
+                                    <label className='font-medium text-sm' htmlFor="host_image">Host Image:<sup className="text-red-500">*</sup></label>
+                                    <div className="image flex gap-20">
+                                        <input className="ml-2 h-9 mt-1 text-sm w-40" type="file" name="host_image" id="host_image" onChange={handleHostImageChange}/>
+                                    </div>
+                                    <p className="text-red-500 text-xs">{errors.host_image}</p>
+                                </div>
+                                <div className="image-preview h-20 col-span-full md:col-span-1 mb-5">
+                                    <label htmlFor="">Image Preview:</label>
+                                    {hostImagePreviewUrl ? (
+                                        <div className="h-full w-20">
+                                            <img className="h-full w-full mt-1 rounded-full" src={hostImagePreviewUrl} alt="Image Preview" />
+                                        </div>
+                                    ) : (
+                                        <p className="text-sm">No image selected</p> // Fallback if no image is selected
+                                    )}
                                 </div>
                                 <div className="host col-span-full md:col-span-1">
                                     <label className='font-medium text-sm' htmlFor="host">Host:<sup className="text-red-500">*</sup></label>
@@ -134,7 +177,7 @@ const Events = () => {
                                     onChange={(e)=>setData('start_date',e.target.value)}/>
                                 </div>
                                 <div className="end_date md:col-span-1 col-span-full">
-                                    <label className='font-medium text-sm' htmlFor="end_date">End date:<sup className="text-red-500">*</sup></label>
+                                    <label className='font-medium text-sm' htmlFor="end_date">End date:</label>
                                     <input className="ml-2 h-9 rounded-md text-xs" type="date" name="end_date" id="end_date"
                                     value={data.end_date}
                                     onChange={(e)=>setData('end_date',e.target.value)}/>

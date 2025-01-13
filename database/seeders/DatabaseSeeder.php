@@ -27,7 +27,6 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Gurung',
             'headline' => 'Mid Developer | Founder at NyanoGhar ',
             'active_status' => true,
-            'account_status' => 'verified',
             'user_role' => 'user',
             'email' => 'manish@manish.com',
         ]);
@@ -37,7 +36,6 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Gharti',
             'headline' => 'Laravel Developer | Reactjs',
             'active_status' => true,
-            'account_status' => 'verified',
             'user_role' => 'user',
             'email' => 'dambar@dambar.com',
         ]);
@@ -46,7 +44,7 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Khadka',
             'headline' => 'Python Developer | HTML, CSS',
             'active_status' => true,
-            'account_status' => 'verified',
+            'account_status' => 'rejected',
             'user_role' => 'user',
             'email' => 'amar@amar.com',
         ]);
@@ -56,7 +54,6 @@ class DatabaseSeeder extends Seeder
             'last_name' => 'Thakuree',
             'headline' => 'Python Developer | Data Sceience | ML',
             'active_status' => true,
-            'account_status' => 'verified',
             'user_role' => 'user',
             'email' => 'shishir@shishir.com',
         ]);
