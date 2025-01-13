@@ -54,7 +54,7 @@ class PostController extends Controller
     {
         $user = $request->user();
         $followingIds =$user? ConnectionCircle::where('user_id', $user->id)
-        ->pluck('following')
+        ->pluck('connected_user_id')
         ->toArray():[];
 
         $latestPosts = Post::with('user','postInteractions')
@@ -87,8 +87,7 @@ class PostController extends Controller
     {
         $user = Auth::user();
         $followingIds = $user ? ConnectionCircle::where('user_id', $user->id)
-        ->whereNotNull('following')
-        ->pluck('following')
+        ->pluck('connected_user_id')
         ->toArray() : [];
 
 

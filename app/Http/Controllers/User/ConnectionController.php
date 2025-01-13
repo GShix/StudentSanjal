@@ -17,43 +17,50 @@ class ConnectionController extends Controller
     public function myNetwork(){
         return Inertia::render("MyNetwork");
     }
+
     public function follow($requestedId)
     {
         $user = Auth::user();
 
-        $userExist = ConnectionCircle::where('user_id', $user->id)
-        ->where('following', $requestedId)
-        ->first();
+        // Check if the connection exists in both directions (user following and requested user following back)
+        $existingConnection = ConnectionCircle::where(function($query) use ($user, $requestedId) {
+            $query->where('user_id', $user->id)
+                  ->where('connected_user_id', $requestedId);
+        })->orWhere(function($query) use ($user, $requestedId) {
+            $query->where('user_id', $requestedId)
+                  ->where('connected_user_id', $user->id);
+        })->first();
 
-        $requestedUserExist = ConnectionCircle::where('user_id', $requestedId)
-                            ->where('followers', $user->id)
-                            ->first();
+        if ($existingConnection) {
+            // If the connection exists, delete both records (unfollow)
+            ConnectionCircle::where('user_id', $user->id)
+                            ->where('connected_user_id', $requestedId)
+                            ->delete();
 
-        if($userExist && $requestedUserExist) {
-            // If both relations exist, delete them (unfollow)
-            $userExist->delete();
-            $requestedUserExist->delete();
+            ConnectionCircle::where('user_id', $requestedId)
+                            ->where('connected_user_id', $user->id)
+                            ->delete();
 
             return response()->json([
                 'success' => 'Unfollowed successfully',
-                'userExist' => false,  // Now false because the relationship is deleted
+                'userExist' => false,
                 'requestedUserExist' => false,
             ]);
         } else {
-            // If the relationships don't exist, create them (follow)
+            // If no connection exists, create them (follow)
             ConnectionCircle::create([
                 'user_id' => $user->id,
-                'following' => $requestedId
+                'connected_user_id' => $requestedId,
             ]);
 
             ConnectionCircle::create([
                 'user_id' => $requestedId,
-                'followers' => $user->id
+                'connected_user_id' => $user->id,
             ]);
 
             return response()->json([
                 'success' => 'Followed successfully',
-                'userExist' => true,  // Now true because the relationship is created
+                'userExist' => true,
                 'requestedUserExist' => true,
             ]);
         }

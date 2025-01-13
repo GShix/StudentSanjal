@@ -14,6 +14,7 @@ const PostBySkills = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
 // console.log(recommendedPosts)
+
   const loadPostsBySkills = async (page = 1) => {
     try {
       const response = await axios.get('/recommendation/by-skills', {
@@ -37,7 +38,11 @@ const PostBySkills = () => {
   }, []);
 
   // Handle "Show More" functionality
-  const handleShowMore = () => {
+//   const handleShowMore = () => {
+//     setCurrentPage((prevPage) => prevPage + 1);
+//     loadPostsBySkills(currentPage + 1);
+//   };
+  const followUser = () => {
     setCurrentPage((prevPage) => prevPage + 1);
     loadPostsBySkills(currentPage + 1);
   };
@@ -55,6 +60,7 @@ const PostBySkills = () => {
         }
         const response = await axios.post('/postComment/allComments',data)
        setAllComments(response.data.allComments);
+       loadPostsBySkills();
         } catch (error) {
             console.log("Error",error)
         }
@@ -67,6 +73,7 @@ const PostBySkills = () => {
         try {
             const response = await axios.post('/postLike/isLiked',data);
             setIsLiked(response.data.isLiked);
+            loadPostsBySkills();
         } catch (error) {
             console.error('Error liking the post', error);
         }
@@ -93,9 +100,10 @@ const PostBySkills = () => {
                 <div key={post.id} className="post bg-gray-100 rounded-xl px-3 mt-3 py-3 border border-gray-400/50">
                     <div className="remaining-posts flex justify-between px-1 pb-2 border-b border-gray-300 mb-2">
                         <h2 className='text-sm'>Recommended for you</h2>
-                        <button onClick={handleShowMore} className="show-more-btn text-sm">
-                        Show More
-                        </button>
+                        <div className='options flex gap-4'>
+                            <i className="ri-more-2-fill rotate-90 text-xl leading-none"></i>
+                            <i className="ri-close-line text-2xl cursor-pointer leading-none rounded-md p-1 hover:bg-gray-300/60" title='Hide' onClick={() => (post.id)}></i>
+                        </div>
                     </div>
                     {/* {postIdToRemove === post.id ? (
                         <div className="post-removal">
@@ -164,8 +172,11 @@ const PostBySkills = () => {
                                                 ):""}</>
                                             ):""}
                                         </div>*/}
-                                        <div className="post-option-btn">
-                                            <i className="ri-close-line text-xl cursor-pointer rounded-md p-1 hover:bg-gray-300/60" onClick={() => (post.id)}></i>
+                                        <div className="post-option-btn text-gray-800 hover:cursor-pointer hover:text-[#c7ae6a]">
+                                        <i className="ri-add-line text-lg font-semibold"></i>
+                                        <button onClick={followUser} className="follow-btn text-md mr-1 font-medium ">
+                                            Follow
+                                        </button>
                                         </div>
                                     </div>
                                 </div>

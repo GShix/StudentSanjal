@@ -38,17 +38,16 @@ const StartChatss = () => {
     });
 
     const { latest_chat,usersYouFollowed,user} = usePage<PageProps>().props.auth;
-    const { otherUsers,} = usePage<PageProps>().props;
+    const { otherUsers,chats} = usePage<PageProps>().props;
+
     const  requestedUser = usePage<PageProps>().props.requestedUser;
     const connectedUser = requestedUser[0];
-    console.log(connectedUser)
-    const [connectedFriend,setConnectedFriend] = useState<any>();
-    const [showMessage,setShowMessage] = useState(false);
+
+    // console.log(connectedUser)
+    const [showMessage,setShowMessage] = useState(true);
     const [showSearchInput,setShowSearchInput] = useState(false);
     const [showModal,setShowModal] = useState(false);
     const [modalKoMedia,setModalKoMedia] = useState();
-    // const [chats,setChats] = useState<ChatsData[]>([]);
-    const [chats,setChats] = useState([]);
 
     const [showEmojiPicker, setShowEmojiPicker] = useState(false);
 
@@ -86,7 +85,7 @@ const StartChatss = () => {
         e.preventDefault();
         if (!data.text_field && !data.media) return;
 
-        post(window.route('chat.send'), {
+        post(window.route('chatss.send'), {
             onSuccess: () => {
                 setData({
                     text_field: '',
@@ -99,49 +98,43 @@ const StartChatss = () => {
     };
 
 
-    const [connectionStatus, setConnectionStatus] = useState('connecting');
+    // const [connectionStatus, setConnectionStatus] = useState('connecting');
 
-    useEffect(() => {
-        if (!user?.id) return;
+    // useEffect(() => {
+    //     if (!user?.id) return;
 
-        console.log('Subscribing to channel:', `student-sanjal.${user.id}`);
+    //     console.log('Subscribing to channel:', `student-sanjal.${user.id}`);
 
-        const channel = window.Echo.private(`student-sanjal.${user.id}`);
+    //     const channel = window.Echo.private(`student-sanjal.${user.id}`);
 
-        // Debug subscription
-        channel.subscribed(() => {
-            console.log('Successfully subscribed to channel');
-            setConnectionStatus('connected');
-        });
+    //     // Debug subscription
+    //     channel.subscribed(() => {
+    //         console.log('Successfully subscribed to channel');
+    //         setConnectionStatus('connected');
+    //     });
 
-        channel.error((error: any) => {
-            console.error('Channel error:', error);
-            setConnectionStatus('error');
-        });
+    //     channel.error((error: any) => {
+    //         console.error('Channel error:', error);
+    //         setConnectionStatus('error');
+    //     });
 
-        channel.listen('ChatSendEvent', (event: any) => {
-            console.log('Received message:', event);
-            setChats(prev => [...prev, event]);
+    //     channel.listen('ChatSendEvent', (event: any) => {
+    //         console.log('Received message:', event);
+    //         setChats(prev => [...prev, event]);
 
-            if ('Notification' in window && Notification.permission === 'granted') {
-                new Notification('New Message', {
-                    body: event.text_field
-                });
-            }
-        });
+    //         if ('Notification' in window && Notification.permission === 'granted') {
+    //             new Notification('New Message', {
+    //                 body: event.text_field
+    //             });
+    //         }
+    //     });
 
-        return () => {
-            channel.stopListening('ChatSendEvent');
-            window.Echo.leave(`student-sanjal.${user.id}`);
-        };
-    }, [user?.id]);
+    //     return () => {
+    //         channel.stopListening('ChatSendEvent');
+    //         window.Echo.leave(`student-sanjal.${user.id}`);
+    //     };
+    // }, [user?.id]);
 
-
-
-    const showMessageHandle = async(friend: any) => {
-        setConnectedFriend(requestedUser);
-        setShowMessage(true);
-    };
 
     const handleModal = (media:any)=>{
         setShowModal(true);
@@ -189,7 +182,7 @@ const StartChatss = () => {
   return (
     <ChatsLayout>
         <Head title="Chats"/>
-        {(connectedUser) && (
+        {(connectedUser && showMessage) && (
         <div className="open-chatter relative h-100 z-10">
             <div className="header border-b-2 rounded-t-lg bg-gray-100 border-gray-200 flex items-center justify-between sticky top-16">
                 <div className="chat-profile cursor-pointer px-4 py-2 rounded-t-lg flex gap-2 leading-tight items-center">
@@ -201,14 +194,14 @@ const StartChatss = () => {
                         <ProfileImage image={connectedUser.profile_image} className="object-cover object-center rounded-full w-full h-full"/>
                     </div>
                     <div className="chat-details">
-                        <Link href={getProfileLink(connectedUser.username)}>
+                        {/* <Link href={getProfileLink(connectedUser.username)}> */}
                             <strong className="text-sm font-semibold">
                                 {connectedUser.first_name} {connectedUser.middle_name || ''} {connectedUser.last_name}
                             </strong>
                             <p className="text-xs">
                                 {connectedUser.active_status ? "Active Now" : "Offline"}
                             </p>
-                        </Link>
+                        {/* </Link> */}
                     </div>
                 </div>
                 <div className="serachmaa-action flex items-center gap-5">
@@ -221,10 +214,6 @@ const StartChatss = () => {
                     {!showSearchInput && (<i className="ri-search-line text-lg cursor-pointer mr-2 hover:text-gray-600" onClick={()=>setShowSearchInput(true)}></i>)}
                     <i className="ri-close-fill mr-4 text-xl cursor-pointer rounded-full hover:text-gray-600" onClick={()=>setShowMessage(false)}></i>
                 </div>
-            </div>
-            <div className="p-4 border-b">
-                {/* <h2>{connectedFriend.username}</h2> */}
-                {connectionStatus && <span className="text-green-500 text-sm">Connected</span>}
             </div>
             {showEmojiPicker && (
                 <div className="emoji-picker fixed text-sm">

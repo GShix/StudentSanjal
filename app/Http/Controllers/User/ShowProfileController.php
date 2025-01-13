@@ -36,20 +36,6 @@ class ShowProfileController extends Controller
 
         $remainingCount = $followers->count() - $firstTwoFollowers->count();
 
-        // // Format the follower names
-        // $followerNames = $firstTwoFollowers->pluck('first_name')->toArray();
-        // if ($remainingCount > 0) {
-        //     $followerNames[] = $remainingCount . ' others';
-        // }
-
-        // $followerText = 'Followed by ' . implode(' and ', $followerNames);
-
-        // dd($followers);
-        // $followers = User::whereIn('id', function ($query) use ($user) {
-        //     $query->select('user_id')
-        //           ->from('connection_circles')
-        //           ->where('followers', $user->id);
-        // })->get();
         if (!$user->profile_updated) {
             return redirect()->window.route('showProfile')->with('warning',"Must update your profile");
         }

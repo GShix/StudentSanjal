@@ -40,51 +40,57 @@ class HandleInertiaRequests extends Middleware
     {
         $user = $request->user();
 
+        // Fetch skills
         $skills = Skill::latest()->get();
 
+        // Fetch users followed by the current user
         $followingIds = $user ? ConnectionCircle::where('user_id', $user->id)
-                        ->whereNotNull('following')
-                        ->pluck('following')
-                        ->toArray() : [];
+                            ->where('connection_type', 'following')
+                            ->pluck('connected_user_id')
+                            ->toArray() : [];
 
+        $usersYouFollowed = $user ? User::whereIn('id', $followingIds)
+                                ->where('id', '!=', $user->id)
+                                ->get() : [];
 
-        $usersYouFollowed =$user? User::whereIn('id', $followingIds)
-                        ->where('id', '!=', $user->id)
-                        ->get():[];
+        // Fetch users not followed by the current user
+        $usersNotFollowed = $user ? User::whereNotIn('id', $followingIds)
+                                ->where('id', '!=', $user->id)
+                                ->take(3)
+                                ->get() : [];
 
-        $usersNotFollowed =$user? User::whereNotIn('id', $followingIds)
-                    ->where('id', '!=', $user->id)
-                    ->take(3)
-                    ->get():[];
+        // Include current user ID in the list of following IDs
+        $followingIds[] = $user ? $user->id : null;
 
-        $followingIds[] = $user?$user->id:'';
+        // Fetch latest posts from followed users
         $latestPosts = Post::with('user')
-                    ->whereIn('user_id', $followingIds)
-                    ->latest()
-                    ->take(5)
-                    ->get();
+                        ->whereIn('user_id', $followingIds)
+                        ->latest()
+                        ->take(5)
+                        ->get();
 
-        $savedPostIds = $user ? SavedPost::where('user_id', $user->id)->get() : [];
+        // Fetch saved posts for the current user
+        $savedPostIds = $user ? SavedPost::where('user_id', $user->id)->pluck('post_id')->toArray() : [];
+
+        // Build shared data
         return [
             ...parent::share($request),
             'auth' => [
                 'user' => $user,
                 'latest_chat' => $user
-                                ? Chat::where('receiver_id', $user->id)->latest()->first() ?? null
-                                : null,
+                    ? Chat::where('receiver_id', $user->id)->latest()->first() ?? null
+                    : null,
                 'latest_note' => $user
-                                ? Note::where('user_id', $user->id)->latest()->first()
-                                : null,
-                'recommendingUsers' =>$usersNotFollowed,
-                'usersYouFollowed'=>$usersYouFollowed,
-                'savedPosts'=>$savedPostIds
-                // 'postsLikedByYou'=>$postsLikedByYou
+                    ? Note::where('user_id', $user->id)->latest()->first()
+                    : null,
+                'recommendingUsers' => $usersNotFollowed,
+                'usersYouFollowed' => $usersYouFollowed,
+                'savedPosts' => $savedPostIds,
             ],
-            'skills'=>$skills,
-            'latest_posts'=>$latestPosts,
-            // 'latest_comment'=>$latest_comment,
+            'skills' => $skills,
+            'latest_posts' => $latestPosts,
             'flash' => [
-            'success' => $request->session()->get('success'),
+                'success' => $request->session()->get('success'),
             ],
         ];
     }

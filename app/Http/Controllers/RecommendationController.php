@@ -1,4 +1,5 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use App\Models\Post;
@@ -8,8 +9,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Auth;
 
 class RecommendationController extends Controller
-{
-    public function getRecommendedPostsBySkills(Request $request)
+{public function getRecommendedPostsBySkills(Request $request)
     {
         $user = Auth::user();
         if (!$user) {
@@ -17,13 +17,14 @@ class RecommendationController extends Controller
         }
 
         $userSkills = $user->skill_id ?? [];
+
         if (empty($userSkills)) {
             return response()->json(['message' => 'No skills found for the user'], 404);
         }
 
-        // Users with similar skills
+        // Users with similar skills, excluding the authenticated user
         $matchingUsers = DB::table('users')
-            ->where('id', '!=', $user->id)
+            ->where('id', '!=', $user->id) // Exclude the authenticated user
             ->where(function ($query) use ($userSkills) {
                 foreach ($userSkills as $skill) {
                     $query->orWhereJsonContains('skill_id', $skill);
@@ -31,16 +32,21 @@ class RecommendationController extends Controller
             })
             ->pluck('id'); // Get matching user IDs
 
-        // dd($matchingUsers->toArray());
-
+        // dd($matchingUsers);
+        // Recommended posts from matching users
         $recommendedPosts = Post::whereHas('user', function ($query) use ($matchingUsers) {
             $query->whereIn('id', $matchingUsers);
-        })->with('user')->take(1)->get(); // Only top 3 posts
+        })
+            ->with('user')
+            ->take(2)->latest() // Fetch top 3 posts
+            ->get();
 
-        // Remaining posts (paginate for separate page)
+        // Remaining posts, excluding posts from matching users
         $remainingPosts = Post::whereDoesntHave('user', function ($query) use ($matchingUsers) {
             $query->whereIn('id', $matchingUsers);
-        })->with('user')->paginate(5); // Paginate remaining posts
+        })
+            ->with('user')
+            ->paginate(5); // Paginate remaining posts
 
         return response()->json([
             'recommendedPosts' => $recommendedPosts,
@@ -48,5 +54,4 @@ class RecommendationController extends Controller
             'userSkills' => $userSkills,
         ]);
     }
-
 }

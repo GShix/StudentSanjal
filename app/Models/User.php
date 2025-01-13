@@ -184,14 +184,12 @@ class User extends Authenticatable
     // }
     public function following()
     {
-        return $this->hasMany(ConnectionCircle::class, 'user_id', 'id')
-                    ->whereNotNull('following');
+        return $this->hasMany(ConnectionCircle::class);
     }
 
     // Relationship to handle users following this user
     public function followers()
     {
-        return $this->belongsToMany(User::class, 'connection_circles', 'user_id', 'followers')
-        ->whereNull('connection_circles.deleted_at');
+        return $this->belongsToMany(User::class, 'connection_circles', 'user_id');
     }
 }

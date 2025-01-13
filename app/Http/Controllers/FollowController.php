@@ -15,37 +15,84 @@ class FollowController extends Controller
      * @param int $requestedId The ID of the user to be followed/unfollowed.
      * @return \Illuminate\Http\JsonResponse
      */
+    // public function toggleFollow($requestedId)
+    // {
+    //     $authUser = Auth::user();
+    //     // dd($requestedId);
+
+    //     // Check if the authenticated user is already following the requested user
+    //     $isFollowing = $authUser->following()->where('connected_user_id', $requestedId)->exists();
+
+    //     dd($isFollowing);
+    //     if ($isFollowing) {
+    //         // If already following, unfollow (delete the relationship)
+    //         ConnectionCircle::where('user_id', $authUser->id)
+    //             ->where('connected_user_id', $requestedId)
+    //             ->delete();
+
+    //         // Optionally, remove the 'followers' entry for symmetry
+    //         ConnectionCircle::where('user_id', $requestedId)
+    //             ->where('followers', $authUser->id)
+    //             ->delete();
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'message' => 'Unfollowed successfully',
+    //             'isFollowing' => false,
+    //         ]);
+    //     } else {
+    //         // If not following, create a follow relationship
+    //         ConnectionCircle::create([
+    //             'user_id' => $authUser->id,
+    //             'connected_user_id' => $requestedId,
+    //         ]);
+
+    //         return response()->json([
+    //             'success' => true,
+    //             'message' => 'Followed successfully',
+    //             'isFollowing' => true,
+    //         ]);
+    //     }
+    // }
     public function toggleFollow($requestedId)
     {
         $authUser = Auth::user();
 
+        if (!$authUser) {
+            return response()->json(['error' => 'User not authenticated'], 401);
+        }
+
         // Check if the authenticated user is already following the requested user
-        $isFollowing = $authUser->following()->where('following', $requestedId)->first();
+        $existingRecord = ConnectionCircle::withTrashed()
+            ->where('user_id', $authUser->id)
+            ->where('connected_user_id', $requestedId)
+            ->first();
 
-        if ($isFollowing) {
-            // If already following, unfollow (delete the relationship)
-            $isFollowing->delete();
+        if ($existingRecord) {
+            if ($existingRecord->trashed()) {
+                // If the record is soft-deleted, restore it
+                $existingRecord->restore();
 
-            // Optionally, remove the 'followers' entry for symmetry
-            ConnectionCircle::where('user_id', $requestedId)
-                ->where('followers', $authUser->id)
-                ->delete();
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Followed successfully (restored)',
+                    'isFollowing' => true,
+                ]);
+            } else {
+                // If already following, unfollow (delete the relationship)
+                $existingRecord->delete();
 
-            return response()->json([
-                'success' => true,
-                'message' => 'Unfollowed successfully',
-                'isFollowing' => false,
-            ]);
+                return response()->json([
+                    'success' => true,
+                    'message' => 'Unfollowed successfully',
+                    'isFollowing' => false,
+                ]);
+            }
         } else {
-            // If not following, create a follow relationship
+            // If no record exists, create a follow relationship
             ConnectionCircle::create([
                 'user_id' => $authUser->id,
-                'following' => $requestedId
-            ]);
-
-            ConnectionCircle::create([
-                'user_id' => $requestedId,
-                'followers' => $authUser->id
+                'connected_user_id' => $requestedId,
             ]);
 
             return response()->json([
@@ -67,7 +114,7 @@ class FollowController extends Controller
         $authUser = Auth::user();
 
         // Check if the authenticated user is following the user with the given ID
-        $isFollowing = $authUser->following()->where('following', $id)->exists();
+        $isFollowing = $authUser->following()->where('connected_user_id', $id)->exists();
 
         return response()->json([
             'isFollowing' => $isFollowing

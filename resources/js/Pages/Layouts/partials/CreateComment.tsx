@@ -41,6 +41,7 @@ const CreateComment = ({postId}:any) => {
                 loadLatestPost();
                 setShowAllComments(true);
                 setCreateComment(false);
+                loadLatestPost();
                 setComment('');
             }
         } catch (error) {

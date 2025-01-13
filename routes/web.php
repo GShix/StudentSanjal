@@ -72,11 +72,11 @@ Route::middleware('auth')->group(function () {
 
     // Route::patch('updateSkills/{id}',[ProfileController::class,'updateSkills'])->name('updateSkills');
 
-    Route::get('chat', [ChatController::class, 'index'])->name('chat');
+    // Route::get('chat', [ChatController::class, 'index'])->name('chat');
 
-    Route::get('/fetchChats/{friendId}', [ChatController::class, 'fetchChats']);
+    // Route::get('/fetchChats/{friendId}', [ChatController::class, 'fetchChats']);
 
-    Route::post('sendChat', [ChatController::class, 'sendChat'])->name('chat.send');
+    // Route::post('sendChat', [ChatController::class, 'sendChat'])->name('chat.send');
 
     Route::post('note', [NoteController::class, 'store'])->name('note.store');
 
@@ -93,6 +93,10 @@ Route::middleware('auth')->group(function () {
 
     Route::get('/chatss',[SanjalController::class, 'index'])->name('chatss');
     Route::get('chatss/sanjal/{id:friendId}', [SanjalController::class, 'startChat']);
+
+    Route::get('/fetchChats/{friendId}', [SanjalController::class, 'fetchChats']);
+
+    Route::post('/sendChat', [SanjalController::class, 'sendChat'])->name('chatss.send');
 
 });
 Route::get('students/verify',[StudentVerificationController::class,'index'])->name('student.verify');
