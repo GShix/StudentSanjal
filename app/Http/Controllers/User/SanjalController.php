@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Admin;
+namespace App\Http\Controllers\User;
 
 use App\Models\Chat;
 use App\Models\User;
@@ -52,8 +52,8 @@ class SanjalController extends Controller
             'receiver_id' => $receiverId,
         ]);
 
-        $chatss =Chat::between($senderId, $receiverId)->latest()->get();
-        $this->chats = $chatss;
+        // $chatss =Chat::between($senderId, $receiverId)->latest()->get();
+        // $this->chats = $chatss;
 
 
         $requestedUser = User::with(['connectionCircle' => function ($query) {
@@ -78,10 +78,21 @@ class SanjalController extends Controller
             'receiver_id' => $receiverId,
         ]);
 
-        $chats = Chat::between($senderId, $receiverId)->latest()->get();
+        // $chats = Chat::between($senderId, $receiverId)
+        //         ->with('sender:id,username', 'receiver:id,username')
+        //         ->get();
+        $this->chats = Chat::where(function($query) use ($senderId, $receiverId) {
+            $query->where('sender_id', $senderId)
+                  ->where('receiver_id', $receiverId);
+        })->orWhere(function($query) use ($senderId, $receiverId) {
+            $query->where('sender_id', $receiverId)
+                  ->where('receiver_id', $senderId);
+        })->with('sender:id,username', 'receiver:id,username')
+          ->get();
+
 
         // return response()->json(['chats' => $chats]);
-        Inertia::render('Chats/StartChats',['chats'=>$chats]);
+        Inertia::render('Chats/StartChats',['chats'=>$this->chats]);
         // return back()->compact('chats');
     }
 
@@ -116,18 +127,15 @@ class SanjalController extends Controller
                 }
 
                 // dd('Connection ID:', $connectionId); // Debug connection ID
-                DB::enableQueryLog();
-                $chats = Chat::create([
+                $chats =Chat::create([
                     'connection_id' => $connectionId,
                     'sender_id' => $senderId,
                     'receiver_id' => $receiverId,
                     'text_field' => $validated['text_field'] ?? null,
                     'media' => $validated['media'] ?? null,
-                    'liked' => $validated['liked'] ?? false,
+                    'like' => $validated['like'] ?? null,
                 ]);
 
-                dd(DB::getQueryLog());
-                dd('Chat created:', $chats); // Debug created chat
             });
 
 

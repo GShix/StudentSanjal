@@ -1,9 +1,9 @@
-import { Head, usePage } from "@inertiajs/react"
+import { Head, Link, usePage } from "@inertiajs/react"
 import CleanHomeLayout from "../Layouts/CleanHomeLayout"
 import { PageProps } from "@/types"
 
 const EventDetail = () => {
-    const {event,host,user} = usePage<PageProps>().props;
+    const {event,host,user,alreadyRegistered} = usePage<PageProps>().props;
     // console.log(user,host.id)
   return (
     <CleanHomeLayout>
@@ -26,9 +26,6 @@ const EventDetail = () => {
                     <div className="event-image">
                         <img className="w-[90%]" src={event.event_image} alt="" />
                     </div>
-                    <div className="description mt-5">
-                       <h1 className="font-medium text-xl">Event Description: </h1> <p>{event.description}</p>
-                    </div>
                 </div>
                 <div className="2 col-span-full md:col-span-1 w-80">
                     <div className="groups flex gap-3 p-4 bg-gray-50 rounded-md">
@@ -44,6 +41,7 @@ const EventDetail = () => {
                         <div className="date flex items-center">
                             <i className="ri-time-fill text-lg mr-2"></i>
                             <span className="text-sm">{new Date(event.start_date).toDateString()}</span>
+                            <span className="text-sm">{(event.start_time)}</span>
                         </div>
                         {event.event_type==="virtual"?(
                             <div className="virtual-event text-sm flex items-start">
@@ -66,6 +64,18 @@ const EventDetail = () => {
                         </div>
                         )}
                     </div>
+                    <div className="event_link flex gap-3 py-4 px-3 mt-3 bg-gray-50 rounded-md">
+                        <div className="link">
+                            <div className="link-icon flex items-center gap-2">
+                                <i className="ri-external-link-fill text-lg"></i>
+                                <h1 className="font-medium text-sm">Event Link</h1>
+                            </div>
+                            <Link href={event.external_event_link} className="text-gray-500 text-sm underline flex-wrap">{event.external_event_link}</Link>
+                        </div>
+                    </div>
+                </div>
+                <div className="description mt-5">
+                    <h1 className="font-medium text-xl">Event Description: </h1> <p>{event.description}</p>
                 </div>
             </div>
             <div className="footer sm:h-20 bg-gray-50 px-6 py-2 border-t border-gray-300">
@@ -82,9 +92,13 @@ const EventDetail = () => {
                         <button className="px-4 py-[6.1px] sm:py-2 max-sm:text-sm border-[2px] outline-[#c7ae6a] rounded-md hover:bg-gray-200">Share</button>
                         <div className="div max-sm:text-sm">
                             {(host.id===user.id)?
-                                <button className="px-4 py-2 bg-[#c7ae6a] rounded-md hover:bg-[#b99a45] tracking-wider">Edit</button>
+                                <Link href={window.route('event.edit',event)} className="px-4 py-2 bg-[#c7ae6a] rounded-md hover:bg-[#b99a45] tracking-wider">Edit</Link>
                             :(
-                                <button className="px-4 py-2 bg-[#c7ae6a] rounded-md hover:bg-[#b99a45] tracking-wider">Join</button>
+                                alreadyRegistered?(
+                                    <p className="bg-[#b99a45] px-4 py-2 rounded-md">Joined</p>
+                                ):(
+                                <Link href={window.route('event.join',event)} className="px-4 py-2 bg-[#c7ae6a] rounded-md hover:bg-[#b99a45] tracking-wider">Join</Link>
+                                )
                             )}
                         </div>
                     </div>

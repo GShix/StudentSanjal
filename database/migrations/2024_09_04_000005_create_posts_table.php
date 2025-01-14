@@ -14,7 +14,7 @@ return new class extends Migration
         Schema::create('posts', function (Blueprint $table) {
             $table->id();
             $table->foreignId('user_id')->nullable()->constrained()->nullOnDelete();
-            $table->text('post_description')->nullable();
+            $table->longText('post_description')->nullable();
             $table->integer('post_like_count')->nullable();
             $table->integer('post_comment_count')->nullable();
             $table->string('media')->nullable();

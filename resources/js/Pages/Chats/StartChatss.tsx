@@ -37,8 +37,9 @@ const StartChatss = () => {
         like: '',
     });
 
-    const { latest_chat,usersYouFollowed,user} = usePage<PageProps>().props.auth;
+    const {user} = usePage<PageProps>().props.auth;
     const { otherUsers,chats} = usePage<PageProps>().props;
+    console.log(chats);
 
     const  requestedUser = usePage<PageProps>().props.requestedUser;
     const connectedUser = requestedUser[0];
@@ -81,20 +82,47 @@ const StartChatss = () => {
     //     }
     // }, [connectedFriend]);
 
-    const submitChat = (e:any) => {
+    const submitChat = async (e: any) => {
         e.preventDefault();
-        if (!data.text_field && !data.media) return;
 
-        post(window.route('chatss.send'), {
-            onSuccess: () => {
-                setData({
-                    text_field: '',
-                    media: null,
-                    like: '',
-                });
-                // fetchChats();
-            },
-        });
+        // Check if both fields are empty
+        if (!data.text_field && !data.media) {
+            console.error('Both text field and media are empty');
+            return;
+        }
+
+        try {
+            const response = await axios.post(window.route('chatss.send'), {
+                text_field: data.text_field,
+                media: data.media,
+                like: data.like,
+            });
+
+            // Handle success
+            // console.log('Chat submitted successfully:', response.data);
+
+            // Reset form data after successful submission
+            setData({
+                text_field: '',
+                media: null,
+                like: '',
+            });
+
+            // Optionally, call fetchChats if you want to refresh the chat list
+            // fetchChats();
+        } catch (error: any) {
+            // Handle error
+            if (error.response) {
+                // Server responded with a status other than 2xx
+                console.error('Error response from server:', error.response.data);
+            } else if (error.request) {
+                // No response received from server
+                console.error('No response received:', error.request);
+            } else {
+                // Something went wrong setting up the request
+                console.error('Error setting up request:', error.message);
+            }
+        }
     };
 
 
@@ -220,7 +248,11 @@ const StartChatss = () => {
                     <EmojiPicker height={300} width={300} onEmojiClick={handleEmojiClick} searchDisabled={true}/>
                 </div>
             )}
+
+
             <div className="message-items py-2 min-h-96" ref={chatContainerRef}>
+            {chats && (
+                <>
                 {chats.map((chat: any) => (
                     <div key={chat.id} className="chat-message-haru px-8">
                         <div className="message-info">
@@ -248,6 +280,8 @@ const StartChatss = () => {
                         </div>
                     </div>
                 ))}
+                </>
+            )}
             </div>
             {/* Modal */}
             {showModal && (

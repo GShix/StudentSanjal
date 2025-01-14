@@ -8,7 +8,7 @@ use App\Http\Controllers\ProfileController;
 use App\Http\Controllers\User\ChatController;
 use App\Http\Controllers\User\PostController;
 use App\Http\Controllers\User\EventController;
-use App\Http\Controllers\Admin\SanjalController;
+use App\Http\Controllers\User\SanjalController;
 use App\Http\Controllers\User\FrontendController;
 use App\Http\Controllers\User\PostLikeController;
 use App\Http\Controllers\User\SavePostController;
@@ -84,8 +84,13 @@ Route::middleware('auth')->group(function () {
 
     Route::get('events', [EventController::class,'index'])->name('event.index');
 
+    Route::get('events/create', [EventController::class,'create'])->name('event.create');
     Route::post('events/store', [EventController::class,'store'])->name('event.store');
     Route::get('event-detail/{event:title}', [EventController::class,'eventDetail'])->name('event.detail');
+    Route::get('events/edit/{event:title}', [EventController::class,'edit'])->name('event.edit');
+    Route::patch('events/update/{event:title}', [EventController::class,'update'])->name('event.update');
+    Route::get('events/join/{event:title}', [EventController::class,'join'])->name('event.join');
+    Route::post('events/register/{event:title}', [EventController::class,'register'])->name('event.register');
 
     Route::get('recommendation/by-skills', [RecommendationController::class,'getRecommendedPostsBySkills'])->name('recommended.bySkills');
 

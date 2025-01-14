@@ -93,16 +93,16 @@ class Chat extends Model
      * @param int $userId2
      * @return \Illuminate\Database\Eloquent\Builder
      */
-    public function scopeBetween($query, int $userId1, int $userId2)
-    {
-        return $query->where(function ($query) use ($userId1, $userId2) {
-            $query->where('sender_id', $userId1)
-                  ->where('receiver_id', $userId2);
-        })->orWhere(function ($query) use ($userId1, $userId2) {
-            $query->where('sender_id', $userId2)
-                  ->where('receiver_id', $userId1);
-        });
-    }
+    // public function scopeBetween($query, int $userId1, int $userId2)
+    // {
+    //     return $query->where(function ($query) use ($userId1, $userId2) {
+    //         $query->where('sender_id', $userId1)
+    //               ->where('receiver_id', $userId2);
+    //     })->orWhere(function ($query) use ($userId1, $userId2) {
+    //         $query->where('sender_id', $userId2)
+    //               ->where('receiver_id', $userId1);
+    //     })->orderBy('created_at', 'desc');;
+    // }
 
     /**
      * Scope: Retrieve chats for a specific connection.

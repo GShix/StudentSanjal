@@ -18,7 +18,7 @@ return new class extends Migration
             $table->foreignId('receiver_id')->constrained('users')->onDelete('cascade'); // Receiver user
             $table->text('text_field')->nullable(); // Chat message
             $table->string('media')->nullable(); // Media file URL
-            $table->boolean('liked')->default(false); // Indicates if the message was liked
+            $table->string('like')->nullable(); // Indicates if the message was like
             $table->softDeletes(); // Soft delete
             $table->timestamps();
         });

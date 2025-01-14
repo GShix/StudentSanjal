@@ -26,7 +26,9 @@ class Event extends Model
         'entry_type',
         'entry_fee',
         'event_type',
+        'address',
         'venue',
+        'external_event_link',
         'event_status'
     ];
 

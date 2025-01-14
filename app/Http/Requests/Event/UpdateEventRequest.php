@@ -28,12 +28,16 @@ class UpdateEventRequest extends FormRequest
             'host_image'=>['nullable','mimes:png,jpg,jpeg,gif'],
             'host'=>['nullable','string'],
             'start_date'=>['nullable','string'],
+            'start_time'=>['nullable','string'],
             'end_date'=>['nullable','string'],
+            'end_time'=>['nullable','string'],
             'attendees'=>['nullable','string'],
             'entry_type'=>['nullable','string'],
             'entry_fee'=>['nullable','integer'],
             'event_type'=>['nullable','string'],
+            'address'=>['nullable','string'],
             'venue'=>['nullable','string'],
+            'external_event_link'=>['nullable','string'],
             'event_status'=>['nullable','string'],
         ];
     }
