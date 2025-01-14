@@ -47,9 +47,20 @@ const Events = () => {
                             <h1 className='font-bold text-lg hover:underline flex flex-wrap'>{event.title}</h1>
                             </Link>
                             <p className='font-bold text-sm mt-1 text-gray-600'>Hosted By: {event.host}</p>
-                            <div className="date mt-2 text-base px-1">
-                                <i className="ri-calendar-schedule-fill mr-2"></i>
-                                <span>{event.start_date}</span>
+                            <div className="date mt-2 text-base px-1 flex">
+                                <div className="start-date">
+                                    <i className="ri-calendar-schedule-fill mr-2"></i>
+                                    <span>{event.start_date}</span>
+                                </div>
+                                {event.end_date && (
+                                <>
+                                    <div className="to mx-3 text-gray-700/95">-</div>
+                                    <div className="end-date">
+                                        <i className="ri-calendar-schedule-fill mr-2"></i>
+                                        <span>{event.end_date}</span>
+                                    </div>
+                                </>
+                                )}
                             </div>
                             <div className="flex gap-6 mt-2 px-1">
                                 <div className="attendees relative group">

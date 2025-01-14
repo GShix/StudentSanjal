@@ -81,7 +81,7 @@ const Join = () => {
                                 <div className="payment_screenshoot col-span-full md:col-span-1 mb-2">
                                     <label className='font-medium text-sm' htmlFor="payment_screenshoot">Screenshoot of Payment:<sup className="text-red-500">*</sup></label>
                                     <div className="image flex gap-20">
-                                        <input className="ml-2 h-9 mt-1 text-sm w-40" type="file" name="payment_screenshoot" id="payment_screenshoot" onChange={handlePaymentScreenshoot}/>
+                                        <input className="ml-2 h-9 mt-1 text-sm w-40" type="file" name="payment_screenshoot" id="payment_screenshoot" onChange={handlePaymentScreenshoot} required/>
                                     </div>
                                     <p className="text-red-500 text-xs">{errors.payment_screenshoot}</p>
                                 </div>

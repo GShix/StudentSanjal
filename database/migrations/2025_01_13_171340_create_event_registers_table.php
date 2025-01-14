@@ -18,7 +18,7 @@ return new class extends Migration
             $table->string('full_name');
             $table->string('email');
             $table->string('phone');
-            $table->string('payment_screenshoot');
+            $table->string('payment_screenshoot')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

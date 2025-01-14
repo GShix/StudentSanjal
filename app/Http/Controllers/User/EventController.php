@@ -89,8 +89,7 @@ class EventController extends Controller
         $event->save();
 
         return to_route('event.index')->with([
-            'success' => 'Event created successfully',
-            'createEvent' => false,
+            'success' => 'Registered successfully'
         ]);
     }
 

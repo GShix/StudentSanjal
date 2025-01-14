@@ -25,7 +25,7 @@ class StoreEventRegisterRequest extends FormRequest
             'full_name'=>['required','string'],
             'email'=>['required','string'],
             'phone'=>['nullable','string'],
-            'payment_screenshoot'=>['required','mimes:png,jpg,jpeg,gif'],
+            'payment_screenshoot'=>['nullable','mimes:png,jpg,jpeg,gif'],
         ];
     }
 }
