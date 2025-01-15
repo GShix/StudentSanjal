@@ -103,6 +103,8 @@ Route::middleware('auth')->group(function () {
 
     Route::post('/sendChat', [SanjalController::class, 'sendChat'])->name('chatss.send');
 
+    Route::get('send-email',[EventController::class, 'sendMail']);
+
 });
 Route::get('students/verify',[StudentVerificationController::class,'index'])->name('student.verify');
 Route::get('students/verify/uploads',[StudentVerificationController::class, 'create'])->name('student.verify.uploads');

@@ -8,8 +8,11 @@ use App\Models\Event;
 use Illuminate\Http\Request;
 use App\Models\EventRegister;
 use Illuminate\Support\Carbon;
+use App\Mail\EventRegistrationMail;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Mail;
+use App\Mail\EventRegisterConfirmationMail;
 use App\Http\Requests\Event\StoreEventRequest;
 use App\Http\Requests\Event\UpdateEventRequest;
 use App\Http\Requests\Event\StoreEventRegisterRequest;
@@ -88,9 +91,13 @@ class EventController extends Controller
         $event->attendees += 1;
         $event->save();
 
+        // $meetingLink = $event->external_event_link; // Assuming this is stored in the Event model
+        // Mail::to($user->email)->send(new EventRegistrationMail($event, $user, $meetingLink));
+
         return to_route('event.index')->with([
-            'success' => 'Registered successfully'
-        ]);
+            'success' => 'true',
+            'message' => 'Registered successfully. Meeting link has been sent to your email.'
+        ],201);
     }
 
     /**
@@ -119,4 +126,20 @@ class EventController extends Controller
     {
         //
     }
+
+    public function sendMail()
+    {
+        $to = "dambarsingghartimagar420@gmail.com";
+        $msg = "This is the email body content.";
+        $sub = "HIIIIIII";
+
+        // Send the email using the mailable
+        Mail::to($to)->send(new EventRegisterConfirmationMail($msg, $sub));
+
+        return response()->json([
+            'success' => true,
+            'message' => 'Mail sent successfully!',
+        ]);
+    }
+
 }

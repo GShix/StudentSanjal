@@ -3,6 +3,7 @@ import CleanHomeLayout from "../Layouts/CleanHomeLayout"
 import Sidebar from "../Layouts/partials/Sidebar"
 import { PageProps } from "@/types";
 import { FormEventHandler, useState } from "react";
+import TimePicker from "../Layouts/partials/TimePicker";
 
 interface FormData {
     event_image: File | null;
@@ -11,7 +12,9 @@ interface FormData {
     host_image: File | null;
     host: string;
     start_date: string;
+    start_time: string;
     end_date: string;
+    end_time: string;
     entry_type: string;
     event_type: string;
     address: string;
@@ -32,7 +35,9 @@ const Edit = () => {
         host_image: null,
         host:event?.host || "",
         start_date:event?.start_date || "",
+        start_time:event?.start_time || "",
         end_date:event?.end_date || "",
+        end_time:event?.end_time || "",
         entry_type:event?.entry_type || "",
         event_type:event?.event_type || "",
         address:event?.address || "",
@@ -71,7 +76,15 @@ const Edit = () => {
     }
     };
 
+    const [endDate,setEndDate] = useState(false);
+    const handleSetEndDate = ()=>{
+        setEndDate(!endDate);
+    }
     const submit: FormEventHandler = (e) => {
+        if(!endDate){
+            setData('end_date','');
+            setData('end_time','');
+        }
         e.preventDefault();
         // console.log(data)
         post(window.route('event.update',event));
@@ -106,7 +119,7 @@ const Edit = () => {
                                     <p className="text-sm">No image selected</p> // Fallback if no image is selected
                                 )}
                             </div>
-                            <div className="title col-span-full md:col-span-1">
+                            <div className="title col-span-full">
                                 <label className='font-medium text-sm' htmlFor="title">Title:<sup className="text-red-500">*</sup></label>
                                 <input className="ml-2 h-9 rounded-md text-sm" type="text" name="title" id="title" placeholder="Enter event title"
                                 value={data.title}
@@ -150,12 +163,66 @@ const Edit = () => {
                                 value={data.start_date}
                                 onChange={(e)=>setData('start_date',e.target.value)}/>
                             </div>
-                            <div className="end_date md:col-span-1 col-span-full">
-                                <label className='font-medium text-sm' htmlFor="end_date">End date:</label>
-                                <input className="ml-2 h-9 rounded-md text-xs" type="date" name="end_date" id="end_date"
-                                value={data.end_date}
-                                onChange={(e)=>setData('end_date',e.target.value)}/>
+                            <div className="start_time md:col-span-1 col-span-full">
+                                <TimePicker
+                                    title={'Start Time'}
+                                    onChange={(time: string) => {
+                                        // setStartTime(time);
+                                        setData('start_time', time); // Update the useForm data
+                                    }}
+                                    value={data.start_time}
+                                    format="h:mm"
+                                    disableClock={true}
+                                    className="h-9 rounded-md text-xs w-full"
+                                />
+                                {/* <div className="start_time flex items-center">
+                                    <label className="font-medium text-sm text-nowrap mr-2" htmlFor="start_time">
+                                        Start Time:<sup className="text-red-500">*</sup>
+                                    </label>
+                                    <input
+                                        type="time"
+                                        className="h-9 rounded-md text-xs w-full px-2"
+                                        value={data.start_time}
+                                        onChange={(e) => setData('start_time',e.target.value)}
+                                    />
+                                </div> */}
+                                <p className="text-red-500 text-xs">{errors.start_time}</p>
                             </div>
+                            <div className="set_end_date col-span-full">
+                                <input type="checkbox" name="set_end_date" checked={!!(endDate && data.end_date)}  onChange={() => handleSetEndDate()}/>
+                                <label className='font-medium text-sm ml-2 text-red-600' htmlFor="end_date">Set end date</label>
+                            </div>
+                            {endDate && (
+                            <>
+                                <div className="end_date md:col-span-1 col-span-full">
+                                    <label className='font-medium text-sm' htmlFor="end_date">End date:</label>
+                                    <input className="ml-2 h-9 rounded-md text-xs" type="date" name="end_date" id="end_date"
+                                    value={data.end_date}
+                                    onChange={(e)=>setData('end_date',e.target.value)}/>
+                                </div>
+                                <TimePicker
+                                    title={'End Time'}
+                                    onChange={(time: string) => {
+                                        // setEndTime(time);
+                                        setData('end_time', time); // Update the useForm data
+                                    }}
+                                    value={data.end_time}
+                                    format="h:mm a"
+                                    disableClock={true}
+                                    className="h-9 rounded-md text-xs w-full"
+                                />
+                                {/* <div className="end_time flex items-center">
+                                    <label className="font-medium text-sm text-nowrap mr-2" htmlFor="end_time">
+                                        End Time:<sup className="text-red-500">*</sup>
+                                    </label>
+                                    <input
+                                        type="time"
+                                        className="h-9 rounded-md text-xs w-full px-2"
+                                        value={data.end_time}
+                                        onChange={(e) => setData('end_time',e.target.value)}
+                                    />
+                                </div> */}
+                            </>)}
                             <div className="entry_type md:col-span-1 col-span-full flex gap-2 items-center">
                                 <label className='text-sm font-medium' htmlFor="entry_type">Entry Type:<sup className="text-red-500">*</sup></label>
                                 <div className="entry-type flex gap-2">

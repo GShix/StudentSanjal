@@ -75,10 +75,20 @@ const Create = () => {
     };
 
     const [endDate,setEndDate] = useState(false);
+    const handleSetEndDate = ()=>{
+        setEndDate(!endDate);
+    }
 
+    if(data.end_date){
+        setEndDate(true);
+    }
     const submit: FormEventHandler = (e) => {
         e.preventDefault();
         // console.log(data)
+        if(!endDate){
+            setData('end_date','');
+            setData('end_time','');
+        }
         post(window.route('event.store'));
 
     };
@@ -159,17 +169,17 @@ const Create = () => {
                                 <p className="text-red-500 text-xs">{errors.start_date}</p>
                             </div>
                             <div className="start_time md:col-span-1 col-span-full">
-                            <TimePicker
-                                title={'Start Time'}
-                                onChange={(time: string) => {
-                                    // setStartTime(time);
-                                    setData('start_time', time); // Update the useForm data
-                                }}
-                                value={data.start_time}
-                                format="h:mm"
-                                disableClock={true}
-                                className="h-9 rounded-md text-xs w-full"
-                            />
+                                <TimePicker
+                                    title={'Start Time'}
+                                    onChange={(time: string) => {
+                                        // setStartTime(time);
+                                        setData('start_time', time); // Update the useForm data
+                                    }}
+                                    value={data.start_time}
+                                    format="h:mm"
+                                    disableClock={true}
+                                    className="h-9 rounded-md text-xs w-full"
+                                />
                                 {/* <div className="start_time flex items-center">
                                     <label className="font-medium text-sm text-nowrap mr-2" htmlFor="start_time">
                                         Start Time:<sup className="text-red-500">*</sup>
@@ -184,7 +194,7 @@ const Create = () => {
                                 <p className="text-red-500 text-xs">{errors.start_time}</p>
                             </div>
                             <div className="set_end_date col-span-full">
-                                <input type="checkbox" name="set_end_date" checked={endDate} onChange={() => setEndDate(!endDate)}/>
+                                <input type="checkbox" name="set_end_date" checked={endDate} onChange={() => handleSetEndDate()}/>
                                 <label className='font-medium text-sm ml-2 text-red-600' htmlFor="end_date">Set end date</label>
                             </div>
                             {endDate && (
