@@ -1,10 +1,9 @@
 import { PageProps } from "@/types";
-import { Head, useForm, usePage } from "@inertiajs/react";
+import { Head, useForm, usePage, Link } from "@inertiajs/react";
 import axios from "axios";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import { useEffect, useRef, useState } from "react";
 import ProfileImage from "../Layouts/partials/ProfileImage";
-import { Link } from "lucide-react";
 import Modal from "@/Components/Modal";
 import FilePreview from "../Layouts/partials/PreviewFile";
 import ChatsLayout from "./ChatsLayout";
@@ -39,7 +38,6 @@ const StartChatss = () => {
 
     const {user} = usePage<PageProps>().props.auth;
     const { otherUsers,chats} = usePage<PageProps>().props;
-    console.log(chats);
 
     const  requestedUser = usePage<PageProps>().props.requestedUser;
     const connectedUser = requestedUser[0];
@@ -68,19 +66,6 @@ const StartChatss = () => {
         }
     }, []);
 
-    // const fetchChats = async () => {
-    //     try {
-    //         const response = await axios.get(`fetchChats/${connectedFriend.id}`);
-    //         setChats(response.data.chats);
-    //     } catch (error) {
-    //         console.error("Error fetching chats:", error);
-    //     }
-    // };
-    // useEffect(() => {
-    //     if (connectedFriend) {
-    //         fetchChats();
-    //     }
-    // }, [connectedFriend]);
 
     const submitChat = async (e: any) => {
         e.preventDefault();
@@ -90,25 +75,18 @@ const StartChatss = () => {
             console.error('Both text field and media are empty');
             return;
         }
-
         try {
             const response = await axios.post(window.route('chatss.send'), {
                 text_field: data.text_field,
                 media: data.media,
                 like: data.like,
             });
-
-            // Handle success
-            // console.log('Chat submitted successfully:', response.data);
-
-            // Reset form data after successful submission
+            console.log('Chat submitted successfully:', response.data);
             setData({
                 text_field: '',
                 media: null,
                 like: '',
             });
-
-            // Optionally, call fetchChats if you want to refresh the chat list
             // fetchChats();
         } catch (error: any) {
             // Handle error
@@ -124,45 +102,6 @@ const StartChatss = () => {
             }
         }
     };
-
-
-    // const [connectionStatus, setConnectionStatus] = useState('connecting');
-
-    // useEffect(() => {
-    //     if (!user?.id) return;
-
-    //     console.log('Subscribing to channel:', `student-sanjal.${user.id}`);
-
-    //     const channel = window.Echo.private(`student-sanjal.${user.id}`);
-
-    //     // Debug subscription
-    //     channel.subscribed(() => {
-    //         console.log('Successfully subscribed to channel');
-    //         setConnectionStatus('connected');
-    //     });
-
-    //     channel.error((error: any) => {
-    //         console.error('Channel error:', error);
-    //         setConnectionStatus('error');
-    //     });
-
-    //     channel.listen('ChatSendEvent', (event: any) => {
-    //         console.log('Received message:', event);
-    //         setChats(prev => [...prev, event]);
-
-    //         if ('Notification' in window && Notification.permission === 'granted') {
-    //             new Notification('New Message', {
-    //                 body: event.text_field
-    //             });
-    //         }
-    //     });
-
-    //     return () => {
-    //         channel.stopListening('ChatSendEvent');
-    //         window.Echo.leave(`student-sanjal.${user.id}`);
-    //     };
-    // }, [user?.id]);
-
 
     const handleModal = (media:any)=>{
         setShowModal(true);
@@ -214,23 +153,23 @@ const StartChatss = () => {
         <div className="open-chatter relative h-100 z-10">
             <div className="header border-b-2 rounded-t-lg bg-gray-100 border-gray-200 flex items-center justify-between sticky top-16">
                 <div className="chat-profile cursor-pointer px-4 py-2 rounded-t-lg flex gap-2 leading-tight items-center">
-                    <div className="chat-icon w-11 h-11 p-[2px] bg-[#c7ae6a] rounded-full relative">
-                        {connectedUser.active_status?(
-                        <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
-                            <div className="active-status h-[6px] w-[6px] bg-green-500 rounded-full"></div>
-                        </div>):""}
-                        <ProfileImage image={connectedUser.profile_image} className="object-cover object-center rounded-full w-full h-full"/>
-                    </div>
-                    <div className="chat-details">
-                        {/* <Link href={getProfileLink(connectedUser.username)}> */}
-                            <strong className="text-sm font-semibold">
-                                {connectedUser.first_name} {connectedUser.middle_name || ''} {connectedUser.last_name}
-                            </strong>
-                            <p className="text-xs">
-                                {connectedUser.active_status ? "Active Now" : "Offline"}
-                            </p>
-                        {/* </Link> */}
-                    </div>
+                    <Link href={getProfileLink(connectedUser.username)} className="flex items-center gap-1">
+                        <div className="chat-icon w-11 h-11 p-[2px] bg-[#c7ae6a] rounded-full relative">
+                            {connectedUser.active_status?(
+                            <div className="active-status p-[2px] bg-gray-100 absolute rounded-full bottom-0 right-1">
+                                <div className="active-status h-[6px] w-[6px] bg-green-500 rounded-full"></div>
+                            </div>):""}
+                            <ProfileImage image={connectedUser.profile_image} className="object-cover object-center rounded-full w-full h-full"/>
+                        </div>
+                        <div className="chat-details">
+                                <strong className="text-sm font-semibold">
+                                    {connectedUser.first_name} {connectedUser.middle_name || ''} {connectedUser.last_name}
+                                </strong>
+                                <p className="text-xs">
+                                    {connectedUser.active_status ? "Active Now" : "Offline"}
+                                </p>
+                        </div>
+                    </Link>
                 </div>
                 <div className="serachmaa-action flex items-center gap-5">
                     {showSearchInput && (

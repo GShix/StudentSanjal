@@ -42,32 +42,6 @@ class SanjalController extends Controller
         ]);
     }
 
-    public function startChat($requestId)  {
-
-        $senderId = Auth::id();
-        $receiverId = $requestId;
-
-        session([
-            'sender_id' => $senderId,
-            'receiver_id' => $receiverId,
-        ]);
-
-        // $chatss =Chat::between($senderId, $receiverId)->latest()->get();
-        // $this->chats = $chatss;
-
-
-        $requestedUser = User::with(['connectionCircle' => function ($query) {
-            $query->latest()->take(1);
-        }])->where('id', $requestId)
-          ->latest()
-          ->get();
-        return Inertia::render('Chats/StartChatss',[
-            'requestedUser'=>$requestedUser,
-            'chats'=>$this->chats
-        ]);
-    }
-
-
     public function fetchChats($friendId)
     {
         $senderId = Auth::id();
@@ -91,10 +65,46 @@ class SanjalController extends Controller
           ->get();
 
 
-        // return response()->json(['chats' => $chats]);
-        Inertia::render('Chats/StartChats',['chats'=>$this->chats]);
+        return response()->json(['chats' => $this->chats]);
+        // Inertia::render('Chats/StartChats',['chats'=>$this->chats]);
         // return back()->compact('chats');
     }
+
+    public function startChat($requestId)  {
+
+        $senderId = Auth::id();
+        $receiverId = $requestId;
+
+        session([
+            'sender_id' => $senderId,
+            'receiver_id' => $receiverId,
+        ]);
+
+        // $chatss =Chat::between($senderId, $receiverId)->latest()->get();
+        // $this->chats = $chatss;
+
+
+        $requestedUser = User::with(['connectionCircle' => function ($query) {
+            $query->latest()->take(1);
+        }])->where('id', $requestId)
+          ->latest()
+          ->get();
+
+        $chats = Chat::where(function($query) use ($senderId, $receiverId) {
+            $query->where('sender_id', $senderId)
+                  ->where('receiver_id', $receiverId);
+        })->orWhere(function($query) use ($senderId, $receiverId) {
+            $query->where('sender_id', $receiverId)
+                  ->where('receiver_id', $senderId);
+        })->with('sender:id,username', 'receiver:id,username')
+          ->get();
+
+        return Inertia::render('Chats/StartChatss',[
+            'requestedUser'=>$requestedUser,
+            'chats'=>$chats
+        ]);
+    }
+
 
     public function sendChat(StoreChatRequest $request)
     {
@@ -103,6 +113,9 @@ class SanjalController extends Controller
         if (!$receiverId) {
             return back()->with('error', 'Receiver not found.');
         }
+
+        $file = $request->file('media');
+dd($file->getSize(), $file->getClientOriginalName(), $file->getMimeType());
 
         // dd($request);
 
