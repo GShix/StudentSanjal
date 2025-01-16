@@ -190,6 +190,6 @@ class User extends Authenticatable
     // Relationship to handle users following this user
     public function followers()
     {
-        return $this->belongsToMany(User::class, 'connection_circles', 'user_id');
+        return $this->belongsToMany(User::class, 'connection_circles','connected_user_id', 'user_id');
     }
 }

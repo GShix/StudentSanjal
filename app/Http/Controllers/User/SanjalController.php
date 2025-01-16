@@ -113,10 +113,6 @@ class SanjalController extends Controller
         if (!$receiverId) {
             return back()->with('error', 'Receiver not found.');
         }
-
-        $file = $request->file('media');
-dd($file->getSize(), $file->getClientOriginalName(), $file->getMimeType());
-
         // dd($request);
 
         try {

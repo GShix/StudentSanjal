@@ -7,10 +7,11 @@ import UpdatePasswordForm from "@/Pages/Profile/Partials/UpdatePasswordForm";
 import Dropdown from "@/Components/Dropdown";
 import { Select } from "@headlessui/react";
 import SelectInput from "../Components/SelectInput";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { AccountStatus } from '../../../enums/AccountStatus';
 import { getEnumOptions } from '../../../lib/utils';
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
 
 const ViewUser = () => {
     const user = usePage<PageProps>().props.user[0];
@@ -24,13 +25,46 @@ const ViewUser = () => {
     const changeStatus =async()=>{
         const data = {selectedOption,userId:user.id};
         try {
-            const response = await axios.post('/admin/user/account_status',data)
+            const response = await axios.post('/admin/user/account_status',data);
+            if (response.success) {
+                toast.success(flash.success,{
+                    position: "top-right",
+                    autoClose: 5000,
+                    hideProgressBar: false,
+                    closeOnClick: true,
+                    pauseOnHover: true,
+                    draggable: true,
+                    progress: undefined,
+                    progressStyle:{
+                        backgroundColor:"#c7ae6a"
+                    }
+                });
+            }
         } catch (error) {
 
         }
     }
+    const { flash } = usePage<PageProps>().props;
+
+    useEffect(() => {
+        if (flash.success) {
+            toast.success(flash.success,{
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                progressStyle:{
+                    backgroundColor:"#c7ae6a"
+                }
+            });
+        }
+    }, [flash.success]);
   return (
     <AdminDashboardLayout>
+        {/* <ToastContainer/> */}
         <Head title={user.first_name} />
         <section className='bg-gray-200 p-4 rounded-lg'>
         <div className="p-2 sm:p-4 bg-gray-50 shadow rounded-lg px-4">

@@ -1,12 +1,34 @@
 import NavTop from "../Components/NavTop"
 import SideNav from "../Components/SideNav"
 import '../../../../../public/adminlte/dist/css/adminlte.min.css'
-import { Head } from "@inertiajs/react"
+import { Head, usePage } from "@inertiajs/react"
+import { toast, ToastContainer } from "react-toastify"
+import { PageProps } from "@/types"
+import { useEffect } from "react"
 
 const AdminDashboardLayout = ({children}:any) => {
+    const { flash } = usePage<PageProps>().props;
+
+    useEffect(() => {
+        if (flash.success) {
+            toast.success(flash.success,{
+                position: "top-right",
+                autoClose: 5000,
+                hideProgressBar: false,
+                closeOnClick: true,
+                pauseOnHover: true,
+                draggable: true,
+                progress: undefined,
+                progressStyle:{
+                    backgroundColor:"#c7ae6a"
+                }
+            });
+        }
+    }, [flash.success]);
   return (
     // <div>AdminDashboardLayout</div>
     <div className="hold-transition sidebar-mini layout-fixed">
+        <ToastContainer/>
         <div className="wrapper">
             <NavTop/>
             <SideNav/>
