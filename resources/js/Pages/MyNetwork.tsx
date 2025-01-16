@@ -1,4 +1,4 @@
-import { Head, usePage } from "@inertiajs/react"
+import { Head, Link, usePage } from "@inertiajs/react"
 import CleanHomeLayout from "./Layouts/CleanHomeLayout"
 import Sidebar from "./Layouts/partials/Sidebar"
 import { PageProps } from "@/types";
@@ -53,7 +53,10 @@ const MyNetwork = () => {
                             </div>
                             <div className="profile-action flex items-center lg:w-1/4 gap-8 lg:gap-5 max-sm:mt-1">
                                 <span className="px-3 py-1 md:py-2 bg-[#c7ae6a] hover:bg-[#b99a45] rounded-md text-gray-900 hover:text-gray-200 font-medium cursor-pointer">Unfollow</span>
-                                <span className="px-3 py-1 md:py-2 bg-[#c7ae6a] hover:bg-[#b99a45] rounded-md text-gray-900 hover:text-gray-200 font-medium cursor-pointer">Message</span>
+                                <Link href={window.route('chatss.start',user.id)}>
+                                    <button className="px-3 py-1 md:py-2 bg-[#c7ae6a] hover:bg-[#b99a45] rounded-md text-gray-900 hover:text-gray-200 font-medium cursor-pointer">Message</button>
+                                </Link>
+                                {/* <span className="px-3 py-1 md:py-2 bg-[#c7ae6a] hover:bg-[#b99a45] rounded-md text-gray-900 hover:text-gray-200 font-medium cursor-pointer">Message</span> */}
                             </div>
                         </div>
                     ))}

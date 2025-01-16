@@ -453,7 +453,7 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                     <h2 className="text-lg font-medium text-gray-900 inline-block">Verification Status:</h2>
                     <span className="ml-2 text-yellow-600">Pending</span>
                 </div>
-            ) : user.account_status==='rejected' ||user.account_status==='blueTick' ? (
+            ) : user.account_status==='rejected'? (
                 <div>
                     <h2 className="text-lg font-medium text-gray-900 inline-block">Verification Status:</h2>
                     <span className="ml-2 text-red-600">Rejected</span>
@@ -461,13 +461,19 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
                         className="max-w-xl mt-4"
                     />
                 </div>
-            ) : user.account_status==='goldBadge' ? (
+            ) : user.account_status==='blueBadge' ? (
+                <div>
+                    <h2 className='text-lg font-medium text-gray-900 inline-block mr-1'>Verification Status:</h2>
+                    <span className=''>Teacher's(Blue) Badge</span>
+
+                </div>
+            )   :user.account_status==='goldenBadge' ? (
                 <div>
                     <h2 className='text-lg font-medium text-gray-900 inline-block mr-1'>Verification Status:</h2>
                     <span className=''>Golden Badge</span>
 
                 </div>
-            ) : (
+            )   : (
                 <StudentVerificationButton
                     className="max-w-xl mt-4"
                 />

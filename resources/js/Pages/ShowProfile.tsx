@@ -134,7 +134,8 @@ const ShowProfile = () => {
             <button onClick={toggleFollow} className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">{isFollowing ? "Following":"Follow"}
             </button>
             <Link href={window.route('chatss.start',user.id)}>
-            <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">Message</button></Link>
+                <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">Message</button>
+            </Link>
             <button className="px-5 py-1 text-white font-semibold bg-[#c7ae6a] hover:bg-[#b99a45] rounded-full">More</button>
             </>
         </div>)}
