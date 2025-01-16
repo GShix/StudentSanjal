@@ -115,12 +115,13 @@ class SanjalController extends Controller
         }
         // dd($request);
 
-        try {
+        // try {
             $validated = $request->validated();
             // dd($validated);
             $senderId = Auth::id();
 
             DB::transaction(function () use ($validated, $senderId, $receiverId) {
+                // Check if a connection already exists
                 $connectionId = ConnectionCircle::where(function ($query) use ($senderId, $receiverId) {
                     $query->where('user_id', $senderId)
                           ->where('connected_user_id', $receiverId);
@@ -131,12 +132,17 @@ class SanjalController extends Controller
                 })
                 ->value('id');
 
+                // If no connection exists, create a new one
                 if (!$connectionId) {
-                    throw new \Exception('Connection does not exist between users.');
+                    $connection = ConnectionCircle::create([
+                        'user_id' => $senderId,
+                        'connected_user_id' => $receiverId,
+                    ]);
+                    $connectionId = $connection->id; // Get the ID of the newly created connection
                 }
 
-                // dd('Connection ID:', $connectionId); // Debug connection ID
-                $chats =Chat::create([
+                // Create the chat associated with the connection
+                $chats = Chat::create([
                     'connection_id' => $connectionId,
                     'sender_id' => $senderId,
                     'receiver_id' => $receiverId,
@@ -144,19 +150,21 @@ class SanjalController extends Controller
                     'media' => $validated['media'] ?? null,
                     'like' => $validated['like'] ?? null,
                 ]);
-
             });
-
 
 
             // Broadcast the event
             // broadcast(new ChatSendEvent($chat))->toOthers();
 
-            return back()->with('success', 'Message sent successfully');
-        } catch (\Throwable $e) {
-            // \Log::error('Chat send error: ' . $e->getMessage());
-            return back()->with('error', 'Failed to send message');
-        }
+            return response()->json([
+                'success' => true,
+                'message' => 'Chat created successfully!',
+            ]);
+            // return back()->with('success', 'Message sent successfully');
+        // } catch (\Throwable $e) {
+        //     // \Log::error('Chat send error: ' . $e->getMessage());
+        //     return back()->with('error', 'Failed to send message');
+        // }
     }
 
 

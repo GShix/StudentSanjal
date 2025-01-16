@@ -29,7 +29,7 @@ interface ChatsData {
 }
 
 
-const StartChatss = () => {
+const StartChatss = ({ userFromMessage }: { userFromMessage?: string }) => {
     const { data, setData, post, errors, processing, recentlySuccessful, setError } = useForm<FormData>({
         text_field:'',
         media:null,
@@ -40,7 +40,9 @@ const StartChatss = () => {
     const { otherUsers,chats} = usePage<PageProps>().props;
 
     const  requestedUser = usePage<PageProps>().props.requestedUser;
-    const connectedUser = requestedUser[0];
+
+    const connectedUser = userFromMessage || requestedUser[0];
+    // const connectedUser = requestedUser[0];
 
     // console.log(connectedUser)
     const [showMessage,setShowMessage] = useState(true);

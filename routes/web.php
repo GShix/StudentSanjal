@@ -97,7 +97,7 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/chatss',[SanjalController::class, 'index'])->name('chatss');
-    Route::get('chatss/sanjal/{id:friendId}', [SanjalController::class, 'startChat']);
+    Route::get('chatss/sanjal/{id:friendId}', [SanjalController::class, 'startChat'])->name('chatss.start');
 
     Route::get('/fetchChats/{friendId}', [SanjalController::class, 'fetchChats']);
 
