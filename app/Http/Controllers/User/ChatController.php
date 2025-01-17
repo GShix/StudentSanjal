@@ -9,6 +9,7 @@ use Illuminate\Http\Request;
 use App\Events\ChatSendEvent;
 use App\Models\ConnectionCircle;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Log;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\Chat\StoreChatRequest;
@@ -96,7 +97,7 @@ class ChatController extends Controller
             return back()->with('success', 'Message sent successfully');
         } catch (\Exception $e) {
             DB::rollBack();
-            \Log::error('Chat send error: ' . $e->getMessage());
+            Log::error('Chat send error: ' . $e->getMessage());
             return back()->with('error', 'Failed to send message');
         }
     }

@@ -26,7 +26,7 @@ const ViewUser = () => {
         const data = {selectedOption,userId:user.id};
         try {
             const response = await axios.post('/admin/user/account_status',data);
-            if (response.success) {
+            if (response.status === 200) {
                 toast.success(flash.success,{
                     position: "top-right",
                     autoClose: 5000,

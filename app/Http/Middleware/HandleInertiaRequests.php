@@ -43,7 +43,6 @@ class HandleInertiaRequests extends Middleware
         // Fetch skills
         $skills = Skill::latest()->get();
 
-        // Fetch users followed by the current user
         $followingIds = $user ? ConnectionCircle::where('user_id', $user->id)
                             ->where('connection_type', 'following')
                             ->pluck('connected_user_id')
@@ -62,17 +61,14 @@ class HandleInertiaRequests extends Middleware
         // Include current user ID in the list of following IDs
         $followingIds[] = $user ? $user->id : null;
 
-        // Fetch latest posts from followed users
         $latestPosts = Post::with('user')
                         ->whereIn('user_id', $followingIds)
                         ->latest()
                         ->take(5)
                         ->get();
 
-        // Fetch saved posts for the current user
         $savedPostIds = $user ? SavedPost::where('user_id', $user->id)->pluck('post_id')->toArray() : [];
 
-        // Build shared data
         return [
             ...parent::share($request),
             'auth' => [

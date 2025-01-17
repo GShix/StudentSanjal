@@ -440,13 +440,6 @@ export default function UpdateProfileInformation({ mustVerifyEmail, status, clas
             </div>
             </form>
         </div>
-
-        {/* <div className="p-4 sm:p-8 bg-gray-50 shadow rounded-lg mt-4">
-            {user.account_status==='pending' ?(
-                if(mmmmmm)
-                <StudentVerificationButton className="max-w-xl" />
-            ):<><h2 className='text-lg font-medium text-gray-900 inline-block'>Verification Status:</h2> <span className=''>Golden Badge</span></>}
-        </div> */}
         <div className="p-4 sm:p-8 bg-gray-50 shadow rounded-lg mt-4">
             {user.account_status==='pending' ? (
                 <div>

@@ -20,15 +20,10 @@ class ShowProfileController extends Controller
      */
     public function showProfile($username)
     {
-        $auth = Auth::user()->id;
         $user = User::where('username', $username)->first();
         $user_id = $user->skill_id;
 
-        // dd($user_id);
         $userSkills = $user_id?Skill::whereIn('id',$user_id)->get():[];
-        // dd($userSkills->toArray());
-
-        $following = User::with('connectionCircle')->where('id',$auth)->get();
 
         $followers = $user->followers;
 
@@ -37,7 +32,7 @@ class ShowProfileController extends Controller
         $remainingCount = $followers->count() - $firstTwoFollowers->count();
 
         if (!$user->profile_updated) {
-            return redirect()->window.route('showProfile')->with('warning',"Must update your profile");
+            return redirect()->route('showProfile')->with('warning',"Must update your profile");
         }
         if (!$user) {
             abort(404, 'User not found');
@@ -48,7 +43,6 @@ class ShowProfileController extends Controller
         return Inertia::render('ShowProfile', [
             'user' => $user,
             'his_posts' => $his_posts,
-            'following'=>$following,
             'followers'=>$followers,
             'userSkills'=>$userSkills,
             'firstTwoFollowers'=>$firstTwoFollowers,

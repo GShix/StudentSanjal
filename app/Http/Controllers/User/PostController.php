@@ -90,15 +90,6 @@ class PostController extends Controller
         ->pluck('connected_user_id')
         ->toArray() : [];
 
-
-        $usersYouFollowed =$user? User::whereIn('id', $followingIds)
-                ->where('id', '!=', $user->id)
-                ->get():[];
-
-        $usersNotFollowed =$user? User::whereNotIn('id', $followingIds)
-            ->where('id', '!=', $user->id)
-            ->get():[];
-
         $followingIds[] = $user?$user->id:'';
         $latestPosts = Post::with('user')
             ->whereIn('user_id', $followingIds)

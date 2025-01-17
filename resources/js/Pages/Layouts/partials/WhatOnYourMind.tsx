@@ -23,7 +23,7 @@ const WhatOnYourMind = () => {
                     <img className="h-4" src="/img/post-photo.png" alt="" srcSet="" />
                     <span className="max-sm:text-xs text-sm font-medium text-gray-700/60">Media</span>
                 </Link>
-                <Link href="" className="flex items-center gap-1 md:gap-2 hover:bg-gray-200 rounded-md px-1 sm:px-2 py-1">
+                <Link href={window.route('event.create')} className="flex items-center gap-1 md:gap-2 hover:bg-gray-200 rounded-md px-1 sm:px-2 py-1">
                     <img className="h-5" src="/img/events.png" alt="" srcSet="" />
                     <span className="max-sm:text-xs text-sm font-medium text-gray-700/60">Event</span>
                 </Link>

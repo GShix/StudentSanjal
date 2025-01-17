@@ -1,10 +1,9 @@
 import Dropdown from "@/Components/Dropdown";
 import { PageProps } from "@/types";
-import { useForm, usePage } from "@inertiajs/react";
+import { Link, useForm, usePage } from "@inertiajs/react";
 import { PropsWithChildren, useEffect, useRef, useState } from "react"
 import { toast, ToastContainer } from "react-toastify"
 import ProfileImage from "../Layouts/partials/ProfileImage";
-import { Link } from "lucide-react";
 import axios from "axios";
 import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 import FilePreview from "../Layouts/partials/PreviewFile";
@@ -211,9 +210,9 @@ const ChatsLayout = ({children}:PropsWithChildren) => {
                                 <div className="header flex items-center justify-between">
                                     <div className="profile flex items-center gap-2">
                                         <div className="posts-users-icon w-11 h-11 p-[2.5px] bg-[#c7ae6a] rounded-full relative flex justify-end">
-                                                <img className="object-cover object-bottom rounded-full w-10 h-full" src={user.profile_image} alt="" />
+                                                {/* <img className="object-cover object-bottom rounded-full w-10 h-full" src={user.profile_image} alt="" /> */}
                                             <Link href={getProfileLink(user.username)}>
-                                                <ProfileImage image={user.profile_image} />
+                                                <ProfileImage image={user.profile_image} className="object-cover object-bottom rounded-full w-10 h-full"/>
                                             </Link>
                                             {user.active_status ?(<div className="bg-green-500 w-[10px] h-[10px] border-[1.5px] border-white rounded-full absolute bottom-[2px] right-[1px]"></div>):""}
                                         </div>

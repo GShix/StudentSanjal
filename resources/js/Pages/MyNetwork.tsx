@@ -56,7 +56,6 @@ const MyNetwork = () => {
                                 <Link href={window.route('chatss.start',user.id)}>
                                     <button className="px-3 py-1 md:py-2 bg-[#c7ae6a] hover:bg-[#b99a45] rounded-md text-gray-900 hover:text-gray-200 font-medium cursor-pointer">Message</button>
                                 </Link>
-                                {/* <span className="px-3 py-1 md:py-2 bg-[#c7ae6a] hover:bg-[#b99a45] rounded-md text-gray-900 hover:text-gray-200 font-medium cursor-pointer">Message</span> */}
                             </div>
                         </div>
                     ))}

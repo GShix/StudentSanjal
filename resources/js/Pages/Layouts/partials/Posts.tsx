@@ -123,7 +123,7 @@ const Posts = () => {
             try {
                 await axios.delete(window.window.route('post.destroy', { post: postId }), {
                     headers: {
-                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute('content'),
+                        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content') || '',
                     },
                 });
             } catch (error) {
@@ -138,10 +138,10 @@ const Posts = () => {
 
     return (
     <>
-        {latest_posts.length===0? (
+        {/* {latest_posts.length===0? (
             <p className='flex justify-center translate-y-20'>No post available</p>
 
-        ):
+        ): */}
         <>
         {latest_posts.map((post: any) => {
             const isLiked = postLikedByUser.some((postLike:any) =>
@@ -250,7 +250,7 @@ const Posts = () => {
                                     <div className="like w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer"
                                     onClick={()=>handlePostLike(post.id,user.id)}>
                                         {/* <i className="ri-heart-3-line text-lg"></i> */}
-                                        <i className={`${isLiked || postLikedByUser.includes(post.id) ?"ri-thumb-up-fill text-lg":"ri-thumb-up-line"}`}></i>
+                                        <i className={`${isLiked || postLikedByUser.some((postLike: any) => postLike.post_id === post.id) ?"ri-thumb-up-fill text-lg":"ri-thumb-up-line"}`}></i>
                                     </div>
                                     <div className="comment w-[30%] flex justify-center hover:bg-gray-300 rounded-md cursor-pointer" onClick={()=>handleCreateComment(post.id)}>
                                         <i className="ri-chat-2-line text-lg"></i>
@@ -281,7 +281,7 @@ const Posts = () => {
             )})
         }
         </>
-    }
+    {/* } */}
     </>
     )
 }
