@@ -64,6 +64,7 @@ const EventDetail = () => {
                         </div>
                         )}
                     </div>
+                    {event.external_event_link && (
                     <div className="event_link flex gap-3 py-4 px-3 mt-3 bg-gray-50 rounded-md">
                         <div className="link">
                             <div className="link-icon flex items-center gap-2">
@@ -73,6 +74,7 @@ const EventDetail = () => {
                             <Link href={event.external_event_link} className="text-gray-500 text-sm underline flex-wrap">{event.external_event_link}</Link>
                         </div>
                     </div>
+                    )}
                 </div>
                 <div className="description mt-5">
                     <h1 className="font-medium text-xl">Event Description: </h1> <p>{event.description}</p>

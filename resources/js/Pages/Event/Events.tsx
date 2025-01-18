@@ -80,7 +80,7 @@ const Events = () => {
                                             {event.venue.length>10? `${event.venue.slice(0,5)}`:event.venue}
                                         </span>
                                     ):event.external_event_link? (
-                                        <span className="text-sm">
+                                        <span className="text-sm capitalize">
                                             {event.event_type}
                                         </span>
                                     ):""}
