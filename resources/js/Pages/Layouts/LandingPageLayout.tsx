@@ -1,7 +1,7 @@
 import { Link } from "@inertiajs/react";
 import { useEffect, useRef, useState } from "react";
 
-export default function Layout({ children }) {
+export default function Layout({ children }:{children?:JSX.Element}) {
     const [clickMenu, setClickMenu] = useState(false);
     const navLinks = [
         {
@@ -27,13 +27,13 @@ export default function Layout({ children }) {
 
     ]
     // console.log(navLinks)
-    const menuRef = useRef(null); // Reference to the nav menu
+    const menuRef = useRef<HTMLDivElement>(null); // Reference to the nav menu
 
     useEffect(() => {
         // Function to check and handle clicks outside of the menu
-        const handleClickOutside = (event) => {
-            if (menuRef.current && !menuRef.current.contains(event.target)) {
-                setClickMenu(false);
+        const handleClickOutside = (event: MouseEvent) => {
+            if (menuRef.current && !menuRef.current.contains(event.target as Node)) {
+            setClickMenu(false);
             }
         };
 
@@ -99,7 +99,7 @@ export default function Layout({ children }) {
             <footer className="bg-[#000000]">
                 <div className="mx-auto max-w-5xl px-5 py-5 sm:px-6 lg:px-8">
                     <div className="flex justify-center text-teal-600">
-                        <Link><img className="max-sm:h-24 sm:h-32 cursor-pointer" src="/img/logo3.png" alt="StudentSanjal Logo" /></Link>
+                        <Link href=""><img className="max-sm:h-24 sm:h-32 cursor-pointer" src="/img/logo3.png" alt="StudentSanjal Logo" /></Link>
 
                     </div>
 
