@@ -66,9 +66,12 @@ class FollowController extends Controller
         $existingRecord = ConnectionCircle::withTrashed()
             ->where('user_id', $authUser->id)
             ->where('connected_user_id', $requestedId)
+            ->where('connection_type', 'following')
             ->first();
 
         if ($existingRecord) {
+            // $existingRecord['connection_type'] = 'unfollowed';
+            // $existingRecord->save();
             if ($existingRecord->trashed()) {
                 // If the record is soft-deleted, restore it
                 $existingRecord->restore();

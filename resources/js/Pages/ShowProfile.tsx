@@ -75,28 +75,28 @@ const ShowProfile = () => {
         <Head title={`${user.first_name}'s Profile`} />
       <div className="show-profile bg-gray-100 rounded-lg mb-10">
         <div className="image relative flex justify-start">
-          <div className="banner_image rounded-t-lg h-24 w-full">
+          <div className="banner_image rounded-t-lg h-32 w-full">
             <img
-              className="rounded-t-lg h-full w-full object-fit md:object-fit"
+              className="rounded-t-lg h-full w-full object-cover"
               src={user.banner_image}
               alt=""
             />
           </div>
-          <div className="profile_image absolute w-28 h-28 top-10 bg-gray-100 rounded-full p-1 left-3">
+          <div className="profile_image absolute w-28 h-28 top-12 bg-gray-100 rounded-full p-1 left-3">
             <ProfileImage image={user.profile_image}/>
             {/* <img className="w-full rounded-full" src={user.profile_image} alt="" /> */}
           </div>
         </div>
-        <div className="intro mt-16 px-3">
+        <div className="intro mt-11 px-3">
           <span className="font-semibold text-lg leading-normal flex items-center gap-1">{user.first_name}{" "}{user.middle_name}{" "}{user.last_name}
             <i title="Golden Badge" className={`ri-verified-badge-fill text-[#b99a45] text-base leading-none ${user.account_status=='goldBadge'?'block':'hidden'}`}></i>
           </span>
           <span className="block text-sm font-normal text-gray-800/90">{user.headline}</span>
           <span className="block text-[13px] font-normal leading-loose text-gray-800/70">{user.address}</span>
           <div className="flex items-center gap-2">
-            <h1 className="inline-block text-gray-800/90 text-sm">{totalFollowers} Followers</h1>
+            <h1 className="inline-block text-gray-900 text-sm">{totalFollowers} Followers</h1>
             <i className="ri-circle-fill text-[3px]"></i>
-            <h1 className="inline-block text-gray-800/90 text-sm">{totalConnections} Connections</h1>
+            <h1 className="inline-block text-gray-900 text-sm">{totalConnections} Connections</h1>
           </div>
           {followers?.length > 0 && (
             // <span className="text-sm text-gray-900/95">{followerText}</span>
