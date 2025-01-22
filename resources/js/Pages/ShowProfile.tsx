@@ -10,7 +10,7 @@ import Modal from "@/Components/Modal";
 const ShowProfile = () => {
 
     const authUser = usePage<PageProps>().props.auth.user;
-    const { his_posts,user,following,followers,firstTwoFollowers,remainingCount,userSkills} = usePage<PageProps>().props;
+    const { his_posts,user,following,followers, totalFollowers, totalConnections,firstTwoFollowers,remainingCount,userSkills} = usePage<PageProps>().props;
 
     const [hisPosts, setHisPosts] = useState<any[]>([]);
 
@@ -94,9 +94,9 @@ const ShowProfile = () => {
           <span className="block text-sm font-normal text-gray-800/90">{user.headline}</span>
           <span className="block text-[13px] font-normal leading-loose text-gray-800/70">{user.address}</span>
           <div className="flex items-center gap-2">
-            <h1 className="inline-block text-gray-800/90 text-sm">100 Followers</h1>
+            <h1 className="inline-block text-gray-800/90 text-sm">{totalFollowers} Followers</h1>
             <i className="ri-circle-fill text-[3px]"></i>
-            <h1 className="inline-block text-gray-800/90 text-sm">500+ connection</h1>
+            <h1 className="inline-block text-gray-800/90 text-sm">{totalConnections} Connections</h1>
           </div>
           {followers?.length > 0 && (
             // <span className="text-sm text-gray-900/95">{followerText}</span>

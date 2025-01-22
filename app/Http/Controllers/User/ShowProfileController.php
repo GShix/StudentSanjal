@@ -26,6 +26,9 @@ class ShowProfileController extends Controller
         $userSkills = $user_id?Skill::whereIn('id',$user_id)->get():[];
 
         $followers = $user->followers;
+        $totalFollowers = $followers->count();
+        $totalConnections = ConnectionCircle::where('user_id', $user->id)->get()->count();
+        // dd($totalConnections, $totalFollowers);
 
         $firstTwoFollowers = $followers->take(2);
 
@@ -44,6 +47,8 @@ class ShowProfileController extends Controller
             'user' => $user,
             'his_posts' => $his_posts,
             'followers'=>$followers,
+            'totalFollowers'=>$totalFollowers,
+            'totalConnections'=>$totalConnections,
             'userSkills'=>$userSkills,
             'firstTwoFollowers'=>$firstTwoFollowers,
             'remainingCount'=>$remainingCount

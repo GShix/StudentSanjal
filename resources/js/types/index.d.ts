@@ -38,6 +38,8 @@ export type PageProps<T extends Record<string, unknown> = Record<string, unknown
     host:any;
     following:any;
     followers:any;
+    totalFollowers:any;
+    totalConnections:any;
     his_posts:any;
     skills:number[];
     otherUsers:any;
