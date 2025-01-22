@@ -16,18 +16,19 @@ interface FormData {
 }
 
 const Posts = () => {
-    const {latest_comment} = usePage<PageProps>().props;
+    const {latest_comment,latest_posts} = usePage<PageProps>().props;
     const { user,savedPostIds} = usePage<PageProps>().props.auth;
 
     const [postIdToRemove, setPostIdToRemove] = useState<number | null>(null);
 
-    let [latest_posts ,setLatestPosts] = useState([]);
+    // let [latest_posts ,setLatestPosts] = useState([]);
     let [latest_comments,setLatestComments] = useState([]);
     const [postLikedByUser,setPostLikedByUser]=useState([]);
+
     const loadLatestPost = async ()=>{
         try {
             const response = await axios.get('/posts/showPosts')
-            setLatestPosts(response.data.latestPosts);
+            // setLatestPosts(response.data.latestPosts);
             setPostLikedByUser(response.data.postLikedByUser);
 
         } catch (error) {
@@ -37,7 +38,7 @@ const Posts = () => {
 
     useEffect(()=>{
         loadLatestPost();
-    },[]);
+    },[postLikedByUser]);
 
     const [isLiked, setIsLiked] = useState(false);
 
