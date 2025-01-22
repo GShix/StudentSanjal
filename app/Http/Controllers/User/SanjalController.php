@@ -55,7 +55,7 @@ class SanjalController extends Controller
         // $chats = Chat::between($senderId, $receiverId)
         //         ->with('sender:id,username', 'receiver:id,username')
         //         ->get();
-        $this->chats = Chat::where(function($query) use ($senderId, $receiverId) {
+        $chats = Chat::where(function($query) use ($senderId, $receiverId) {
             $query->where('sender_id', $senderId)
                   ->where('receiver_id', $receiverId);
         })->orWhere(function($query) use ($senderId, $receiverId) {
@@ -65,7 +65,7 @@ class SanjalController extends Controller
           ->get();
 
 
-        return response()->json(['chats' => $this->chats]);
+        return response()->json(['chats' => $chats]);
         // Inertia::render('Chats/StartChats',['chats'=>$this->chats]);
         // return back()->compact('chats');
     }
@@ -87,7 +87,7 @@ class SanjalController extends Controller
         $requestedUser = User::with(['connectionCircle' => function ($query) {
             $query->latest()->take(1);
         }])->where('id', $requestId)
-          ->latest()
+        //   ->latest()
           ->get();
 
         $chats = Chat::where(function($query) use ($senderId, $receiverId) {

@@ -97,11 +97,11 @@ Route::middleware('auth')->group(function () {
 
 
     Route::get('/chatss',[SanjalController::class, 'index'])->name('chatss');
-    Route::get('chatss/sanjal/{id:friendId}', [SanjalController::class, 'startChat'])->name('chatss.start');
+    Route::get('chatss/sanjal/{id:requestedUser}', [SanjalController::class, 'startChat'])->name('chatss.start');
 
-    Route::get('/fetchChats/{friendId}', [SanjalController::class, 'fetchChats']);
+    Route::get('chatss/fetchChats/{requestedUser}', [SanjalController::class, 'fetchChats']);
 
-    Route::post('/sendChat', [SanjalController::class, 'sendChat'])->name('chatss.send');
+    Route::post('chatss/sendChat', [SanjalController::class, 'sendChat'])->name('chatss.send');
 
     Route::get('send-email',[EventController::class, 'sendMail']);
 

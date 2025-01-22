@@ -22,24 +22,23 @@ class RecommendationController extends Controller
             return response()->json(['message' => 'No skills found for the user'], 404);
         }
 
-        // Users with similar skills, excluding the authenticated user
+        // $followingUserId = $user->following()->pluck('id');
+
         $matchingUsers = DB::table('users')
-            ->where('id', '!=', $user->id) // Exclude the authenticated user
+            ->where('id', '!=', $user->id)
             ->where(function ($query) use ($userSkills) {
                 foreach ($userSkills as $skill) {
                     $query->orWhereJsonContains('skill_id', $skill);
                 }
             })
-            ->pluck('id'); // Get matching user IDs
-
-        // dd($matchingUsers);
-        // Recommended posts from matching users
-        $recommendedPosts = Post::whereHas('user', function ($query) use ($matchingUsers) {
-            $query->whereIn('id', $matchingUsers);
-        })
-            ->with('user')
-            ->take(2)->latest() // Fetch top 3 posts
-            ->get();
+            ->pluck('id');
+        // $recommendedPosts = Post::whereHas('user', function ($query) use ($matchingUsers) {
+        //     $query->whereIn('id', $matchingUsers);
+        // })
+        //     ->with('user')
+        //     ->take(2)->latest() // Fetch top 3 posts
+        //     ->get();
+        $recommendedPosts =[];
 
         // Remaining posts, excluding posts from matching users
         $remainingPosts = Post::whereDoesntHave('user', function ($query) use ($matchingUsers) {

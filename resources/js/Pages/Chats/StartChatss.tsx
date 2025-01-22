@@ -37,7 +37,7 @@ const StartChatss = ({ userFromMessage }: { userFromMessage?: string }) => {
     });
 
     const {user} = usePage<PageProps>().props.auth;
-    const { otherUsers,chats} = usePage<PageProps>().props;
+    const { otherUsers} = usePage<PageProps>().props;
 
     const  requestedUser = usePage<PageProps>().props.requestedUser;
 
@@ -68,10 +68,24 @@ const StartChatss = ({ userFromMessage }: { userFromMessage?: string }) => {
         }
     }, []);
 
+    const [chats, setChats] = useState([]);
 
+    console.log(chats);
+    // Function to load chats
+    const loadChats = async () => {
+        try {
+            const response = await axios.get(`/chatss/fetchChats/${connectedUser.id}`);
+            setChats(response.data.chats);
+        } catch (error) {
+            console.error("Error loading chats:", error);
+        }
+    };
+
+    const [reloadChats, setReloadChats] = useState(false);
     const submitChat = async (e: any) => {
         e.preventDefault();
 
+        setReloadChats(true);
         // Check if both fields are empty
         if (!data.text_field && !data.media) {
             console.error('Both text field and media are empty');
@@ -104,6 +118,10 @@ const StartChatss = ({ userFromMessage }: { userFromMessage?: string }) => {
             }
         }
     };
+
+    useEffect(() => {
+        loadChats();
+    }, [reloadChats]); // Dependency to reload when the connected user changes
 
     const handleModal = (media:any)=>{
         setShowModal(true);
@@ -151,7 +169,7 @@ const StartChatss = ({ userFromMessage }: { userFromMessage?: string }) => {
   return (
     <ChatsLayout>
         <Head title="Chats"/>
-        {(connectedUser && showMessage) && (
+        {(connectedUser) && (
         <div className="open-chatter relative h-100 z-10">
             <div className="header border-b-2 rounded-t-lg bg-gray-100 border-gray-200 flex items-center justify-between sticky top-16">
                 <div className="chat-profile cursor-pointer px-4 py-2 rounded-t-lg flex gap-2 leading-tight items-center">
